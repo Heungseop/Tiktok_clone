@@ -34,15 +34,12 @@ class AuthButton extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: icon,
               ),
-              Expanded(
-                //Row나 Column 내에서 사용할 수 있는 만큼 공간을 전부 차지
-                child: Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: Sizes.size16,
-                    fontWeight: FontWeight.w600,
-                  ),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: Sizes.size16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
