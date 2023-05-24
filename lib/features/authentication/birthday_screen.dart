@@ -31,9 +31,12 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   // stateFull Widget의 state<> 안에선 context를 어디서나 참조 가능(파라미터로 안줘도 됨)
   void _onNextTap() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const InterestsScreen(),
-    ));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const InterestsScreen(),
+      ),
+      (route) => false,
+    );
   }
 
   void _setTextFieldDate(DateTime date) {
