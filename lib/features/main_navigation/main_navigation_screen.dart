@@ -38,40 +38,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        currentIndex: _selectedIndex,
-        onTap: _onTap,
-        // selectedItemColor: Theme.of(context).primaryColor,
-        items: const [
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.house),
+        body: screens[_selectedIndex],
+        bottomNavigationBar: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onTap,
+          destinations: const [
+            NavigationDestination(
+              icon: FaIcon(
+                FontAwesomeIcons.house,
+                color: Colors.teal,
+              ),
               label: "Home",
-              tooltip: "test",
-              backgroundColor: Colors.amber),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
+            ),
+            NavigationDestination(
+              icon: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
+                color: Colors.amber,
+              ),
               label: "Search",
-              tooltip: "test",
-              backgroundColor: Colors.blue),
-          // BottomNavigationBarItem(
-          //     icon: FaIcon(FontAwesomeIcons.house),
-          //     label: "Home",
-          //     tooltip: "test",
-          //     backgroundColor: Colors.pink),
-          // BottomNavigationBarItem(
-          //     icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-          //     label: "Search",
-          //     tooltip: "test",
-          //     backgroundColor: Colors.yellow),
-          // BottomNavigationBarItem(
-          //     icon: FaIcon(FontAwesomeIcons.house),
-          //     label: "Home",
-          //     tooltip: "test",
-          //     backgroundColor: Colors.teal),
-        ],
-      ),
-    );
+            )
+          ],
+        ));
   }
 }
