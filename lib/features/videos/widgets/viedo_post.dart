@@ -16,6 +16,9 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
+// SingleTickerProviderStateMixin => 위젯이 화면에 보이는 동안에만 동작하도록 하는 ticker 제공
+// ticker가 매 프레임마다 tick을 실행하여 화면을 갱신한다.
+
   // final VideoPlayerController _videoPlayerController =
   //     VideoPlayerController.asset("assets/videos/jiwoo.mov");
   final VideoPlayerController _videoPlayerController =
@@ -44,7 +47,7 @@ class _VideoPostState extends State<VideoPost>
     _initVideoPlayer();
 
     _animationController = AnimationController(
-      vsync: this,
+      vsync: this, // 위젯이 위젯 tree에 있을 때만 Ticker를 유지시켜준다.
       lowerBound: 1.0,
       upperBound: 1.5,
       value: 1.5,
