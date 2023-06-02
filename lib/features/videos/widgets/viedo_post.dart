@@ -168,7 +168,7 @@ class _VideoPostState extends State<VideoPost>
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(
-                      "https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-19/272305172_479554067102736_2649261319746020737_n.jpg?stp=dst-jpg_s320x320&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=100&_nc_ohc=c_5fqOW_alEAX9nnOWu&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfD2nZUMnYJqgnBRipo1JwBvxbIbbLrpQhQWYavvd2gkuA&oe=647D7153&_nc_sid=f70a57"),
+                      "https://avatars.githubusercontent.com/u/13977411?v=4"),
                   child: Text('heungg'),
                 ),
                 Gaps.v24,
