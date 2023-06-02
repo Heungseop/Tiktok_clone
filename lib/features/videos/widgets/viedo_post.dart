@@ -16,10 +16,10 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/jiwoo.mov");
   // final VideoPlayerController _videoPlayerController =
-  //     VideoPlayerController.asset("assets/videos/jiyul.mov");
+  //     VideoPlayerController.asset("assets/videos/jiwoo.mov");
+  final VideoPlayerController _videoPlayerController =
+      VideoPlayerController.asset("assets/videos/jiyul.mov");
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
