@@ -26,6 +26,8 @@ class _VideoPostState extends State<VideoPost>
   //     VideoPlayerController.asset("assets/videos/jiwoo.mov");
   final VideoPlayerController _videoPlayerController =
       VideoPlayerController.asset("assets/videos/jiyul.mov");
+  // final VideoPlayerController _videoPlayerController =
+  //     VideoPlayerController.network("dataSource")
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   final _cutContentDetailCnt = 25;
@@ -190,6 +192,7 @@ class _VideoPostState extends State<VideoPost>
                           maxLines: 5,
                           strutStyle: const StrutStyle(fontSize: 16.0),
                           text: TextSpan(
+                            style: const TextStyle(color: Colors.white),
                             children: [
                               TextSpan(
                                 text: _shoingContentDetail,
