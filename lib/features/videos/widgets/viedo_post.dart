@@ -51,9 +51,10 @@ class _VideoPostState extends State<VideoPost>
       duration: _animationDuration,
     );
 
-    _animationController.addListener(() {
-      setState(() {});
-    });
+    // 컨트롤러가 변화할 때 마다 setState로 화면을 다시 그려줌
+    // _animationController.addListener(() {
+    //   setState(() {});
+    // });
   }
 
   @override
@@ -104,8 +105,15 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: IgnorePointer(
               child: Center(
-                child: Transform.scale(
-                  scale: _animationController.value,
+                child: AnimatedBuilder(
+                  // AnimatedBuilder animation 컨트롤러의 변화를 감지해 builder 로 변화할때마다 다시 그려줌
+                  animation: _animationController,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _animationController.value,
+                      child: child,
+                    );
+                  },
                   child: AnimatedOpacity(
                     opacity: _isPaused ? 1 : 0,
                     duration: _animationDuration,
