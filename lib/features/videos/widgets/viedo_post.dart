@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -27,6 +28,12 @@ class _VideoPostState extends State<VideoPost>
       VideoPlayerController.asset("assets/videos/jiyul.mov");
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
+  final _cutContentDetailCnt = 25;
+  // final String _contentDetail = "#NEWBORN #BABY ";
+  final String _contentDetail =
+      "#NEWBORN #BABY #cute #jiyul #so_cute #0327 #ILoveYou #LovelyBaby #daughter";
+  String _shoingContentDetail = "";
+  bool _isContentDetailSpread = false;
 
   late final AnimationController _animationController;
 
@@ -44,9 +51,18 @@ class _VideoPostState extends State<VideoPost>
     setState(() {});
   }
 
+  void _initContentDetailVariables() {
+    // _isContentDetailSpread = _cutContentDetailCnt < _contentDetail.length;
+    _shoingContentDetail = _cutContentDetailCnt < _contentDetail.length
+        ? _contentDetail.substring(0, _cutContentDetailCnt)
+        : _contentDetail;
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _initContentDetailVariables();
     _initVideoPlayer();
 
     _animationController = AnimationController(
@@ -87,6 +103,14 @@ class _VideoPostState extends State<VideoPost>
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+
+  void _onSeemorePressed() {
+    _shoingContentDetail = _isContentDetailSpread
+        ? _contentDetail.substring(0, _cutContentDetailCnt)
+        : _contentDetail;
+    _isContentDetailSpread = !_isContentDetailSpread;
+    setState(() {});
   }
 
   @override
@@ -138,8 +162,8 @@ class _VideoPostState extends State<VideoPost>
             left: 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   "@Heungg",
                   style: TextStyle(
                     fontSize: Sizes.size20,
@@ -148,11 +172,41 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
                 Gaps.v10,
-                Text(
+                const Text(
                   "우리 귀여운 지율이좀 보세요~",
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
+                  ),
+                ),
+                Gaps.v5,
+                SizedBox(
+                  width: 300,
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: RichText(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 5,
+                          strutStyle: const StrutStyle(fontSize: 16.0),
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: _shoingContentDetail,
+                              ),
+                              if (_cutContentDetailCnt < _contentDetail.length)
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _onSeemorePressed,
+                                  text: _isContentDetailSpread
+                                      ? "  ...Close"
+                                      : "  ...See more",
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
