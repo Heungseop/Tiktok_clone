@@ -126,6 +126,7 @@ class _VideoPostState extends State<VideoPost>
 
     // await 하면 팝업이 닫힐 때 까지 기다림
     await showModalBottomSheet(
+      isScrollControlled: true,
       backgroundColor: Colors.transparent, // transparent 를 줌으로써 스캐폴드가 배경이 됨
       context: context,
       builder: (context) => const VideoComments(),
