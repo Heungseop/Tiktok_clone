@@ -34,6 +34,8 @@ class TikTokApp extends StatelessWidget {
           cursorColor: Color(0xffe9435a),
           // selectionColor: Color(0xffe9435a),
         ),
+        splashColor: Colors.transparent, // 버튼을 누르고 있으면 어두운 배경이 점점 퍼지는 효과 제거
+        // highlightColor: Colors.transparent, // 버튼을 누르고 있으면 배경이 어두워지는 효과 제거
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
