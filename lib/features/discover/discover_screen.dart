@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -23,8 +22,7 @@ class DiscoverScreen extends StatefulWidget {
 
 class _DiscoverScreenState extends State<DiscoverScreen>
     with SingleTickerProviderStateMixin {
-  final TextEditingController _textEditingController =
-      TextEditingController(text: "Initial Text");
+  final TextEditingController _textEditingController = TextEditingController();
 
   late final TabController _tabController =
       TabController(length: tabs.length, vsync: this);
@@ -36,6 +34,10 @@ class _DiscoverScreenState extends State<DiscoverScreen>
 
   void _onSearchSubmitted(String value) {
     print("_onSearchSubmitted : $value");
+  }
+
+  void _onSearchFieldReset() {
+    _textEditingController.clear();
   }
 
   @override
@@ -63,10 +65,71 @@ class _DiscoverScreenState extends State<DiscoverScreen>
         appBar: AppBar(
           elevation: 1,
           centerTitle: true,
-          title: CupertinoSearchTextField(
-            controller: _textEditingController,
-            onChanged: _onSearchChanged,
-            onSubmitted: _onSearchSubmitted,
+          // title: CupertinoSearchTextField(
+          //   controller: _textEditingController,
+          //   onChanged: _onSearchChanged,
+          //   onSubmitted: _onSearchSubmitted,
+          // ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width - Sizes.size24 - 60,
+                height: Sizes.size40, // 인풋 높이
+                child: TextField(
+                  onSubmitted: _onSearchSubmitted,
+                  onChanged: _onSearchChanged,
+                  controller: _textEditingController,
+                  cursorColor: Theme.of(context).primaryColor,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Sizes.size12),
+                      borderSide: BorderSide.none, // 라인제거
+                    ),
+                    filled: true, // 인풋 색상 채울지 여부
+                    fillColor: Colors.grey.shade200,
+                    prefixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        FaIcon(
+                          FontAwesomeIcons.magnifyingGlass,
+                          // color: Colors.grey.shade500,
+                          color: Colors.black,
+                          size: Sizes.size20,
+                        ),
+                      ],
+                    ),
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: _onSearchFieldReset,
+                          child: FaIcon(
+                            FontAwesomeIcons.solidCircleXmark,
+                            color: Colors.grey.shade600,
+                            size: Sizes.size20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.size12,
+                      vertical: Sizes.size10,
+                    ),
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: Sizes.size12),
+                child: FaIcon(
+                  FontAwesomeIcons.sliders,
+                  // color: Colors.grey.shade500,
+                  size: Sizes.size24,
+                ),
+              ),
+            ],
           ),
           bottom: TabBar(
             controller: _tabController,
