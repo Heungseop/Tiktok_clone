@@ -75,6 +75,13 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: const Offset(0, 0),
   ).animate(_animationController); // 동일한 컨트롤러 사용 아마도 동시에 일어나는 하나의 행위라서 그런듯
 
+  late final Animation<Color?> _barrierAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black38,
+  ).animate(_animationController);
+
+  bool _showBarrier = false;
+
   void _onDismissed(String noti) {
     setState(() {
       _notifications.remove(noti);
@@ -87,12 +94,15 @@ class _ActivityScreenState extends State<ActivityScreen>
     super.dispose();
   }
 
-  void _onTitleTap() {
+  void _toggleTitleAnimations() async {
     if (_animationController.isCompleted) {
-      _animationController.reverse();
+      await _animationController.reverse();
     } else {
       _animationController.forward();
     }
+    setState(() {
+      _showBarrier = !_showBarrier;
+    });
   }
 
   @override
@@ -101,7 +111,7 @@ class _ActivityScreenState extends State<ActivityScreen>
       appBar: AppBar(
         centerTitle: true,
         title: GestureDetector(
-          onTap: _onTitleTap,
+          onTap: _toggleTitleAnimations,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -220,6 +230,12 @@ class _ActivityScreenState extends State<ActivityScreen>
                 ),
             ],
           ),
+          if (_showBarrier)
+            AnimatedModalBarrier(
+              color: _barrierAnimation,
+              dismissible: true, // 배리어 클릭 시 start로 변경해줌
+              onDismiss: _toggleTitleAnimations,
+            ),
           SlideTransition(
             position: _panelAnimation,
             child: Container(
