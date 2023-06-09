@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -12,6 +10,28 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const CustomScrollView();
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          stretch: true,
+          backgroundColor: Colors.teal,
+          collapsedHeight: 80,
+          expandedHeight: 200,
+          flexibleSpace: FlexibleSpaceBar(
+            stretchModes: const [
+              StretchMode.blurBackground,
+              StretchMode.zoomBackground,
+            ],
+            background: Image.asset(
+              "assets/images/IMG_4263.JPG",
+              fit: BoxFit.cover,
+            ),
+            title: const Text("Hello!"),
+          ),
+        ),
+      ],
+    );
   }
 }
