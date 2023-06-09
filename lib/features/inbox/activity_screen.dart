@@ -40,8 +40,40 @@ class _ActivityScreenState extends State<ActivityScreen>
   // 컨트롤러에 바운드를 주고 event listner를 통해 setState를 통해 빌드 해주는 방법
   // 두번째로 직접 setState하는게 아닌 AnimatedBuilder를 사용 하는방법
   // 세번째가 지금과같이 Animation을 사용하는 방법
-  late final Animation<double> _animation =
+  late final Animation<double> _arrowAnimation =
       Tween(begin: 0.0, end: -0.5).animate(_animationController);
+
+  final List<Map<String, dynamic>> _tabs = [
+    {
+      "title": "All activity",
+      "icon": FontAwesomeIcons.solidMessage,
+    },
+    {
+      "title": "Likes",
+      "icon": FontAwesomeIcons.solidHeart,
+    },
+    {
+      "title": "Comments",
+      "icon": FontAwesomeIcons.solidComments,
+    },
+    {
+      "title": "Mentions",
+      "icon": FontAwesomeIcons.at,
+    },
+    {
+      "title": "Followers",
+      "icon": FontAwesomeIcons.solidUser,
+    },
+    {
+      "title": "From TikTok",
+      "icon": FontAwesomeIcons.tiktok,
+    }
+  ];
+
+  late final Animation<Offset> _panelAnimation = Tween(
+    begin: const Offset(0, -1), // 비율. .5이면 해당 축의 50%이동
+    end: const Offset(0, 0),
+  ).animate(_animationController); // 동일한 컨트롤러 사용 아마도 동시에 일어나는 하나의 행위라서 그런듯
 
   void _onDismissed(String noti) {
     setState(() {
@@ -76,7 +108,7 @@ class _ActivityScreenState extends State<ActivityScreen>
               const Text("All activity"),
               Gaps.h2,
               RotationTransition(
-                turns: _animation,
+                turns: _arrowAnimation,
                 child: const FaIcon(
                   FontAwesomeIcons.chevronDown,
                   size: Sizes.size14,
@@ -86,104 +118,148 @@ class _ActivityScreenState extends State<ActivityScreen>
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 0),
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
-            child: Text(
-              "New",
-              style: TextStyle(
-                fontSize: Sizes.size14,
-                color: Colors.grey.shade600,
+          ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
+                child: Text(
+                  "New",
+                  style: TextStyle(
+                    fontSize: Sizes.size14,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ),
+              Gaps.v14,
+              for (String noti in _notifications)
+                Dismissible(
+                  key: Key(noti),
+                  onDismissed: (direction) => _onDismissed(noti),
+                  background: Container(
+                    alignment: Alignment.centerLeft,
+                    color: Colors.green,
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                        left: Sizes.size10,
+                      ),
+                      child: FaIcon(
+                        FontAwesomeIcons.checkDouble,
+                        color: Colors.white,
+                        size: Sizes.size32,
+                      ),
+                    ),
+                  ),
+                  secondaryBackground: Container(
+                    alignment: Alignment.centerRight,
+                    color: Colors.red,
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                        right: Sizes.size10,
+                      ),
+                      child: FaIcon(
+                        FontAwesomeIcons.trashCan,
+                        color: Colors.white,
+                        size: Sizes.size32,
+                      ),
+                    ),
+                  ),
+                  child: ListTile(
+                    minVerticalPadding: Sizes.size16,
+                    // contentPadding: EdgeInsets.zero,
+                    leading: Container(
+                      width: Sizes.size52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.grey.shade400,
+                          width: Sizes.size1,
+                        ),
+                      ),
+                      child: const Center(
+                        child: FaIcon(
+                          FontAwesomeIcons.bell,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    title: RichText(
+                      text: TextSpan(
+                        text: "Account updates:",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: Sizes.size16,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: " Upload longer videos",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          TextSpan(
+                            text: noti,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey.shade500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    trailing: const FaIcon(
+                      FontAwesomeIcons.chevronRight,
+                      size: Sizes.size16,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          SlideTransition(
+            position: _panelAnimation,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(
+                    Sizes.size5,
+                  ),
+                  bottomRight: Radius.circular(
+                    Sizes.size5,
+                  ),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (var tab in _tabs)
+                    ListTile(
+                      title: Row(
+                        children: [
+                          FaIcon(
+                            tab["icon"],
+                            color: Colors.black,
+                            size: Sizes.size16,
+                          ),
+                          Gaps.h20,
+                          Text(
+                            tab["title"],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
-          Gaps.v14,
-          for (String noti in _notifications)
-            Dismissible(
-              key: Key(noti),
-              onDismissed: (direction) => _onDismissed(noti),
-              background: Container(
-                alignment: Alignment.centerLeft,
-                color: Colors.green,
-                child: const Padding(
-                  padding: EdgeInsets.only(
-                    left: Sizes.size10,
-                  ),
-                  child: FaIcon(
-                    FontAwesomeIcons.checkDouble,
-                    color: Colors.white,
-                    size: Sizes.size32,
-                  ),
-                ),
-              ),
-              secondaryBackground: Container(
-                alignment: Alignment.centerRight,
-                color: Colors.red,
-                child: const Padding(
-                  padding: EdgeInsets.only(
-                    right: Sizes.size10,
-                  ),
-                  child: FaIcon(
-                    FontAwesomeIcons.trashCan,
-                    color: Colors.white,
-                    size: Sizes.size32,
-                  ),
-                ),
-              ),
-              child: ListTile(
-                minVerticalPadding: Sizes.size16,
-                // contentPadding: EdgeInsets.zero,
-                leading: Container(
-                  width: Sizes.size52,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.grey.shade400,
-                      width: Sizes.size1,
-                    ),
-                  ),
-                  child: const Center(
-                    child: FaIcon(
-                      FontAwesomeIcons.bell,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                title: RichText(
-                  text: TextSpan(
-                    text: "Account updates:",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: Sizes.size16,
-                    ),
-                    children: [
-                      const TextSpan(
-                        text: " Upload longer videos",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      TextSpan(
-                        text: noti,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey.shade500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                trailing: const FaIcon(
-                  FontAwesomeIcons.chevronRight,
-                  size: Sizes.size16,
-                  color: Colors.black,
-                ),
-              ),
-            ),
         ],
       ),
     );
