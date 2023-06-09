@@ -17,8 +17,31 @@ class ActivityScreen extends StatefulWidget {
   State<ActivityScreen> createState() => _ActivityScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen> {
+class _ActivityScreenState extends State<ActivityScreen>
+    with SingleTickerProviderStateMixin {
+  //SingleTickerProviderStateMixin 는 화면에 그려주는 시계같은 존재이고
+  // 위젯이 트리에 없을 때 리소스를 낭비하지 않게 함.
   final List<String> _notifications = List.generate(20, (index) => "${index}h");
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
+  // late 키워드가 있으면 this(혹은 instance 멤버)를 참조할 수 있게 된다. 원래는 initState에서 초기화 해야한다.
+
+  // 애니메이션을 주기 위한 방법으로
+  // 첫번 째는 video_post.dart 에서와 같이
+  // _animationController = AnimationController(
+  //   vsync: this, // 위젯이 위젯 tree에 있을 때만 Ticker를 유지시켜준다.
+  //   lowerBound: 1.0,
+  //   upperBound: 1.5,
+  //   value: 1.5,
+  //   duration: _animationDuration,
+  // );
+  // 컨트롤러에 바운드를 주고 event listner를 통해 setState를 통해 빌드 해주는 방법
+  // 두번째로 직접 setState하는게 아닌 AnimatedBuilder를 사용 하는방법
+  // 세번째가 지금과같이 Animation을 사용하는 방법
+  late final Animation<double> _animation =
+      Tween(begin: 0.0, end: -0.5).animate(_animationController);
 
   void _onDismissed(String noti) {
     setState(() {
@@ -27,11 +50,41 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _onTitleTap() {
+    if (_animationController.isCompleted) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("All activity"),
+        title: GestureDetector(
+          onTap: _onTitleTap,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("All activity"),
+              Gaps.h2,
+              RotationTransition(
+                turns: _animation,
+                child: const FaIcon(
+                  FontAwesomeIcons.chevronDown,
+                  size: Sizes.size14,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 0),
