@@ -18,11 +18,35 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         title: ListTile(
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: Sizes.size8,
-          leading: const CircleAvatar(
-            radius: Sizes.size24,
-            foregroundImage: NetworkImage(
-                "https://avatars.githubusercontent.com/u/13977411?v=4"),
-            child: Text("Heung"),
+          leading: Stack(
+            children: [
+              const CircleAvatar(
+                radius: Sizes.size24,
+                foregroundImage: NetworkImage(
+                    "https://avatars.githubusercontent.com/u/13977411?v=4"),
+                child: Text("Heung"),
+              ),
+              Positioned(
+                  bottom: -Sizes.size4,
+                  right: -Sizes.size4,
+                  child: SizedBox(
+                    width: Sizes.size20,
+                    height: Sizes.size20,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: Sizes.size4,
+                          style: BorderStyle.solid,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(Sizes.size20),
+                        ),
+                      ),
+                    ),
+                  ))
+            ],
           ),
           title: const Text(
             "Heung",
@@ -95,13 +119,63 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             bottom: 0,
             width: MediaQuery.of(context).size.width,
             child: BottomAppBar(
-              color: Colors.grey.shade50,
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size6,
+                horizontal: Sizes.size10,
+              ),
+              color: Colors.grey.shade200,
               child: Row(
                 children: [
-                  const Expanded(child: TextField()),
-                  Gaps.h20,
+                  Expanded(
+                    child: SizedBox(
+                      height: Sizes.size40,
+                      child: TextField(
+                        cursorColor: Theme.of(context).primaryColor,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(Sizes.size10),
+                          hintText: "Send a message...",
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(Sizes.size20),
+                              topRight: Radius.circular(Sizes.size20),
+                              bottomLeft: Radius.circular(Sizes.size20),
+                              bottomRight: Radius.circular(Sizes.size2),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                FaIcon(
+                                  FontAwesomeIcons.faceLaugh,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Gaps.h16,
                   Container(
-                    child: const FaIcon(FontAwesomeIcons.paperPlane),
+                    padding: const EdgeInsets.all(Sizes.size10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade400.withOpacity(.8),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: const FaIcon(
+                      FontAwesomeIcons.solidPaperPlane,
+                      color: Colors.white,
+                      size: Sizes.size18,
+                    ),
                   )
                 ],
               ),
