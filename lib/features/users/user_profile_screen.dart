@@ -186,7 +186,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             fit: BoxFit.cover,
                             placeholder: "assets/images/IMG_4793.jpg",
                             image:
-                                "https://source.unsplash.com/random/?$index"),
+                                "https://source.unsplash.com/random/?${index + 1}"),
                       ),
                       if (index < 2)
                         Positioned(
