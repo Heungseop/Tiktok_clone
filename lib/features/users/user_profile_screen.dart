@@ -15,7 +15,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
-          pinned: true,
+          // pinned: true,
           // snap: true,
           // floating: true,
           stretch: true, // 새로고침 액션에 appbar가 늘어남(false는 아래 리스트가 따라 내려갔다 돌아옴)
@@ -36,18 +36,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             centerTitle: true,
           ),
         ),
+        SliverToBoxAdapter(
+          child: Column(
+            children: const [
+              CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 20,
+              )
+            ],
+          ),
+        ),
+        // SliverPersistentHeader(
+        //   delegate: CustomDelegate(),
+        //   // pinned: true,
+        //   floating: true,
+        // ),
         SliverFixedExtentList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 50,
-              (context, index) => Container(
-                color: Colors.amber[100 * (index % 9)],
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text("Item $index"),
-                ),
+          delegate: SliverChildBuilderDelegate(
+            childCount: 50,
+            (context, index) => Container(
+              color: Colors.amber[100 * (index % 9)],
+              child: Align(
+                alignment: Alignment.center,
+                child: Text("Item $index"),
               ),
             ),
-            itemExtent: 50),
+          ),
+          itemExtent: 50,
+        ),
+        SliverPersistentHeader(
+          delegate: CustomDelegate(),
+          pinned: true,
+          // floating: true,
+        ),
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
             childCount: 50,
@@ -69,5 +90,40 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
       ],
     );
+  }
+}
+
+class CustomDelegate extends SliverPersistentHeaderDelegate {
+  // 보여질 뷰
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.indigo,
+      child: const FractionallySizedBox(
+        // 부모로부터 최대한 많은 공간을 차지함
+        heightFactor: 1,
+        child: Center(
+          child: Text(
+            "Title!!!!!",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 150;
+
+  @override
+  double get minExtent => 50;
+
+  // persistent header가 보여져야 되는지 알려주는 메서드
+  // maxExtent, minExtent 값을 변경하고자 한다면 true를 리턴해야함
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    // throw UnimplementedError();
+    return false;
   }
 }
