@@ -14,23 +14,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
-          floating: true,
+          pinned: true,
+          // snap: true,
+          // floating: true,
           stretch: true,
           backgroundColor: Colors.teal,
           collapsedHeight: 80,
           expandedHeight: 200,
           flexibleSpace: FlexibleSpaceBar(
             stretchModes: const [
-              StretchMode.blurBackground,
+              // StretchMode.blurBackground,
               StretchMode.zoomBackground,
+              StretchMode.fadeTitle
             ],
             background: Image.asset(
               "assets/images/IMG_4263.JPG",
               fit: BoxFit.cover,
             ),
             title: const Text("Hello!"),
+            centerTitle: true,
           ),
         ),
+        SliverFixedExtentList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: 50,
+              (context, index) => Container(
+                color: Colors.amber[100 * (index % 9)],
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text("Item $index"),
+                ),
+              ),
+            ),
+            itemExtent: 50)
       ],
     );
   }
