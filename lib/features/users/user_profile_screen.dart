@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/users/widgets/user_info_card.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -62,76 +63,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 height: Sizes.size48,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        const Text(
-                          "97",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text(
-                          "Following",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
+                  children: const [
+                    UserInfoCard(
+                      number: "97",
+                      infoName: "Following",
                     ),
-                    VerticalDivider(
-                      //특정 높이를 가진 부모가 필요함
-                      width: Sizes.size32,
-                      thickness: 1,
-                      color: Colors.grey.shade400,
-                      indent: Sizes.size14,
-                      endIndent: Sizes.size14,
+                    UserInfoCardDivider(),
+                    UserInfoCard(
+                      number: "10M",
+                      infoName: "Followers",
                     ),
-                    Column(
-                      children: [
-                        const Text(
-                          "10M",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text(
-                          "Followers",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    VerticalDivider(
-                      //특정 높이를 가진 부모가 필요함
-                      width: Sizes.size32,
-                      thickness: 1,
-                      color: Colors.grey.shade400,
-                      indent: Sizes.size14,
-                      endIndent: Sizes.size14,
-                    ),
-                    Column(
-                      children: [
-                        const Text(
-                          "194.3M",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text(
-                          "Likes",
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
+                    UserInfoCardDivider(),
+                    UserInfoCard(
+                      number: "149.3M",
+                      infoName: "Likes",
                     ),
                   ],
                 ),
@@ -140,6 +85,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         )
       ],
+    );
+  }
+}
+
+class UserInfoCardDivider extends StatelessWidget {
+  const UserInfoCardDivider({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return VerticalDivider(
+      //특정 높이를 가진 부모가 필요함
+      width: Sizes.size32,
+      thickness: 1,
+      color: Colors.grey.shade400,
+      indent: Sizes.size14,
+      endIndent: Sizes.size14,
     );
   }
 }
