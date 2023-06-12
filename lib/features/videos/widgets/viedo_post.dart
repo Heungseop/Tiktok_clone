@@ -89,6 +89,10 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    // 사용자에게 보이지 않을 땐 이미 dispose된 상태이기 때문에 에러가 발생함.
+    // mounted되지 않았으면 아무것도 하지 않음
+    if (!mounted) return;
+
     // 0~1 까지 화면이 표시된 비율을 리턴해줌
     if (info.visibleFraction == 1 &&
         !_isPaused &&
