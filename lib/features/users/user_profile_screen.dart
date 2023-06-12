@@ -14,6 +14,8 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  final double gridMarkerGap = 5;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -166,9 +168,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             body: TabBarView(
               children: [
                 GridView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  // keyboardDismissBehavior:
+                  //     ScrollViewKeyboardDismissBehavior.onDrag,
                   itemCount: 20,
                   padding: EdgeInsets.zero,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -177,8 +178,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     mainAxisSpacing: Sizes.size2,
                     childAspectRatio: 9 / 14,
                   ),
-                  itemBuilder: (context, index) => Column(
-                    // color: Colors.teal,
+                  itemBuilder: (context, index) => Stack(
                     children: [
                       AspectRatio(
                         aspectRatio: 9 / 14,
@@ -187,6 +187,55 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             placeholder: "assets/images/IMG_4793.jpg",
                             image:
                                 "https://source.unsplash.com/random/?$index"),
+                      ),
+                      if (index < 2)
+                        Positioned(
+                          // top left
+                          top: gridMarkerGap,
+                          left: gridMarkerGap,
+                          child: Container(
+                            padding: const EdgeInsets.all(Sizes.size2),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                            child: const Text(
+                              "Pinned",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (index == 3)
+                        Positioned(
+                          top: gridMarkerGap,
+                          right: gridMarkerGap,
+                          child: const FaIcon(
+                            FontAwesomeIcons.image,
+                            color: Colors.white,
+                            size: Sizes.size16,
+                          ),
+                        ),
+                      Positioned(
+                        bottom: gridMarkerGap,
+                        left: gridMarkerGap,
+                        child: Row(
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.play,
+                              color: Colors.white,
+                              size: Sizes.size14,
+                            ),
+                            Gaps.h4,
+                            Text(
+                              '${"${index * 3.7 - (index * 1.4)}".substring(0, 3)} ${index % 2 == 1 ? 'M' : 'K'}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
