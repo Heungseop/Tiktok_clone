@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/users/widgets/persistent_tab_bar.dart';
+import 'package:tiktok_clone/features/users/widgets/user_info_button.dart';
 import 'package:tiktok_clone/features/users/widgets/user_info_card.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -13,6 +14,8 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  final double gridMarkerGap = 5;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +51,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             "https://avatars.githubusercontent.com/u/13977411?v=4"),
                         child: Text("Heungg"),
                       ),
-                      Gaps.v20,
+                      Gaps.v12,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -67,7 +70,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                         ],
                       ),
-                      Gaps.v24,
+                      Gaps.v14,
                       SizedBox(
                         height: Sizes.size48,
                         child: Row(
@@ -91,27 +94,37 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                       ),
                       Gaps.v14,
-                      FractionallySizedBox(
-                        widthFactor: .33,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.size12,
-                          ),
-                          decoration: BoxDecoration(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          UserInfoButton(
+                            onTap: () =>
+                                print("##### ontap!!!!!!!!!!!!!!!!!!!!!!"),
+                            width: Sizes.size96 + Sizes.size48,
                             color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(
-                              Sizes.size4,
+                            content: const Text(
+                              "Follow",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          child: const Text(
-                            "Follow",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                          Gaps.h6,
+                          const UserInfoButton(
+                            width: Sizes.size48,
+                            content: FaIcon(FontAwesomeIcons.youtube),
                           ),
-                        ),
+                          Gaps.h6,
+                          const UserInfoButton(
+                            width: Sizes.size48,
+                            content: FaIcon(
+                              FontAwesomeIcons.caretDown,
+                              size: Sizes.size20,
+                            ),
+                          ),
+                        ],
                       ),
                       Gaps.v14,
                       const Padding(
@@ -140,7 +153,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           )
                         ],
                       ),
-                      Gaps.v20,
+                      Gaps.v14,
                     ],
                   ),
                 ),
@@ -155,9 +168,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             body: TabBarView(
               children: [
                 GridView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  // keyboardDismissBehavior:
+                  //     ScrollViewKeyboardDismissBehavior.onDrag,
                   itemCount: 20,
                   padding: EdgeInsets.zero,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -166,8 +178,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     mainAxisSpacing: Sizes.size2,
                     childAspectRatio: 9 / 14,
                   ),
-                  itemBuilder: (context, index) => Column(
-                    // color: Colors.teal,
+                  itemBuilder: (context, index) => Stack(
                     children: [
                       AspectRatio(
                         aspectRatio: 9 / 14,
@@ -176,6 +187,55 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             placeholder: "assets/images/IMG_4793.jpg",
                             image:
                                 "https://source.unsplash.com/random/?$index"),
+                      ),
+                      if (index < 2)
+                        Positioned(
+                          // top left
+                          top: gridMarkerGap,
+                          left: gridMarkerGap,
+                          child: Container(
+                            padding: const EdgeInsets.all(Sizes.size2),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                            child: const Text(
+                              "Pinned",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (index == 3)
+                        Positioned(
+                          top: gridMarkerGap,
+                          right: gridMarkerGap,
+                          child: const FaIcon(
+                            FontAwesomeIcons.image,
+                            color: Colors.white,
+                            size: Sizes.size16,
+                          ),
+                        ),
+                      Positioned(
+                        bottom: gridMarkerGap,
+                        left: gridMarkerGap,
+                        child: Row(
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.play,
+                              color: Colors.white,
+                              size: Sizes.size14,
+                            ),
+                            Gaps.h4,
+                            Text(
+                              '${"${index * 3.7 - (index * 1.4)}".substring(0, 3)} ${index % 2 == 1 ? 'M' : 'K'}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
