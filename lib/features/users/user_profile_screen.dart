@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/users/widgets/persistent_tab_bar.dart';
+import 'package:tiktok_clone/features/users/widgets/user_info_button.dart';
 import 'package:tiktok_clone/features/users/widgets/user_info_card.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             "https://avatars.githubusercontent.com/u/13977411?v=4"),
                         child: Text("Heungg"),
                       ),
-                      Gaps.v20,
+                      Gaps.v12,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -67,7 +68,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                         ],
                       ),
-                      Gaps.v24,
+                      Gaps.v14,
                       SizedBox(
                         height: Sizes.size48,
                         child: Row(
@@ -91,27 +92,37 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                       ),
                       Gaps.v14,
-                      FractionallySizedBox(
-                        widthFactor: .33,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.size12,
-                          ),
-                          decoration: BoxDecoration(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          UserInfoButton(
+                            onTap: () =>
+                                print("##### ontap!!!!!!!!!!!!!!!!!!!!!!"),
+                            width: Sizes.size96 + Sizes.size48,
                             color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(
-                              Sizes.size4,
+                            content: const Text(
+                              "Follow",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          child: const Text(
-                            "Follow",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                          Gaps.h6,
+                          const UserInfoButton(
+                            width: Sizes.size48,
+                            content: FaIcon(FontAwesomeIcons.youtube),
                           ),
-                        ),
+                          Gaps.h6,
+                          const UserInfoButton(
+                            width: Sizes.size48,
+                            content: FaIcon(
+                              FontAwesomeIcons.caretDown,
+                              size: Sizes.size20,
+                            ),
+                          ),
+                        ],
                       ),
                       Gaps.v14,
                       const Padding(
@@ -140,7 +151,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           )
                         ],
                       ),
-                      Gaps.v20,
+                      Gaps.v14,
                     ],
                   ),
                 ),
