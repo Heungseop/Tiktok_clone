@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,6 +51,13 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+
+    // 웹에서는 소리가 있는 동영상을 바로 재생 시킬 수 없다. (브라우저 정책)
+    // 아예 에러가 나버림..
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
+
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
