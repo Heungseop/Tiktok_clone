@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok_clone/constants/beakepoints.dart';
+import 'package:tiktok_clone/constants/breakepoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
@@ -76,7 +76,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              Container(
+                constraints: const BoxConstraints(
+                    maxWidth: Breakpoints.sm), // 마냥 늘어나는 크기를 제한해줄 수 있다.
                 width: MediaQuery.of(context).size.width - Sizes.size24 - 60,
                 height: Sizes.size40, // 인풋 높이
                 child: TextField(
@@ -190,11 +192,11 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         ),
                       ),
                       Gaps.v10,
-                      Text(
-                        "${constraints.maxWidth} This is a very long cation for my tiktok thet im upload just now currently.",
+                      const Text(
+                        "This is a very long cation for my tiktok thet im upload just now currently.",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: Sizes.size16 + Sizes.size2,
                           fontWeight: FontWeight.bold,
                         ),
