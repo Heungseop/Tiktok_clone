@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -37,11 +37,14 @@ class TikTokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'TikTok Clone',
         theme: ThemeData(
+          brightness: Brightness.light,
           primaryColor: const Color(0xffe9435a),
           scaffoldBackgroundColor: Colors.white,
+          bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade50),
           textSelectionTheme: const TextSelectionThemeData(
             // cupertino search input 의 커서컬러는 수정이 안되지만 테마에서 전체적인 커서컬러를 지정할 수 있음
             cursorColor: Color(0xffe9435a),
@@ -60,7 +63,14 @@ class TikTokApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const MainNavigationScreen());
+        darkTheme: ThemeData(
+          scaffoldBackgroundColor: Colors.black,
+          primaryColor: const Color(0xffe9435a),
+          brightness: Brightness.dark,
+          bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade800),
+          // textTheme: TextTheme(c)
+        ),
+        home: const SignUpScreen());
   }
 }
 
