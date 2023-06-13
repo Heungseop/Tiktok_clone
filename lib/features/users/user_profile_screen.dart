@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakepoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/settings/settingsScreen.dart';
@@ -27,6 +28,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -51,119 +54,79 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
                 SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      const CircleAvatar(
-                        backgroundColor: Colors.teal,
-                        radius: 50,
-                        foregroundImage: NetworkImage(
-                            "https://avatars.githubusercontent.com/u/13977411?v=4"),
-                        child: Text("Heungg"),
-                      ),
-                      Gaps.v12,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "@HeungSeop",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: Sizes.size18,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        Sizes.size18, 0, Sizes.size18, Sizes.size10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            const CircleAvatar(
+                              backgroundColor: Colors.teal,
+                              radius: 50,
+                              foregroundImage: NetworkImage(
+                                  "https://avatars.githubusercontent.com/u/13977411?v=4"),
+                              child: Text("Heungg"),
                             ),
-                          ),
-                          Gaps.h5,
-                          FaIcon(
-                            FontAwesomeIcons.solidCircleCheck,
-                            size: Sizes.size16,
-                            color: Colors.blue.shade500,
-                          ),
-                        ],
-                      ),
-                      Gaps.v14,
-                      SizedBox(
-                        height: Sizes.size48,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            UserInfoCard(
-                              number: "97",
-                              infoName: "Following",
+                            Gaps.v12,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "@HeungSeop",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Sizes.size18,
+                                  ),
+                                ),
+                                Gaps.h5,
+                                FaIcon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  size: Sizes.size16,
+                                  color: Colors.blue.shade500,
+                                ),
+                              ],
                             ),
-                            UserInfoCardDivider(),
-                            UserInfoCard(
-                              number: "10M",
-                              infoName: "Followers",
-                            ),
-                            UserInfoCardDivider(),
-                            UserInfoCard(
-                              number: "149.3M",
-                              infoName: "Likes",
-                            ),
+                            if (deviceWidth < Breakpoints.md) ...[
+                              Gaps.v14,
+                              const FolllowerCountBox(),
+                              Gaps.v14,
+                              const FollowButtonBox(),
+                              Gaps.v14,
+                              ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.9),
+                                  child: const UserDetailBox()),
+                              Gaps.v14,
+                            ],
                           ],
                         ),
-                      ),
-                      Gaps.v14,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          UserInfoButton(
-                            onTap: () =>
-                                print("##### ontap!!!!!!!!!!!!!!!!!!!!!!"),
-                            width: Sizes.size96 + Sizes.size48,
-                            color: Theme.of(context).primaryColor,
-                            content: const Text(
-                              "Follow",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                        if (deviceWidth >= Breakpoints.md)
+                          Column(
+                            children: [
+                              Row(
+                                children: const [
+                                  Gaps.h14,
+                                  // Column(children: [],),
+                                  FolllowerCountBox(),
+                                  Gaps.h14,
+                                  FollowButtonBox(),
+                                ],
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Gaps.h6,
-                          const UserInfoButton(
-                            width: Sizes.size48,
-                            content: FaIcon(FontAwesomeIcons.youtube),
-                          ),
-                          Gaps.h6,
-                          const UserInfoButton(
-                            width: Sizes.size48,
-                            content: FaIcon(
-                              FontAwesomeIcons.caretDown,
-                              size: Sizes.size20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Gaps.v14,
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: Sizes.size32,
-                        ),
-                        child: Text(
-                          "All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Gaps.v14,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          FaIcon(
-                            FontAwesomeIcons.link,
-                            size: Sizes.size12,
-                          ),
-                          Gaps.h4,
-                          Text(
-                            "https://github.com/Heungseop",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                              Gaps.v14,
+                              ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.7),
+                                  child: const UserDetailBox())
+                            ],
                           )
-                        ],
-                      ),
-                      Gaps.v14,
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 SliverPersistentHeader(
@@ -181,9 +144,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     //     ScrollViewKeyboardDismissBehavior.onDrag,
                     itemCount: 20,
                     padding: EdgeInsets.zero,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: deviceWidth > Breakpoints.lg ? 5 : 3,
                       crossAxisSpacing: Sizes.size2,
                       mainAxisSpacing: Sizes.size2,
                       childAspectRatio: 9 / 14,
@@ -257,6 +219,119 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 )
               ],
             )),
+      ),
+    );
+  }
+}
+
+class UserDetailBox extends StatelessWidget {
+  const UserDetailBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Sizes.size32,
+          ),
+          child: Text(
+            "All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look. All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look. All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look.",
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Gaps.v14,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            FaIcon(
+              FontAwesomeIcons.link,
+              size: Sizes.size12,
+            ),
+            Gaps.h4,
+            Text(
+              "https://github.com/Heungseop",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class FollowButtonBox extends StatelessWidget {
+  const FollowButtonBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        UserInfoButton(
+          onTap: () => print("##### ontap!!!!!!!!!!!!!!!!!!!!!!"),
+          width: Sizes.size96 + Sizes.size48,
+          color: Theme.of(context).primaryColor,
+          content: const Text(
+            "Follow",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Gaps.h6,
+        const UserInfoButton(
+          width: Sizes.size48,
+          content: FaIcon(FontAwesomeIcons.youtube),
+        ),
+        Gaps.h6,
+        const UserInfoButton(
+          width: Sizes.size48,
+          content: FaIcon(
+            FontAwesomeIcons.caretDown,
+            size: Sizes.size20,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class FolllowerCountBox extends StatelessWidget {
+  const FolllowerCountBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: Sizes.size48,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          UserInfoCard(
+            number: "97",
+            infoName: "Following",
+          ),
+          UserInfoCardDivider(),
+          UserInfoCard(
+            number: "10M",
+            infoName: "Followers",
+          ),
+          UserInfoCardDivider(),
+          UserInfoCard(
+            number: "149.3M",
+            infoName: "Likes",
+          ),
+        ],
       ),
     );
   }
