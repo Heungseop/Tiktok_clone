@@ -41,6 +41,8 @@ class _VideoPostState extends State<VideoPost>
 
   late final AnimationController _animationController;
 
+  bool _isMute = false;
+
   void _onVideoChange() {
     if (_videoPlayerController.value.duration ==
         _videoPlayerController.value.position) {
@@ -56,6 +58,7 @@ class _VideoPostState extends State<VideoPost>
     // 아예 에러가 나버림..
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
+      _isMute = true;
     }
 
     _videoPlayerController.addListener(_onVideoChange);
@@ -150,6 +153,12 @@ class _VideoPostState extends State<VideoPost>
     );
 
     _onTogglePause();
+  }
+
+  void _onMuteTap() async {
+    await _videoPlayerController.setVolume(_isMute ? 1 : 0);
+    _isMute = !_isMute;
+    setState(() {});
   }
 
   @override
@@ -286,6 +295,25 @@ class _VideoPostState extends State<VideoPost>
               ],
             ),
           ),
+          Positioned(
+            top: 20,
+            right: 4,
+            child: GestureDetector(
+              onTap: _onMuteTap,
+              child: Container(
+                // color: Colors.red,
+                padding: const EdgeInsets.all(Sizes.size14),
+                width: Sizes.size48,
+                child: FaIcon(
+                  _isMute
+                      ? FontAwesomeIcons.volumeOff
+                      : FontAwesomeIcons.volumeHigh,
+                  color: Colors.white.withOpacity(.8),
+                  size: Sizes.size20,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
