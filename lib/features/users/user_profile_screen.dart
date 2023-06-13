@@ -177,79 +177,81 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             body: TabBarView(
               children: [
                 GridView.builder(
-                  // keyboardDismissBehavior:
-                  //     ScrollViewKeyboardDismissBehavior.onDrag,
-                  itemCount: 20,
-                  padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: Sizes.size2,
-                    mainAxisSpacing: Sizes.size2,
-                    childAspectRatio: 9 / 14,
-                  ),
-                  itemBuilder: (context, index) => Stack(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 9 / 14,
-                        child: FadeInImage.assetNetwork(
-                            fit: BoxFit.cover,
-                            placeholder: "assets/images/IMG_4793.jpg",
-                            image:
-                                "https://source.unsplash.com/random/?${index + 1}"),
-                      ),
-                      if (index < 2)
-                        Positioned(
-                          // top left
-                          top: gridMarkerGap,
-                          left: gridMarkerGap,
-                          child: Container(
-                            padding: const EdgeInsets.all(Sizes.size2),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                            child: const Text(
-                              "Pinned",
-                              style: TextStyle(
-                                color: Colors.white,
+                    // keyboardDismissBehavior:
+                    //     ScrollViewKeyboardDismissBehavior.onDrag,
+                    itemCount: 20,
+                    padding: EdgeInsets.zero,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: Sizes.size2,
+                      mainAxisSpacing: Sizes.size2,
+                      childAspectRatio: 9 / 14,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 9 / 14,
+                            child: FadeInImage.assetNetwork(
+                                fit: BoxFit.cover,
+                                placeholder: "assets/images/IMG_4793.jpg",
+                                image:
+                                    "https://source.unsplash.com/random/?${index + 1}"),
+                          ),
+                          if (index < 2)
+                            Positioned(
+                              // top left
+                              top: gridMarkerGap,
+                              left: gridMarkerGap,
+                              child: Container(
+                                padding: const EdgeInsets.all(Sizes.size2),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                child: const Text(
+                                  "Pinned",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      if (index == 3)
-                        Positioned(
-                          top: gridMarkerGap,
-                          right: gridMarkerGap,
-                          child: const FaIcon(
-                            FontAwesomeIcons.image,
-                            color: Colors.white,
-                            size: Sizes.size16,
-                          ),
-                        ),
-                      Positioned(
-                        bottom: gridMarkerGap,
-                        left: gridMarkerGap,
-                        child: Row(
-                          children: [
-                            const FaIcon(
-                              FontAwesomeIcons.play,
-                              color: Colors.white,
-                              size: Sizes.size14,
-                            ),
-                            Gaps.h4,
-                            Text(
-                              '${"${1.23 + index * 3.7 - (index * 1.4)}".substring(0, 3)} ${index % 2 == 1 ? 'M' : 'K'}',
-                              // "test",
-                              style: const TextStyle(
+                          if (index == 3)
+                            Positioned(
+                              top: gridMarkerGap,
+                              right: gridMarkerGap,
+                              child: const FaIcon(
+                                FontAwesomeIcons.image,
                                 color: Colors.white,
+                                size: Sizes.size16,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          Positioned(
+                            bottom: gridMarkerGap,
+                            left: gridMarkerGap,
+                            child: Row(
+                              children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.play,
+                                  color: Colors.white,
+                                  size: Sizes.size14,
+                                ),
+                                Gaps.h4,
+                                Text(
+                                  '${"${1.235 + index * 3.7 - (index * 1.4)}".substring(0, 3)} ${index % 2 == 1 ? 'M' : 'K'}',
+                                  // "test",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                 const Center(
                   child: Text("page2"),
                 )
