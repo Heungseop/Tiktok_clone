@@ -238,7 +238,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                             Gaps.h4,
                             Text(
-                              '${"${index * 3.7 - (index * 1.4)}".substring(0, 3)} ${index % 2 == 1 ? 'M' : 'K'}',
+                              '${"${1.23 + index * 3.7 - (index * 1.4)}".substring(0, 3)} ${index % 2 == 1 ? 'M' : 'K'}',
+                              // "test",
                               style: const TextStyle(
                                 color: Colors.white,
                               ),
