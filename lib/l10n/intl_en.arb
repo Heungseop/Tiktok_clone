@@ -19,9 +19,10 @@
       }
     }
   },
-  "signUpSubTitle": "Create a profile, follow other accounts, make your own videos, and more.",
+  "signUpSubTitle": "Create a profile, follow other accounts, make your own {videoCount, plural, =0{no video} =1{video} other{videos}}, and more.",
   "emailPasswordButton": "Use Email & Password",
   "appleButton": "Continue with Apple",
   "alreadyHaveAnAccount": "Already have an account?",
-  "logIn": "Log in"
+  "logIn": "Log in",
+  "logInSelct": "Log in {gender, select, male{sir} female{madam} other{human}}"
 }

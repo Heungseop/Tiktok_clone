@@ -20,9 +20,15 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(nameOfTheApp) => "Log into your ${nameOfTheApp} account";
+  static String m0(gender) =>
+      "Log in ${Intl.gender(gender, female: 'madam', male: 'sir', other: 'human')}";
 
-  static String m1(nameOfTheApp) => "Sign up for ${nameOfTheApp}";
+  static String m1(nameOfTheApp) => "Log into your ${nameOfTheApp} account";
+
+  static String m2(videoCount) =>
+      "Create a profile, follow other accounts, make your own ${Intl.plural(videoCount, zero: 'no video', one: 'video', other: 'videos')}, and more.";
+
+  static String m3(nameOfTheApp) => "Sign up for ${nameOfTheApp}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -33,9 +39,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailPasswordButton":
             MessageLookupByLibrary.simpleMessage("Use Email & Password"),
         "logIn": MessageLookupByLibrary.simpleMessage("Log in"),
-        "loginTitle": m0,
-        "signUpSubTitle": MessageLookupByLibrary.simpleMessage(
-            "Create a profile, follow other accounts, make your own videos, and more."),
-        "signUpTitle": m1
+        "logInSelct": m0,
+        "loginTitle": m1,
+        "signUpSubTitle": m2,
+        "signUpTitle": m3
       };
 }

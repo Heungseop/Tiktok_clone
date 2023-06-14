@@ -70,13 +70,13 @@ class S {
     );
   }
 
-  /// `Create a profile, follow other accounts, make your own videos, and more.`
-  String get signUpSubTitle {
+  /// `Create a profile, follow other accounts, make your own {videoCount, plural, =0{no video} =1{video} other{videos}}, and more.`
+  String signUpSubTitle(num videoCount) {
     return Intl.message(
-      'Create a profile, follow other accounts, make your own videos, and more.',
+      'Create a profile, follow other accounts, make your own ${Intl.plural(videoCount, zero: 'no video', one: 'video', other: 'videos')}, and more.',
       name: 'signUpSubTitle',
       desc: '',
-      args: [],
+      args: [videoCount],
     );
   }
 
@@ -117,6 +117,16 @@ class S {
       name: 'logIn',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Log in {gender, select, male{sir} female{madam} other{human}}`
+  String logInSelct(String gender) {
+    return Intl.message(
+      'Log in ${Intl.gender(gender, male: 'sir', female: 'madam', other: 'human')}',
+      name: 'logInSelct',
+      desc: '',
+      args: [gender],
     );
   }
 }
