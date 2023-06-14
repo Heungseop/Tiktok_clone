@@ -29,7 +29,9 @@ class UserInfoButton extends StatelessWidget {
           // ),
           decoration: BoxDecoration(
             color: color,
-            border: Border.all(width: 1, color: Colors.grey.shade300),
+            border: color == null
+                ? Border.all(width: 1, color: Colors.grey.shade300)
+                : Border.all(width: 1, color: color!),
             borderRadius: BorderRadius.circular(
               Sizes.size2,
             ),
