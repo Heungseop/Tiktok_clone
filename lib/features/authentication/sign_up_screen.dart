@@ -41,7 +41,9 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   orientation == Orientation.portrait ? Gaps.v80 : Gaps.v40,
                   Text(
-                    S.of(context).signUpTitle("TikTok"),
+                    // Date format!!!!!!!
+                    // https://api.flutter.dev/flutter/intl/DateFormat-class.html
+                    S.of(context).signUpTitle("TikTok", DateTime.now()),
                     style: const TextStyle(
                       fontSize: Sizes.size24,
                       fontWeight: FontWeight.w600,
