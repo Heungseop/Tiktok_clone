@@ -1,0 +1,26 @@
+번역 생성
+
+
+1. 루트에 l10n.yaml 생성
+arb-dir: lib/intl
+template-arb-file: intl_en.arb
+output-localization-file: intl_generated.dart
+
+2. 지정한 arb-dir 경로에 지원할 언어별 arb 파일 생성
+intl_en.arb
+intl_ko.arb
+
+3. 프로젝트 루트에서 명령어 실행
+ flutter gen-l10n
+
+4. main.dart에서 
+import 'package:flutter_gen/gen_l10n/intl_generated.dart';
+
+MaterialApp 에 
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+추가
+
+5. 필요한 화면에서 
+AppLocalizations.of(context)!.signUpTitle, 처럼 사용하되 자동으로 임포트 되지 않으니 
+위의 임포트 수동으로 추가

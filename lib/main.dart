@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 
 import 'constants/sizes.dart';
@@ -45,19 +44,11 @@ class TikTokApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
 
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale("en"),
-        Locale("ko"),
-        // 언어 코드 확인
-        // https://api.flutter.dev/flutter/dart-ui/Locale/languageCode.html
-        // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      // 언어 코드 확인
+      // https://api.flutter.dev/flutter/dart-ui/Locale/languageCode.html
+      // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
 
       // 15.9 Conclusions 추후엔 테마패키지를 사용하자.... 두줄이면 끝..
       // theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
