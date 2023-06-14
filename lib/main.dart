@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
+
+import 'constants/sizes.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -41,6 +42,11 @@ class TikTokApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
+
+      // 15.9 Conclusions 추후엔 테마패키지를 사용하자.... 두줄이면 끝..
+      // theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+      // // The Mandy red, dark theme.
+      // darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
