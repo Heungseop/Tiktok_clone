@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakepoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 final tabs = [
   "Top",
@@ -85,22 +86,24 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   onSubmitted: _onSearchSubmitted,
                   onChanged: _onSearchChanged,
                   controller: _textEditingController,
-                  cursorColor: Theme.of(context).primaryColor,
+                  // cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(Sizes.size12),
                       borderSide: BorderSide.none, // 라인제거
                     ),
                     filled: true, // 인풋 색상 채울지 여부
-                    fillColor: Colors.grey.shade200,
+                    // fillColor: Colors.grey.shade200,
                     prefixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         FaIcon(
                           FontAwesomeIcons.magnifyingGlass,
                           // color: Colors.grey.shade500,
-                          color: Colors.black,
+                          color: isDarkMode(context)
+                              ? Colors.grey.shade500
+                              : Colors.black,
                           size: Sizes.size20,
                         ),
                       ],
@@ -144,9 +147,10 @@ class _DiscoverScreenState extends State<DiscoverScreen>
               horizontal: Sizes.size16,
             ),
             isScrollable: true,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey.shade500,
-            indicatorColor: Colors.black,
+            // labelColor: Colors.black,
+            // unselectedLabelColor: Colors.grey.shade500,
+            // indicatorColor: Colors.black,
+            indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16,
@@ -202,10 +206,12 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         ),
                       ),
                       Gaps.v8,
-                      if (210 < constraints.maxWidth)
+                      if (160 < constraints.maxWidth)
                         DefaultTextStyle(
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: isDarkMode(context)
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade600,
                             fontWeight: FontWeight.bold,
                           ),
                           child: Row(
