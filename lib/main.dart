@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
 
 import 'constants/sizes.dart';
-import 'package:flutter_gen/gen_l10n/intl_generated.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -44,8 +45,14 @@ class TikTokApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
 
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        // S().delegate,
+      ],
+      supportedLocales: const [Locale("en"), Locale("ko")],
       // 언어 코드 확인
       // https://api.flutter.dev/flutter/dart-ui/Locale/languageCode.html
       // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry

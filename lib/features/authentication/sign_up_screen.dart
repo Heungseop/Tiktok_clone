@@ -5,8 +5,8 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/utils.dart';
-import 'package:flutter_gen/gen_l10n/intl_generated.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -41,7 +41,7 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   orientation == Orientation.portrait ? Gaps.v80 : Gaps.v40,
                   Text(
-                    AppLocalizations.of(context)!.signUpTitle("TikTok"),
+                    S.of(context).signUpTitle("TikTok"),
                     style: const TextStyle(
                       fontSize: Sizes.size24,
                       fontWeight: FontWeight.w600,
@@ -57,11 +57,11 @@ class SignUpScreen extends StatelessWidget {
                     //     ), // 지정 테마에 특정 요소를 추가하려면 copyWith사용
                   ),
                   Gaps.v20,
-                  const Opacity(
+                  Opacity(
                     opacity: .7,
                     child: Text(
-                      "Create a profile, follow other accounts, make your own videos, and more.",
-                      style: TextStyle(
+                      S.of(context).signUpSubTitle,
+                      style: const TextStyle(
                         fontSize: Sizes.size16,
                       ),
                       textAlign: TextAlign.center,
@@ -72,13 +72,13 @@ class SignUpScreen extends StatelessWidget {
                     AuthButton(
                       onTap: _onEmailTap,
                       icon: const FaIcon(FontAwesomeIcons.user),
-                      text: "Use Email & Password",
+                      text: S.of(context).emailPasswordButton,
                     ),
                     Gaps.v16,
-                    const AuthButton(
+                    AuthButton(
                       // onTap: () => {},
-                      icon: FaIcon(FontAwesomeIcons.apple),
-                      text: "Continue with Apple",
+                      icon: const FaIcon(FontAwesomeIcons.apple),
+                      text: S.of(context).appleButton,
                     )
                   ],
                   // 가로모드를 고려해 로우로 감쌀 경우 아래 authButton이 FractionallySizedBox이기때문에 width가 지정되지 않아
@@ -91,15 +91,15 @@ class SignUpScreen extends StatelessWidget {
                           child: AuthButton(
                             onTap: _onEmailTap,
                             icon: const FaIcon(FontAwesomeIcons.user),
-                            text: "Use Email & Password",
+                            text: S.of(context).emailPasswordButton,
                           ),
                         ),
                         Gaps.h16,
-                        const Expanded(
+                        Expanded(
                           child: AuthButton(
                             // onTap: () => {},
-                            icon: FaIcon(FontAwesomeIcons.apple),
-                            text: "Continue with Apple",
+                            icon: const FaIcon(FontAwesomeIcons.apple),
+                            text: S.of(context).appleButton,
                           ),
                         )
                       ],
@@ -118,15 +118,15 @@ class SignUpScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Already have an account?",
-                    style: TextStyle(),
+                  Text(
+                    S.of(context).alreadyHaveAnAccount,
+                    style: const TextStyle(),
                   ),
                   Gaps.h5,
                   GestureDetector(
                     onTap: () => _onLoginTap(context),
                     child: Text(
-                      "Log in",
+                      S.of(context).logIn,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w600),
