@@ -38,24 +38,30 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 children: [
                   orientation == Orientation.portrait ? Gaps.v80 : Gaps.v40,
-                  Text(
+                  const Text(
                     "Sign up for TikTok",
+                    style: TextStyle(
+                      fontSize: Sizes.size24,
+                      fontWeight: FontWeight.w600,
+                    ),
                     // style: GoogleFonts.abrilFatface(
                     //   textStyle: const TextStyle(
                     //     fontSize: Sizes.size24,
                     //   ),
                     // ),
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          // color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ), // 지정 테마에 특정 요소를 추가하려면 copyWith사용
+                    // style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    //       // color: Theme.of(context).primaryColor,
+                    //       fontWeight: FontWeight.w600,
+                    //     ), // 지정 테마에 특정 요소를 추가하려면 copyWith사용
                   ),
                   Gaps.v20,
-                  Opacity(
+                  const Opacity(
                     opacity: .7,
                     child: Text(
                       "Create a profile, follow other accounts, make your own videos, and more.",
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
