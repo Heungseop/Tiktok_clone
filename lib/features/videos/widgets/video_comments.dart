@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class VideoComments extends StatefulWidget {
@@ -49,7 +50,11 @@ class _VideoCommentsState extends State<VideoComments> {
         appBar: AppBar(
           backgroundColor: isDark ? null : Colors.grey.shade50,
           centerTitle: true,
-          title: const Text("123 comments"),
+          title: Text(
+            S.of(context).commentTitle(4894532, 4894532),
+            // 숫자 포맷팅
+            //https://docs.flutter.dev/accessibility-and-localization/internationalization#messages-with-numbers-and-currencies
+          ),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
