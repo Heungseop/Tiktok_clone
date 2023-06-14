@@ -93,7 +93,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                       borderSide: BorderSide.none, // 라인제거
                     ),
                     filled: true, // 인풋 색상 채울지 여부
-                    // fillColor: Colors.grey.shade200,
+                    fillColor: isDarkMode(context)
+                        ? Colors.grey.shade800
+                        : Colors.grey.shade200,
                     prefixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -203,6 +205,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         style: TextStyle(
                           fontSize: Sizes.size16 + Sizes.size2,
                           fontWeight: FontWeight.bold,
+                          height: 1.1,
                         ),
                       ),
                       Gaps.v8,
