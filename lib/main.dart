@@ -39,7 +39,7 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    S.load(const Locale("en"));
+    // S.load(const Locale("en"));
     const primaryColor = Color(0xffe9435a);
     return MaterialApp(
       themeMode: ThemeMode.system,
