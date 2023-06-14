@@ -80,7 +80,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     "@HeungSeop",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: Sizes.size18,
+                                      fontSize: Sizes.size16,
+                                      height: 1.1,
                                     ),
                                   ),
                                   Gaps.h5,
@@ -98,12 +99,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 const FollowButtonBox(),
                                 Gaps.v14,
                                 ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.9),
-                                    child: const UserDetailBox()),
-                                Gaps.v14,
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.9),
+                                  child: const UserDetailBox(),
+                                ),
+                                Gaps.v10,
                               ],
                             ],
                           ),
@@ -244,6 +246,9 @@ class UserDetailBox extends StatelessWidget {
           child: Text(
             "All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look. All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look. All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look.",
             textAlign: TextAlign.center,
+            style: TextStyle(
+              height: 1.1,
+            ),
           ),
         ),
         Gaps.v14,
@@ -259,6 +264,7 @@ class UserDetailBox extends StatelessWidget {
               "https://github.com/Heungseop",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
+                height: 1.1,
               ),
             )
           ],
