@@ -10,7 +10,12 @@ import 'package:tiktok_clone/features/users/widgets/user_info_card.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String username;
-  const UserProfileScreen({super.key, required this.username});
+  final String tab;
+  const UserProfileScreen({
+    super.key,
+    required this.username,
+    required this.tab,
+  });
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -35,6 +40,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: widget.tab == "likes" ? 1 : 0,
           length: 2,
           child: NestedScrollView(
               // 중첩 스크롤문제를 해결하기 위해 CustomScrollView -> NestedScrollView로 변환

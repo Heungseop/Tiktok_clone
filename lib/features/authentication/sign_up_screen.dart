@@ -22,6 +22,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   void _onEmailTap(BuildContext context) {
+    // context.push("/users/jinjoo?show=likes");
     context.push(UsernameScreen.routeName);
   }
 
