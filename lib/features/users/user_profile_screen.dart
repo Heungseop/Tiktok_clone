@@ -9,7 +9,8 @@ import 'package:tiktok_clone/features/users/widgets/user_info_button.dart';
 import 'package:tiktok_clone/features/users/widgets/user_info_card.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  final String username;
+  const UserProfileScreen({super.key, required this.username});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -43,7 +44,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
-                    title: const Text("Heungg"),
+                    title: Text(widget.username),
                     centerTitle: true,
                     actions: [
                       IconButton(
@@ -76,9 +77,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "@HeungSeop",
-                                    style: TextStyle(
+                                  Text(
+                                    "@${widget.username}",
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: Sizes.size16,
                                       height: 1.1,

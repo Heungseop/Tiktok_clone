@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
+import 'package:tiktok_clone/features/users/user_profile_screen.dart';
 
 final router = GoRouter(
   routes: [
@@ -17,5 +18,13 @@ final router = GoRouter(
       path: UsernameScreen.routeName,
       builder: (context, state) => const UsernameScreen(),
     ),
+    GoRoute(
+      path: "/users/:username",
+      builder: (context, state) {
+        print(state.params);
+        final username = state.params["username"];
+        return UserProfileScreen(username: username!);
+      },
+    )
   ],
 );
