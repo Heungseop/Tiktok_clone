@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
@@ -13,39 +14,15 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
-    Navigator.of(context).pushNamed(LoginScreen.routeName);
+    context.push(LoginScreen.routeName /**"/login" */);
+    // go_route패키지가 context를 확장시켜줌(push)
+
+    // context.go(LoginScreen.routeName);
+    // page스택에 쌓이지 않음 0에서 다시 시작 (자동 백버튼 안생김, 이동한 화면에서 pop못씀)
   }
 
   void _onEmailTap(BuildContext context) {
-    // Navigator.of(context).push(
-    //   PageRouteBuilder(
-    //     transitionDuration: const Duration(milliseconds: 1000),
-    //     pageBuilder: (context, animation, secondaryAnimation) =>
-    //         const UsernameScreen(),
-    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //       final offsetAnimation =
-    //           Tween(begin: const Offset(0, -1), end: const Offset(0, 0))
-    //               .animate(animation);
-    //       final oparityAnimation =
-    //           Tween(begin: 0.5, end: 1.0).animate(animation);
-    //       return SlideTransition(
-    //         position: offsetAnimation,
-    //         child: FadeTransition(
-    //           opacity: oparityAnimation,
-    //           child: child,
-    //         ),
-    //       );
-    //     },
-    //     // FadeTransition(opacity: animation,child: child,),
-    //     //     ScaleTransition(
-    //     //   scale: animation,
-    //     //   alignment: Alignment.bottomRight,
-    //     //   child: child,
-    //     // ),
-    //     reverseTransitionDuration: const Duration(milliseconds: 1000),
-    //   ),
-    // );
-    Navigator.of(context).pushNamed(UsernameScreen.routeName);
+    context.push(UsernameScreen.routeName);
   }
 
   @override
