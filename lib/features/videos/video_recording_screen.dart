@@ -16,7 +16,7 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   //두개이상의 애니메이션 컨트롤러를 사용하기 때문에 두개 이상의 Ticker가 필요하다
   bool _hasPermission = false;
   late CameraController _cameraController;
@@ -40,6 +40,26 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     lowerBound: 0.0,
     upperBound: 1.0,
   );
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // print("##### state : $state");
+
+    if (!_hasPermission) {
+      return;
+    }
+
+    // App state changed before we got the chance to initialize.
+    if (!_cameraController.value.isInitialized) {
+      return;
+    }
+
+    if (state == AppLifecycleState.inactive) {
+      _cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      initCamera();
+    }
+  }
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
@@ -81,6 +101,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void initState() {
     super.initState();
     initPermissions();
+
+    //유저가 애플리케이션을 벗어나는 경우를 탐지하기위해 사용
+    WidgetsBinding.instance.addObserver(this);
+
     _progressAnimationController.addListener(() {
       setState(() {});
     });
