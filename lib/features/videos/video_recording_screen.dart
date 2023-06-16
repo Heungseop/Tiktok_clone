@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
 import 'package:tiktok_clone/features/videos/widgets/flash_function_icon.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
@@ -48,6 +49,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         cameras[_isSelfieMode ? 1 : 0], ResolutionPreset.ultraHigh);
 
     await _cameraController.initialize();
+
+    await _cameraController.prepareForVideoRecording(); //ios만을 위한 메서드 (싱크 문제처리)
 
     _flashMode = _cameraController.value.flashMode;
 
@@ -100,16 +103,40 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     setState(() {});
   }
 
-  void _startRecording(TapDownDetails _) {
-    print("_startRecording");
+  Future<void> _startRecording(TapDownDetails _) async {
+    if (_cameraController.value.isRecordingVideo) return;
+
+    await _cameraController.startVideoRecording();
+
     _buttonAnimationController.forward();
     _progressAnimationController.forward();
   }
 
-  void _stopRecording() {
-    print("_stopRecording");
+  Future<void> _stopRecording() async {
+    if (!_cameraController.value.isRecordingVideo) return;
+
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
+
+    final file = await _cameraController.stopVideoRecording();
+    // print("#### ${file.name}");
+    // print("#### ${file.path}");
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(video: file),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _progressAnimationController.dispose();
+    _buttonAnimationController.dispose();
+    _cameraController.dispose();
+
+    super.dispose();
   }
 
   @override
