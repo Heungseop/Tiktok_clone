@@ -19,7 +19,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
-    print("#### cameras : $cameras");
+    // print("#### cameras : $cameras");
     if (cameras.isEmpty) {
       return;
     }
@@ -46,7 +46,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
     if (!cameraDenied && !micDenied) {
       _hasPermission = true;
-      initCamera();
+      await initCamera();
       setState(() {});
     }
   }
@@ -71,69 +71,96 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // _hasPermission = false;
     return Scaffold(
         // backgroundColor: Colors.black,
         body: SafeArea(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Initializing..."),
-                  Gaps.v20,
-                  CircularProgressIndicator.adaptive()
+                children: [
+                  Text(
+                    "You don't have permissions. Please set from Settings.",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  TextButton(
+                      onPressed: initPermissions,
+                      child: const Text("go to Settings."))
                 ],
               )
-            : Stack(
-                alignment: Alignment.center,
-                children: [
-                  CameraPreview(_cameraController),
-                  Positioned(
-                    top: Sizes.size20,
-                    right: Sizes.size20,
-                    child: Column(
-                      children: [
-                        IconButton(
-                          color: Colors.grey,
-                          onPressed: _toggleSelfieMode,
-                          icon: const Icon(Icons.cameraswitch),
-                        ),
-                        Gaps.v10,
-                        IconButton(
-                          color: _flashMode == FlashMode.off
-                              ? Colors.amber
-                              : Colors.grey,
-                          onPressed: () => _setFlashMode(FlashMode.off),
-                          icon: const Icon(Icons.flash_off_rounded),
-                        ),
-                        IconButton(
-                          color: _flashMode == FlashMode.always
-                              ? Colors.amber
-                              : Colors.grey,
-                          onPressed: () => _setFlashMode(FlashMode.always),
-                          icon: const Icon(Icons.flash_on_rounded),
-                        ),
-                        IconButton(
-                          color: _flashMode == FlashMode.auto
-                              ? Colors.amber
-                              : Colors.grey,
-                          onPressed: () => _setFlashMode(FlashMode.auto),
-                          icon: const Icon(Icons.flash_auto),
-                        ),
-                        IconButton(
-                          color: _flashMode == FlashMode.torch
-                              ? Colors.amber
-                              : Colors.grey,
-                          onPressed: () => _setFlashMode(FlashMode.torch),
-                          icon: const Icon(Icons.flashlight_on_rounded),
-                        ),
-                      ],
-                    ),
+            : !_cameraController.value.isInitialized
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("Initializing..."),
+                      Gaps.v20,
+                      CircularProgressIndicator.adaptive()
+                    ],
                   )
-                ],
-              ),
+                : Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CameraPreview(_cameraController),
+                      Positioned(
+                        top: Sizes.size20,
+                        right: Sizes.size20,
+                        child: Column(
+                          children: [
+                            IconButton(
+                              color: Colors.grey,
+                              onPressed: _toggleSelfieMode,
+                              icon: const Icon(Icons.cameraswitch),
+                            ),
+                            Gaps.v10,
+                            IconButton(
+                              color: _flashMode == FlashMode.off
+                                  ? Colors.amber
+                                  : Colors.grey,
+                              onPressed: () => _setFlashMode(FlashMode.off),
+                              icon: const Icon(Icons.flash_off_rounded),
+                            ),
+                            IconButton(
+                              color: _flashMode == FlashMode.always
+                                  ? Colors.amber
+                                  : Colors.grey,
+                              onPressed: () => _setFlashMode(FlashMode.always),
+                              icon: const Icon(Icons.flash_on_rounded),
+                            ),
+                            IconButton(
+                              color: _flashMode == FlashMode.auto
+                                  ? Colors.amber
+                                  : Colors.grey,
+                              onPressed: () => _setFlashMode(FlashMode.auto),
+                              icon: const Icon(Icons.flash_auto),
+                            ),
+                            IconButton(
+                              color: _flashMode == FlashMode.torch
+                                  ? Colors.amber
+                                  : Colors.grey,
+                              onPressed: () => _setFlashMode(FlashMode.torch),
+                              icon: const Icon(Icons.flashlight_on_rounded),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+
+        // !_hasPermission || !_cameraController.value.isInitialized
+        //     ? Column(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: const [
+        //           Text("Initializing..."),
+        //           Gaps.v20,
+        //           CircularProgressIndicator.adaptive()
+        //         ],
+        //       )
+        //     :
       ),
     ));
   }
