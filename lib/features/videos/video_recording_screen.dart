@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
@@ -12,18 +13,20 @@ class VideoRecordingScreen extends StatefulWidget {
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermission = false;
-  late final CameraController _cameraController;
+  late CameraController _cameraController;
+  bool _isSelfieMode = false;
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
-    // print("#### cameras : $cameras");
+    print("#### cameras : $cameras");
     if (cameras.isEmpty) {
       return;
     }
-    _cameraController =
-        CameraController(cameras[0], ResolutionPreset.ultraHigh);
+    _cameraController = CameraController(
+        cameras[_isSelfieMode ? 1 : 0], ResolutionPreset.ultraHigh);
 
     await _cameraController.initialize();
+    setState(() {});
   }
 
   Future<void> initPermissions() async {
@@ -50,30 +53,45 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     initPermissions();
   }
 
+  Future<void> _toggleSelfieMode() async {
+    _isSelfieMode = !_isSelfieMode;
+    await initCamera();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // backgroundColor: Colors.black,
-        body: SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: !_hasPermission || !_cameraController.value.isInitialized
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text("Initializing..."),
-                Gaps.v20,
-                CircularProgressIndicator.adaptive()
-              ],
-            )
-          : Stack(
-              alignment: Alignment.center,
-              children: [
-                CameraPreview(
-                  _cameraController,
-                ),
-              ],
-            ),
+        body: SafeArea(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: !_hasPermission || !_cameraController.value.isInitialized
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text("Initializing..."),
+                  Gaps.v20,
+                  CircularProgressIndicator.adaptive()
+                ],
+              )
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  CameraPreview(_cameraController),
+                  Positioned(
+                    top: Sizes.size20,
+                    left: Sizes.size20,
+                    child: IconButton(
+                      color: Colors.grey,
+                      onPressed: _toggleSelfieMode,
+                      icon: const Icon(Icons.cameraswitch),
+                    ),
+                  )
+                ],
+              ),
+      ),
     ));
   }
 }
