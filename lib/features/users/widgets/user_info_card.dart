@@ -17,6 +17,7 @@ class UserInfoCard extends StatelessWidget {
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: Sizes.size18,
+            height: 1.1,
           ),
         ),
         Gaps.v3,
@@ -24,6 +25,7 @@ class UserInfoCard extends StatelessWidget {
           infoName,
           style: TextStyle(
             color: Colors.grey.shade500,
+            height: 1.1,
           ),
         ),
       ],

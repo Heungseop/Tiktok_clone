@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
+import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
+import 'package:tiktok_clone/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const routeURL = "/";
+  static const routeName = "signUp";
   const SignUpScreen({super.key});
 
-  void _onLoginTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
+  void _onLoginTap(BuildContext context) async {
+    context.push(LoginScreen.routeName /**"/login" */);
+    // go_route패키지가 context를 확장시켜줌(push)
+
+    // context.go(LoginScreen.routeName);
+    // page스택에 쌓이지 않음 0에서 다시 시작 (자동 백버튼 안생김, 이동한 화면에서 pop못씀)
   }
 
   void _onEmailTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const UsernameScreen(),
-      ),
-    );
+    // context.push("/users/jinjoo?show=likes");
+    context.pushNamed(UsernameScreen.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("locale : ${Localizations.localeOf(context)}");
     return OrientationBuilder(
       builder: (context, orientation) {
         // orientation :  가로세로 여부 (portrait 세로, landscape 가로)
@@ -37,34 +40,47 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 children: [
                   orientation == Orientation.portrait ? Gaps.v80 : Gaps.v40,
-                  const Text(
-                    "Sign up for TikTok",
-                    style: TextStyle(
+                  Text(
+                    // Date format!!!!!!!
+                    // https://api.flutter.dev/flutter/intl/DateFormat-class.html
+                    S.of(context).signUpTitle("TikTok", DateTime.now()),
+                    style: const TextStyle(
                       fontSize: Sizes.size24,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
+                    // style: GoogleFonts.abrilFatface(
+                    //   textStyle: const TextStyle(
+                    //     fontSize: Sizes.size24,
+                    //   ),
+                    // ),
+                    // style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    //       // color: Theme.of(context).primaryColor,
+                    //       fontWeight: FontWeight.w600,
+                    //     ), // 지정 테마에 특정 요소를 추가하려면 copyWith사용
                   ),
                   Gaps.v20,
-                  const Text(
-                    "Create a profile, follow other accounts, make your own videos, and more.",
-                    style: TextStyle(
-                      fontSize: Sizes.size16,
-                      color: Colors.black54,
+                  Opacity(
+                    opacity: .7,
+                    child: Text(
+                      S.of(context).signUpSubTitle(2),
+                      style: const TextStyle(
+                        fontSize: Sizes.size16,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   Gaps.v40,
                   if (orientation == Orientation.portrait) ...[
                     AuthButton(
                       onTap: _onEmailTap,
                       icon: const FaIcon(FontAwesomeIcons.user),
-                      text: "Use Email & Password",
+                      text: S.of(context).emailPasswordButton,
                     ),
                     Gaps.v16,
-                    const AuthButton(
+                    AuthButton(
                       // onTap: () => {},
-                      icon: FaIcon(FontAwesomeIcons.apple),
-                      text: "Continue with Apple",
+                      icon: const FaIcon(FontAwesomeIcons.apple),
+                      text: S.of(context).appleButton,
                     )
                   ],
                   // 가로모드를 고려해 로우로 감쌀 경우 아래 authButton이 FractionallySizedBox이기때문에 width가 지정되지 않아
@@ -77,15 +93,15 @@ class SignUpScreen extends StatelessWidget {
                           child: AuthButton(
                             onTap: _onEmailTap,
                             icon: const FaIcon(FontAwesomeIcons.user),
-                            text: "Use Email & Password",
+                            text: S.of(context).emailPasswordButton,
                           ),
                         ),
                         Gaps.h16,
-                        const Expanded(
+                        Expanded(
                           child: AuthButton(
                             // onTap: () => {},
-                            icon: FaIcon(FontAwesomeIcons.apple),
-                            text: "Continue with Apple",
+                            icon: const FaIcon(FontAwesomeIcons.apple),
+                            text: S.of(context).appleButton,
                           ),
                         )
                       ],
@@ -94,23 +110,25 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
           ),
-          bottomNavigationBar: BottomAppBar(
-            color: Colors.grey.shade50,
-            elevation: 2,
+          bottomNavigationBar: Container(
+            color: isDarkMode(context)
+                ? null
+                : Colors.grey.shade50, //null>테마를 따른다.
+            // elevation: 2,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: Sizes.size32),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Already have an account?",
-                    style: TextStyle(),
+                  Text(
+                    S.of(context).alreadyHaveAnAccount,
+                    style: const TextStyle(),
                   ),
                   Gaps.h5,
                   GestureDetector(
                     onTap: () => _onLoginTap(context),
                     child: Text(
-                      "Log in",
+                      S.of(context).logIn,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w600),

@@ -66,56 +66,59 @@ class _TutorialScreenState extends State<TutorialScreen> {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.size24),
           child: SafeArea(
             child: AnimatedCrossFade(
-                firstChild: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Gaps.v80,
-                    Text(
-                      "Watch cool videos!",
+              firstChild: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Gaps.v80,
+                  Text(
+                    "Watch cool videos!",
+                    style: TextStyle(
+                      fontSize: Sizes.size40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Gaps.v16,
+                  Text(
+                    "Videos are personalized for you based on what you watch, like, and share.",
+                    style: TextStyle(
+                      fontSize: Sizes.size20,
+                    ),
+                  ),
+                ],
+              ),
+              secondChild: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Gaps.v80,
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: Text(
+                      "Follow the Rules",
                       style: TextStyle(
                         fontSize: Sizes.size40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Gaps.v16,
-                    Text(
-                      "Videos are personalized for you based on what you watch, like, and share.",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
-                      ),
+                  ),
+                  Gaps.v16,
+                  Text(
+                    "Take care of one another! please!",
+                    style: TextStyle(
+                      fontSize: Sizes.size20,
                     ),
-                  ],
-                ),
-                secondChild: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Gaps.v80,
-                    FractionallySizedBox(
-                      widthFactor: 1,
-                      child: Text(
-                        "Follow the Rules",
-                        style: TextStyle(
-                          fontSize: Sizes.size40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Gaps.v16,
-                    Text(
-                      "Take care of one another! please!",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
-                      ),
-                    ),
-                  ],
-                ),
-                crossFadeState: _showingPage == Page.first
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 300)),
+                  ),
+                ],
+              ),
+              crossFadeState: _showingPage == Page.first
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 300),
+            ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: Container(
+          // color: isDarkMode(context) ? Colors.black : Colors.white,
+          color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: Sizes.size24,

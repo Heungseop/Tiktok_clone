@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakepoints.dart';
@@ -56,12 +57,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       firstDate: DateTime(1900),
                       lastDate: DateTime(2030),
                     );
+                    if (kDebugMode) {
+                      print(date);
+                    }
 
+                    if (!mounted) return;
                     final time = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
                     );
 
+                    if (!mounted) return;
                     final booking = await showDateRangePicker(
                       context: context,
                       firstDate: DateTime(1900),
@@ -77,7 +83,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child: child!);
                       },
                     );
-                    print("booking : $booking");
+                    if (kDebugMode) {
+                      print("booking : $booking");
+                    }
                   },
                   title: const Text("What is your birthday?"),
                 ),
