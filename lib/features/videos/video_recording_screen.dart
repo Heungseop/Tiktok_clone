@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/flash_function_icon.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
@@ -158,33 +159,25 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                               icon: const Icon(Icons.cameraswitch),
                             ),
                             Gaps.v10,
-                            IconButton(
-                              color: _flashMode == FlashMode.off
-                                  ? Colors.amber
-                                  : Colors.grey,
-                              onPressed: () => _setFlashMode(FlashMode.off),
-                              icon: const Icon(Icons.flash_off_rounded),
+                            FlashFunctionIcon(
+                              flashMode: FlashMode.off,
+                              selectedFlashMode: _flashMode,
+                              onTap: _setFlashMode,
                             ),
-                            IconButton(
-                              color: _flashMode == FlashMode.always
-                                  ? Colors.amber
-                                  : Colors.grey,
-                              onPressed: () => _setFlashMode(FlashMode.always),
-                              icon: const Icon(Icons.flash_on_rounded),
+                            FlashFunctionIcon(
+                              flashMode: FlashMode.always,
+                              selectedFlashMode: _flashMode,
+                              onTap: _setFlashMode,
                             ),
-                            IconButton(
-                              color: _flashMode == FlashMode.auto
-                                  ? Colors.amber
-                                  : Colors.grey,
-                              onPressed: () => _setFlashMode(FlashMode.auto),
-                              icon: const Icon(Icons.flash_auto),
+                            FlashFunctionIcon(
+                              flashMode: FlashMode.auto,
+                              selectedFlashMode: _flashMode,
+                              onTap: _setFlashMode,
                             ),
-                            IconButton(
-                              color: _flashMode == FlashMode.torch
-                                  ? Colors.amber
-                                  : Colors.grey,
-                              onPressed: () => _setFlashMode(FlashMode.torch),
-                              icon: const Icon(Icons.flashlight_on_rounded),
+                            FlashFunctionIcon(
+                              flashMode: FlashMode.torch,
+                              selectedFlashMode: _flashMode,
+                              onTap: _setFlashMode,
                             ),
                           ],
                         ),
