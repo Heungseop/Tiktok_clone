@@ -23,6 +23,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _isSelfieMode = false;
   late FlashMode _flashMode;
 
+  late double maxZoomLevel;
+  late double minZoomLevel;
+  late double currentZoomLevel;
+
   late final AnimationController _buttonAnimationController =
       AnimationController(
     vsync: this,
@@ -75,6 +79,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.prepareForVideoRecording(); //ios만을 위한 메서드 (싱크 문제처리)
 
     _flashMode = _cameraController.value.flashMode;
+
+    maxZoomLevel = await _cameraController.getMaxZoomLevel();
+    minZoomLevel = await _cameraController.getMinZoomLevel();
+    currentZoomLevel = minZoomLevel;
+
+    // print("maxZoomLevel  : $maxZoomLevel");
+    // print("minZoomLevel  : $minZoomLevel");
 
     setState(() {});
   }
@@ -187,6 +198,21 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
   }
 
+  void _onVerticalDragUpdate(DragUpdateDetails details) async {
+    if (currentZoomLevel == minZoomLevel && 0 < details.delta.direction ||
+        currentZoomLevel == maxZoomLevel && details.delta.direction < 0) {
+      return;
+    }
+
+    currentZoomLevel -= (details.delta.dy / 100);
+
+    if (currentZoomLevel < minZoomLevel) currentZoomLevel = minZoomLevel;
+    if (maxZoomLevel < currentZoomLevel) currentZoomLevel = maxZoomLevel;
+
+    _cameraController.setZoomLevel(currentZoomLevel);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     // _hasPermission = false;
@@ -264,6 +290,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                           children: [
                             const Spacer(),
                             GestureDetector(
+                              onVerticalDragUpdate: _onVerticalDragUpdate,
                               onTapDown: _startRecording,
                               onTapUp: (details) => _stopRecording(),
                               child: ScaleTransition(
