@@ -167,7 +167,7 @@ class _VideoPostState extends State<VideoPost>
   Widget build(BuildContext context) {
     // final videoConfig =
     //     context.dependOnInheritedWidgetOfExactType<VideoConfig>();
-    final videoConfig = VideoConfig.of(context);
+    final videoConfig = VideoConfigData.of(context);
 
     // videoConfig.autoMute
     print("videoConfig.autoMute : ${videoConfig.autoMute}");
@@ -217,7 +217,7 @@ class _VideoPostState extends State<VideoPost>
             left: 20,
             top: 20,
             child: IconButton(
-              onPressed: () {},
+              onPressed: VideoConfigData.of(context).toggleMuted,
               icon: FaIcon(
                 videoConfig.autoMute
                     ? FontAwesomeIcons.volumeOff
