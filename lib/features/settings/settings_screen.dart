@@ -39,9 +39,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 SwitchListTile.adaptive(
                   title: const Text("Auto Mute"),
                   subtitle: const Text("Videos muted by default."),
-                  value: context.watch<videoConfig>().isMuted,
+                  value: context.watch<VideoConfig>().isMuted,
                   onChanged: (value) {
-                    context.read<videoConfig>().toggleIsMuted();
+                    context.read<VideoConfig>().toggleIsMuted();
                   },
                 ),
 
@@ -60,18 +60,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //   ),
                 // ),
                 //원한다면 ValueListenableBuilder도 아래와 같이 사용가능 동일한 기능을 한다.
-                ValueListenableBuilder(
-                  valueListenable: darkModeConfig,
-                  builder: (context, value, child) => SwitchListTile.adaptive(
-                    title: const Text("Dark Mode"),
-                    subtitle: const Text("setting dark mode."),
-                    value: darkModeConfig.value,
-                    onChanged: (value) {
-                      darkModeConfig.value = !darkModeConfig.value;
-                      // Theme.of(context).
-                      // MaterialApp.of
-                    },
-                  ),
+                SwitchListTile.adaptive(
+                  title: const Text("Dark Mode"),
+                  subtitle: const Text("setting dark mode."),
+                  value: context.watch<DarkModeConfig>().isDark,
+                  onChanged: (value) {
+                    context.read<DarkModeConfig>().toggleIsDark();
+                  },
                 ),
 
                 // SwitchListTile.adaptive(

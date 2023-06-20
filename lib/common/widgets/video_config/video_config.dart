@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 // final videoConfig = ValueNotifier(false);
 
-class videoConfig extends ChangeNotifier {
+class VideoConfig extends ChangeNotifier {
   bool isMuted = false;
   bool isAutoplay = false;
 

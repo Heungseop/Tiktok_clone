@@ -36,24 +36,10 @@ void main() async {
   runApp(const TikTokApp());
 }
 
-class TikTokApp extends StatefulWidget {
+class TikTokApp extends StatelessWidget {
   const TikTokApp({super.key});
 
-  @override
-  State<TikTokApp> createState() => _TikTokAppState();
-}
-
-class _TikTokAppState extends State<TikTokApp> {
   // This widget is the root of your application.
-
-  @override
-  void initState() {
-    super.initState();
-    darkModeConfig.addListener(() {
-      setState(() {});
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // S.load(const Locale("en"));
@@ -61,12 +47,17 @@ class _TikTokAppState extends State<TikTokApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => videoConfig(),
+          create: (context) => DarkModeConfig(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VideoConfig(),
         )
       ],
-      child: MaterialApp.router(
+      builder: (context, child) => MaterialApp.router(
         routerConfig: router,
-        themeMode: darkModeConfig.value ? ThemeMode.dark : ThemeMode.light,
+        themeMode: context.watch<DarkModeConfig>().isDark
+            ? ThemeMode.dark
+            : ThemeMode.light,
         debugShowCheckedModeBanner: false,
         title: 'TikTok Clone',
         localizationsDelegates: const [
