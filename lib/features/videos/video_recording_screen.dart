@@ -55,14 +55,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print("##### didChangeAppLifecycleState state : $state");
-
-    if (!_hasPermission) {
-      return;
-    }
-
+    // print("##### didChangeAppLifecycleState state : $state");
     // App state changed before we got the chance to initialize.
-    if (_noCamera || !_cameraController.value.isInitialized) {
+    if (!_hasPermission ||
+        _noCamera ||
+        !_cameraController.value.isInitialized) {
       return;
     }
 
@@ -75,7 +72,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
-    print("#### cameras : $cameras");
+    // print("#### cameras : $cameras");
     if (cameras.isEmpty) {
       return;
     }
@@ -197,7 +194,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void dispose() {
     _progressAnimationController.dispose();
     _buttonAnimationController.dispose();
-    _cameraController.dispose();
+    if (!_noCamera) {
+      _cameraController.dispose();
+    }
 
     super.dispose();
   }
@@ -277,6 +276,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                     children: [
                       if (!_noCamera && _cameraController.value.isInitialized)
                         CameraPreview(_cameraController),
+                      const Positioned(
+                        top: Sizes.size20,
+                        left: Sizes.size20,
+                        child: CloseButton(),
+                      ),
                       if (!_noCamera)
                         Positioned(
                           top: Sizes.size20,
