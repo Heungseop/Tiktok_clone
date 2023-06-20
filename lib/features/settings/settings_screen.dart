@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/common/widgets/darkmode_config/darkmode_config.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/breakepoints.dart';
 
@@ -48,6 +49,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                 ),
+                //원한다면 ValueListenableBuilder도 아래와 같이 사용가능 동일한 기능을 한다.
+                ValueListenableBuilder(
+                  valueListenable: darkModeConfig,
+                  builder: (context, value, child) => SwitchListTile.adaptive(
+                    title: const Text("Dark Mode"),
+                    subtitle: const Text("setting dark mode."),
+                    value: darkModeConfig.value,
+                    onChanged: (value) {
+                      darkModeConfig.value = !darkModeConfig.value;
+                      // Theme.of(context).
+                      // MaterialApp.of
+                    },
+                  ),
+                ),
+
                 // SwitchListTile.adaptive(
                 //   title: const Text("Auto Mute"),
                 //   subtitle: const Text("Videos will be muted by default."),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tiktok_clone/common/widgets/darkmode_config/darkmode_config.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/router.dart';
 
@@ -33,17 +34,31 @@ void main() async {
   runApp(const TikTokApp());
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends StatefulWidget {
   const TikTokApp({super.key});
 
+  @override
+  State<TikTokApp> createState() => _TikTokAppState();
+}
+
+class _TikTokAppState extends State<TikTokApp> {
   // This widget is the root of your application.
+
+  @override
+  void initState() {
+    super.initState();
+    darkModeConfig.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // S.load(const Locale("en"));
     const primaryColor = Color(0xffe9435a);
     return MaterialApp.router(
       routerConfig: router,
-      themeMode: ThemeMode.system,
+      themeMode: darkModeConfig.value ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       localizationsDelegates: const [
