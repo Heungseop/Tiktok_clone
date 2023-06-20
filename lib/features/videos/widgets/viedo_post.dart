@@ -33,6 +33,7 @@ class _VideoPostState extends State<VideoPost>
   // final VideoPlayerController _videoPlayerController =
   //     VideoPlayerController.network("dataSource")
   bool _isPaused = false;
+  bool _autoMute = videoConfig.autoMute;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   final _cutContentDetailCnt = 25;
   // final String _contentDetail = "#NEWBORN #BABY ";
@@ -93,6 +94,13 @@ class _VideoPostState extends State<VideoPost>
     // _animationController.addListener(() {
     //   setState(() {});
     // });
+
+    //changeNotifier를 리슨하는 방법 2
+    videoConfig.addListener(() {
+      setState(() {
+        _autoMute = videoConfig.autoMute;
+      });
+    });
   }
 
   @override
@@ -165,12 +173,6 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
-    // final videoConfig =
-    //     context.dependOnInheritedWidgetOfExactType<VideoConfig>();
-    final videoConfig = VideoConfigData.of(context);
-
-    // videoConfig.autoMute
-    print("videoConfig.autoMute : ${videoConfig.autoMute}");
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -217,9 +219,9 @@ class _VideoPostState extends State<VideoPost>
             left: 20,
             top: 20,
             child: IconButton(
-              onPressed: VideoConfigData.of(context).toggleMuted,
+              onPressed: videoConfig.toggleAutoMute,
               icon: FaIcon(
-                videoConfig.autoMute
+                _autoMute
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,

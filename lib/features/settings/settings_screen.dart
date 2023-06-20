@@ -34,14 +34,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
             alignment: Alignment.bottomRight,
             child: ListView(
               children: [
-                SwitchListTile.adaptive(
-                  title: const Text("Auto Mute"),
-                  subtitle: const Text("Videos will be muted by default."),
-                  value: VideoConfigData.of(context).autoMute,
-                  onChanged: (value) {
-                    VideoConfigData.of(context).toggleMuted();
-                  },
+                //changeNotifier를 리슨하는 방법 1
+                // ChangeNotifier 와 AnimatedBuilder를 함께 사용하라고 권장하고 있음
+                // 애니메이션만 하는게 아니라 notify에도 사용됨
+                AnimatedBuilder(
+                  animation: videoConfig,
+                  builder: (context, child) => SwitchListTile.adaptive(
+                    title: const Text("Mute video"),
+                    subtitle: const Text("Videos will be muted by default."),
+                    value: videoConfig.autoMute,
+                    onChanged: (value) {
+                      videoConfig.toggleAutoMute();
+                    },
+                  ),
                 ),
+                // SwitchListTile.adaptive(
+                //   title: const Text("Auto Mute"),
+                //   subtitle: const Text("Videos will be muted by default."),
+                //   value: VideoConfigData.of(context).autoMute,
+                //   onChanged: (value) {
+                //     VideoConfigData.of(context).toggleMuted();
+                //   },
+                // ),
                 // CupertinoSwitch(
                 //     value: _notifications, onChanged: _onNotificationsChanged),
                 // Switch(value: _notifications, onChanged: _onNotificationsChanged),
