@@ -33,7 +33,7 @@ class _VideoPostState extends State<VideoPost>
   // final VideoPlayerController _videoPlayerController =
   //     VideoPlayerController.network("dataSource")
   bool _isPaused = false;
-  bool _autoMute = videoConfig.autoMute;
+  bool _autoMute = videoConfig.value;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   final _cutContentDetailCnt = 25;
   // final String _contentDetail = "#NEWBORN #BABY ";
@@ -98,7 +98,7 @@ class _VideoPostState extends State<VideoPost>
     //changeNotifier를 리슨하는 방법 2
     videoConfig.addListener(() {
       setState(() {
-        _autoMute = videoConfig.autoMute;
+        _autoMute = videoConfig.value;
       });
     });
   }
@@ -219,7 +219,9 @@ class _VideoPostState extends State<VideoPost>
             left: 20,
             top: 20,
             child: IconButton(
-              onPressed: videoConfig.toggleAutoMute,
+              onPressed: () {
+                videoConfig.value = !videoConfig.value;
+              },
               icon: FaIcon(
                 _autoMute
                     ? FontAwesomeIcons.volumeOff
