@@ -12,6 +12,8 @@ import 'package:tiktok_clone/utils.dart';
 // 4. onDismissed 에서 삭제된 아이템을 리스트에서도 remove
 
 class ActivityScreen extends StatefulWidget {
+  static const String routeName = "activity";
+  static const String routeURL = "/activity";
   const ActivityScreen({super.key});
 
   @override
