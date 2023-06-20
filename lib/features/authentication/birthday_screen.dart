@@ -33,7 +33,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   // stateFull Widget의 state<> 안에선 context를 어디서나 참조 가능(파라미터로 안줘도 됨)
   void _onNextTap() {
     // pushReplacementNamed => 뒤로 되돌아 갈 수 없음
-    context.pushReplacementNamed(InterestsScreen.routeName);
+    // context.go와 동일
+    context.goNamed(InterestsScreen.routeName);
   }
 
   void _setTextFieldDate(DateTime date) {

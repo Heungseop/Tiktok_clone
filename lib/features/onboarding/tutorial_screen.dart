@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tiktok_clone/common/widgets/main_navigation_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 enum Direction { right, left }
 
@@ -48,12 +49,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 
   void _onEnterAppTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const MainNavigationScreen(),
-      ),
-      (route) => false,
-    );
+    context.go("/home"); // 스택에 쌓이는 것이 아니고 교체.
   }
 
   @override
@@ -134,7 +130,12 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   : CupertinoButton(
                       onPressed: _onEnterAppTap,
                       color: Theme.of(context).primaryColor,
-                      child: const Text("Enter the App!"),
+                      child: Text(
+                        "Enter the App!",
+                        style: isDarkMode(context)
+                            ? const TextStyle(color: Colors.white)
+                            : null,
+                      ),
                     ),
             ),
           ),

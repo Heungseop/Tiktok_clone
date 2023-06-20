@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
-    context.push(LoginScreen.routeName /**"/login" */);
+    context.pushNamed(LoginScreen.routeName /**"/login" */);
     // go_route패키지가 context를 확장시켜줌(push)
 
     // context.go(LoginScreen.routeName);
