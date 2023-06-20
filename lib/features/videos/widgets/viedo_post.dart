@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -33,7 +34,6 @@ class _VideoPostState extends State<VideoPost>
   // final VideoPlayerController _videoPlayerController =
   //     VideoPlayerController.network("dataSource")
   bool _isPaused = false;
-  bool _autoMute = videoConfig.value;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   final _cutContentDetailCnt = 25;
   // final String _contentDetail = "#NEWBORN #BABY ";
@@ -96,11 +96,11 @@ class _VideoPostState extends State<VideoPost>
     // });
 
     //changeNotifier를 리슨하는 방법 2
-    videoConfig.addListener(() {
-      setState(() {
-        _autoMute = videoConfig.value;
-      });
-    });
+    // videoConfig.addListener(() {
+    //   setState(() {
+    //     _autoMute = videoConfig.value;
+    //   });
+    // });
   }
 
   @override
@@ -220,10 +220,10 @@ class _VideoPostState extends State<VideoPost>
             top: 20,
             child: IconButton(
               onPressed: () {
-                videoConfig.value = !videoConfig.value;
+                context.read<videoConfig>().toggleIsMuted();
               },
               icon: FaIcon(
-                _autoMute
+                context.watch<videoConfig>().isMuted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,

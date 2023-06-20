@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/darkmode_config/darkmode_config.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/breakepoints.dart';
@@ -35,20 +36,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             alignment: Alignment.bottomRight,
             child: ListView(
               children: [
+                SwitchListTile.adaptive(
+                  title: const Text("Auto Mute"),
+                  subtitle: const Text("Videos muted by default."),
+                  value: context.watch<videoConfig>().isMuted,
+                  onChanged: (value) {
+                    context.read<videoConfig>().toggleIsMuted();
+                  },
+                ),
+
                 //changeNotifier를 리슨하는 방법 1
                 // ChangeNotifier 와 AnimatedBuilder를 함께 사용하라고 권장하고 있음
                 // 애니메이션만 하는게 아니라 notify에도 사용됨
-                AnimatedBuilder(
-                  animation: videoConfig,
-                  builder: (context, child) => SwitchListTile.adaptive(
-                    title: const Text("Mute video"),
-                    subtitle: const Text("Videos will be muted by default."),
-                    value: videoConfig.value,
-                    onChanged: (value) {
-                      videoConfig.value = !videoConfig.value;
-                    },
-                  ),
-                ),
+                // AnimatedBuilder(
+                //   animation: videoConfig,
+                //   builder: (context, child) => SwitchListTile.adaptive(
+                //     title: const Text("Mute video"),
+                //     subtitle: const Text("Videos will be muted by default."),
+                //     value: videoConfig.value,
+                //     onChanged: (value) {
+                //       videoConfig.value = !videoConfig.value;
+                //     },
+                //   ),
+                // ),
                 //원한다면 ValueListenableBuilder도 아래와 같이 사용가능 동일한 기능을 한다.
                 ValueListenableBuilder(
                   valueListenable: darkModeConfig,
