@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -81,7 +78,7 @@ class _VideoPostState extends State<VideoPost>
     // 영상소리 초기값 판단 우선순위
     // 1. 웹이면 무음
     // 2. 글로벌 셋팅값
-    _isMute = kIsWeb || context.read<PlaybackConfigViewModel>().muted;
+    _isMute = false; // kIsWeb || context.read<PlaybackConfigViewModel>().muted;
     _adjust_isMute();
 
     _initContentDetailVariables();
@@ -107,9 +104,9 @@ class _VideoPostState extends State<VideoPost>
     //   });
     // });
 
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
+    // context
+    //     .read<PlaybackConfigViewModel>()
+    //     .addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -120,7 +117,7 @@ class _VideoPostState extends State<VideoPost>
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
+    // final muted = context.read<PlaybackConfigViewModel>().muted;
 
     // if (muted) {
     //   _videoPlayerController.setVolume(0);
@@ -128,7 +125,7 @@ class _VideoPostState extends State<VideoPost>
     //   _videoPlayerController.setVolume(1);
     // }
 
-    if (muted) {
+    if (false) {
       _isMute = true;
     }
 
@@ -144,8 +141,8 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (autoplay) {
+      // final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if (true) {
         _videoPlayerController.play();
       }
     }
