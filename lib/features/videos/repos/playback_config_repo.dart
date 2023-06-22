@@ -1,13 +1,13 @@
 // repository는 데이터 유지와 데이터 읽는 것만 책임진다.
 import 'package:shared_preferences/shared_preferences.dart';
 
-class VideoPlaybackConfigRepository {
+class PlaybackConfigRepository {
   static const String _autoplay = "autoplay";
   static const String _muted = "muted";
 
   final SharedPreferences _preferences;
 
-  VideoPlaybackConfigRepository(this._preferences);
+  PlaybackConfigRepository(this._preferences);
 
   // 1. 음소거 관련 데이터를 디스크에 저장하는 메소드
   Future<void> setMuted(bool value) async {

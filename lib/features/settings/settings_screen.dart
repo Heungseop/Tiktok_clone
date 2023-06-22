@@ -3,9 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/darkmode_config/darkmode_config.dart';
-import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/breakepoints.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -37,11 +36,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: ListView(
               children: [
                 SwitchListTile.adaptive(
-                  title: const Text("Auto Mute"),
-                  subtitle: const Text("Videos muted by default."),
-                  value: context.watch<VideoConfig>().isMuted,
+                  title: const Text("Mute video"),
+                  subtitle: const Text("Video will be muted by default."),
+                  value: context.watch<PlaybackConfigViewModel>().muted,
                   onChanged: (value) {
-                    context.read<VideoConfig>().toggleIsMuted();
+                    context.read<PlaybackConfigViewModel>().setMuted(value);
+                  },
+                ),
+                SwitchListTile.adaptive(
+                  title: const Text("Auto Play"),
+                  subtitle:
+                      const Text("Video will start Playing automatically."),
+                  value: context.watch<PlaybackConfigViewModel>().autoplay,
+                  onChanged: (value) {
+                    context.read<PlaybackConfigViewModel>().setAutoPlay(value);
                   },
                 ),
 
@@ -60,14 +68,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //   ),
                 // ),
                 //원한다면 ValueListenableBuilder도 아래와 같이 사용가능 동일한 기능을 한다.
-                SwitchListTile.adaptive(
-                  title: const Text("Dark Mode"),
-                  subtitle: const Text("setting dark mode."),
-                  value: context.watch<DarkModeConfig>().isDark,
-                  onChanged: (value) {
-                    context.read<DarkModeConfig>().toggleIsDark();
-                  },
-                ),
+                // SwitchListTile.adaptive(
+                //   title: const Text("Dark Mode"),
+                //   subtitle: const Text("setting dark mode."),
+                //   value: context.watch<DarkModeConfig>().isDark,
+                //   onChanged: (value) {
+                //     context.read<DarkModeConfig>().toggleIsDark();
+                //   },
+                // ),
 
                 // SwitchListTile.adaptive(
                 //   title: const Text("Auto Mute"),

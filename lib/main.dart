@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/darkmode_config/darkmode_config.dart';
-import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tiktok_clone/features/videos/repos/playback_config_repo.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/router.dart';
 
@@ -33,7 +34,18 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const TikTokApp());
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository = PlaybackConfigRepository(preferences);
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => PlaybackConfigViewModel(repository),
+      )
+    ],
+    child: const TikTokApp(),
+  ));
 }
 
 class TikTokApp extends StatelessWidget {
@@ -44,117 +56,108 @@ class TikTokApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // S.load(const Locale("en"));
     const primaryColor = Color(0xffe9435a);
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => DarkModeConfig(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => VideoConfig(),
-        )
+    return MaterialApp.router(
+      routerConfig: router,
+      themeMode: ThemeMode.system,
+      // context.watch<DarkModeConfig>().isDark
+      //     ? ThemeMode.dark
+      //     : ThemeMode.light,
+      debugShowCheckedModeBanner: false,
+      title: 'TikTok Clone',
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        // S().delegate,
       ],
-      builder: (context, child) => MaterialApp.router(
-        routerConfig: router,
-        themeMode: context.watch<DarkModeConfig>().isDark
-            ? ThemeMode.dark
-            : ThemeMode.light,
-        debugShowCheckedModeBanner: false,
-        title: 'TikTok Clone',
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          // S().delegate,
-        ],
-        supportedLocales: const [Locale("en"), Locale("ko")],
-        // 언어 코드 확인
-        // https://api.flutter.dev/flutter/dart-ui/Locale/languageCode.html
-        // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
+      supportedLocales: const [Locale("en"), Locale("ko")],
+      // 언어 코드 확인
+      // https://api.flutter.dev/flutter/dart-ui/Locale/languageCode.html
+      // https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
 
-        // 15.9 Conclusions 추후엔 테마패키지를 사용하자.... 두줄이면 끝..
-        // theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
-        // // The Mandy red, dark theme.
-        // darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
-        theme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.light,
-          textTheme: Typography
-              .blackMountainView, // Typography > geometry (font size, weight, etc) 정보 없이 컬러와 폰트(?)만 제공
-          primaryColor: primaryColor,
-          scaffoldBackgroundColor: Colors.white,
-          bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade50),
-          textSelectionTheme: const TextSelectionThemeData(
-            // cupertino search input 의 커서컬러는 수정이 안되지만 테마에서 전체적인 커서컬러를 지정할 수 있음
-            cursorColor: primaryColor,
-            // selectionColor: primaryColor,
+      // 15.9 Conclusions 추후엔 테마패키지를 사용하자.... 두줄이면 끝..
+      // theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+      // // The Mandy red, dark theme.
+      // darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        textTheme: Typography
+            .blackMountainView, // Typography > geometry (font size, weight, etc) 정보 없이 컬러와 폰트(?)만 제공
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: Colors.white,
+        bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade50),
+        textSelectionTheme: const TextSelectionThemeData(
+          // cupertino search input 의 커서컬러는 수정이 안되지만 테마에서 전체적인 커서컬러를 지정할 수 있음
+          cursorColor: primaryColor,
+          // selectionColor: primaryColor,
+        ),
+        splashColor: Colors.transparent, // 버튼을 누르고 있으면 어두운 배경이 점점 퍼지는 효과 제거
+        // highlightColor: Colors.transparent, // 버튼을 누르고 있으면 배경이 어두워지는 효과 제거
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          surfaceTintColor: Colors.white,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
           ),
-          splashColor: Colors.transparent, // 버튼을 누르고 있으면 어두운 배경이 점점 퍼지는 효과 제거
-          // highlightColor: Colors.transparent, // 버튼을 누르고 있으면 배경이 어두워지는 효과 제거
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            surfaceTintColor: Colors.white,
-            elevation: 0,
-            titleTextStyle: TextStyle(
-              fontSize: Sizes.size16 + Sizes.size2,
-              fontWeight: FontWeight.w600,
+        ),
+        listTileTheme: const ListTileThemeData(iconColor: Colors.black),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicatorColor: Colors.black,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(
+              width: 2,
               color: Colors.black,
             ),
           ),
-          listTileTheme: const ListTileThemeData(iconColor: Colors.black),
-          tabBarTheme: TabBarTheme(
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey.shade500,
-            indicatorColor: Colors.black,
-            indicator: const UnderlineTabIndicator(
-              borderSide: BorderSide(
-                width: 2,
-                color: Colors.black,
-              ),
-            ),
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: primaryColor,
+        brightness: Brightness.dark,
+        bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade900),
+        textTheme: Typography.whiteMountainView,
+        // appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade900),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: primaryColor,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade900,
+          surfaceTintColor: Colors.grey.shade900,
+          titleTextStyle: const TextStyle(
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+          actionsIconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey.shade100,
           ),
         ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          scaffoldBackgroundColor: Colors.black,
-          primaryColor: primaryColor,
-          brightness: Brightness.dark,
-          bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade900),
-          textTheme: Typography.whiteMountainView,
-          // appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade900),
-          textSelectionTheme: const TextSelectionThemeData(
-            cursorColor: primaryColor,
-          ),
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.grey.shade900,
-            surfaceTintColor: Colors.grey.shade900,
-            titleTextStyle: const TextStyle(
-              fontSize: Sizes.size16 + Sizes.size2,
-              fontWeight: FontWeight.w600,
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
+          indicatorColor: Colors.white,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(
+              width: 2,
               color: Colors.white,
             ),
-            actionsIconTheme: IconThemeData(
-              color: Colors.grey.shade100,
-            ),
-            iconTheme: IconThemeData(
-              color: Colors.grey.shade100,
-            ),
-          ),
-          tabBarTheme: TabBarTheme(
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.grey.shade700,
-            indicatorColor: Colors.white,
-            indicator: const UnderlineTabIndicator(
-              borderSide: BorderSide(
-                width: 2,
-                color: Colors.white,
-              ),
-            ),
           ),
         ),
-        // home: const SignUpScreen(),
       ),
+      // home: const SignUpScreen(),
     );
   }
 }
