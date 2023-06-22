@@ -2,8 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -99,12 +101,27 @@ class _VideoPostState extends State<VideoPost>
     //     _autoMute = videoConfig.value;
     //   });
     // });
+
+    context
+        .read<PlaybackConfigViewModel>()
+        .addListener(_onPlaybackConfigChanged);
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
     super.dispose();
+  }
+
+  void _onPlaybackConfigChanged() {
+    if (!mounted) return;
+    final muted = context.read<PlaybackConfigViewModel>().muted;
+
+    if (muted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(1);
+    }
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
@@ -116,7 +133,10 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if (autoplay) {
+        _videoPlayerController.play();
+      }
     }
 
     // 재생중이고 화면이 가려졌을 때 동영상 정지
@@ -218,10 +238,13 @@ class _VideoPostState extends State<VideoPost>
             top: 20,
             child: IconButton(
               onPressed: () {
-                // context.read<VideoConfig>().toggleIsMuted();
+                context
+                    .read<PlaybackConfigViewModel>()
+                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
               },
-              icon: const FaIcon(
-                false
+              icon: FaIcon(
+                // watch => 값이 바뀌었을 때 notify 받는다는 뜻(read는 1회성)
+                context.watch<PlaybackConfigViewModel>().muted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
@@ -318,25 +341,25 @@ class _VideoPostState extends State<VideoPost>
               ],
             ),
           ),
-          Positioned(
-            top: 20,
-            right: 4,
-            child: GestureDetector(
-              onTap: _onMuteTap,
-              child: Container(
-                // color: Colors.red,
-                padding: const EdgeInsets.all(Sizes.size14),
-                width: Sizes.size48,
-                child: FaIcon(
-                  _isMute
-                      ? FontAwesomeIcons.volumeOff
-                      : FontAwesomeIcons.volumeHigh,
-                  color: Colors.white.withOpacity(.8),
-                  size: Sizes.size20,
-                ),
-              ),
-            ),
-          )
+          // Positioned(
+          //   top: 20,
+          //   right: 4,
+          //   child: GestureDetector(
+          //     onTap: _onMuteTap,
+          //     child: Container(
+          //       // color: Colors.red,
+          //       padding: const EdgeInsets.all(Sizes.size14),
+          //       width: Sizes.size48,
+          //       child: FaIcon(
+          //         _isMute
+          //             ? FontAwesomeIcons.volumeOff
+          //             : FontAwesomeIcons.volumeHigh,
+          //         color: Colors.white.withOpacity(.8),
+          //         size: Sizes.size20,
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
