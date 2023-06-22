@@ -43,8 +43,7 @@ class _VideoPostState extends State<VideoPost>
   bool _isContentDetailSpread = false;
 
   late final AnimationController _animationController;
-
-  bool _isMute = false;
+  late bool _isMute;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.duration ==
@@ -59,10 +58,10 @@ class _VideoPostState extends State<VideoPost>
 
     // 웹에서는 소리가 있는 동영상을 바로 재생 시킬 수 없다. (브라우저 정책)
     // 아예 에러가 나버림..
-    if (kIsWeb) {
-      await _videoPlayerController.setVolume(0);
-      _isMute = true;
-    }
+    // if (kIsWeb) {
+    //   await _videoPlayerController.setVolume(0);
+    //   _isMute = true;
+    // }
 
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
@@ -78,6 +77,12 @@ class _VideoPostState extends State<VideoPost>
   @override
   void initState() {
     super.initState();
+
+    // 영상소리 초기값 판단 우선순위
+    // 1. 웹이면 무음
+    // 2. 글로벌 셋팅값
+    _isMute = kIsWeb || context.read<PlaybackConfigViewModel>().muted;
+    _adjust_isMute();
 
     _initContentDetailVariables();
     _initVideoPlayer();
@@ -117,11 +122,17 @@ class _VideoPostState extends State<VideoPost>
     if (!mounted) return;
     final muted = context.read<PlaybackConfigViewModel>().muted;
 
+    // if (muted) {
+    //   _videoPlayerController.setVolume(0);
+    // } else {
+    //   _videoPlayerController.setVolume(1);
+    // }
+
     if (muted) {
-      _videoPlayerController.setVolume(0);
-    } else {
-      _videoPlayerController.setVolume(1);
+      _isMute = true;
     }
+
+    _adjust_isMute();
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
@@ -183,9 +194,8 @@ class _VideoPostState extends State<VideoPost>
     _onTogglePause();
   }
 
-  void _onMuteTap() async {
-    await _videoPlayerController.setVolume(_isMute ? 1 : 0);
-    _isMute = !_isMute;
+  void _adjust_isMute() async {
+    await _videoPlayerController.setVolume(_isMute ? 0 : 1);
     setState(() {});
   }
 
@@ -238,13 +248,18 @@ class _VideoPostState extends State<VideoPost>
             top: 20,
             child: IconButton(
               onPressed: () {
-                context
-                    .read<PlaybackConfigViewModel>()
-                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
+                _isMute = !_isMute;
+                _adjust_isMute();
               },
+              // onPressed: () {
+              //   context
+              //       .read<PlaybackConfigViewModel>()
+              //       .setMuted(!context.read<PlaybackConfigViewModel>().muted);
+              // },
               icon: FaIcon(
                 // watch => 값이 바뀌었을 때 notify 받는다는 뜻(read는 1회성)
-                context.watch<PlaybackConfigViewModel>().muted
+                // context.watch<PlaybackConfigViewModel>().muted
+                _isMute
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
