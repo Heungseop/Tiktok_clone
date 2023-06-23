@@ -30,7 +30,7 @@ class PlaybackConfigViewModel extends Notifier<PlaybackConfigModel> {
 
   @override
   PlaybackConfigModel build() {
-    //사용자가 보게 될, 즉 화면이 갖게 될 초기의 데이터
+    //사용자가 보게 될, 즉 화면이 갖게 될 초기의 데이터 = state의 초기값
     return PlaybackConfigModel(
       muted: _repository.isMuted(),
       autoplay: _repository.isAutoplay(),
@@ -38,6 +38,7 @@ class PlaybackConfigViewModel extends Notifier<PlaybackConfigModel> {
   }
 }
 
+//PlaybackConfigModel의 데이터 변화를 통지
 //NotifierProvider<vm, model>
 // 1. expose하고 싶은 Provider = vm
 // 2. Provider가 expose할 data = model
