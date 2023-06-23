@@ -1,25 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished; //StatefulWidget 에 선언해야 함 아래의 State 가 아닌
   final int index;
   const VideoPost(
       {super.key, required this.onVideoFinished, required this.index});
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
 // SingleTickerProviderStateMixin => 위젯이 화면에 보이는 동안에만 동작하도록 하는 ticker 제공
 // ticker가 매 프레임마다 tick을 실행하여 화면을 갱신한다.
@@ -74,11 +77,10 @@ class _VideoPostState extends State<VideoPost>
   @override
   void initState() {
     super.initState();
-
     // 영상소리 초기값 판단 우선순위
     // 1. 웹이면 무음
     // 2. 글로벌 셋팅값
-    _isMute = false; // kIsWeb || context.read<PlaybackConfigViewModel>().muted;
+    _isMute = kIsWeb || ref.read(playbackConfigProvider).muted;
     _adjust_isMute();
 
     _initContentDetailVariables();
@@ -107,6 +109,7 @@ class _VideoPostState extends State<VideoPost>
     // context
     //     .read<PlaybackConfigViewModel>()
     //     .addListener(_onPlaybackConfigChanged);
+    // _onPlaybackConfigChanged();
   }
 
   @override
@@ -116,8 +119,14 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onPlaybackConfigChanged() {
-    if (!mounted) return;
+    // if (!mounted) return;
+
+    // Provider
     // final muted = context.read<PlaybackConfigViewModel>().muted;
+
+    // Riverpod
+    // final muted = ref.read(playbackConfigProvider).muted;
+    // ref.read(playbackConfigProvider.notifier).setMuted(!muted);
 
     // if (muted) {
     //   _videoPlayerController.setVolume(0);
@@ -125,7 +134,7 @@ class _VideoPostState extends State<VideoPost>
     //   _videoPlayerController.setVolume(1);
     // }
 
-    if (false) {
+    if (ref.watch(playbackConfigProvider).muted) {
       _isMute = true;
     }
 
@@ -142,7 +151,7 @@ class _VideoPostState extends State<VideoPost>
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
       // final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (true) {
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     }
@@ -198,6 +207,10 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(playbackConfigProvider, (previous, next) {
+      _onPlaybackConfigChanged();
+    });
+
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -278,9 +291,9 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
                 Gaps.v10,
-                const Text(
-                  "우리 귀여운 지율이좀 보세요~",
-                  style: TextStyle(
+                Text(
+                  "우리 귀여운 지율이좀 보세요~[${ref.watch(playbackConfigProvider).muted}]",
+                  style: const TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
                   ),
