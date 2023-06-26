@@ -1,0 +1,14 @@
+1. cli 설치
+  - https://firebase.google.com/docs/cli?hl=ko#setup_update_cli
+  - npm설치가 깔끔하므로 npm으로 설치(npm install -g firebase-tools)
+2. firebase login
+3. 프로젝트 루트에서 dart pub global activate flutterfire_cli 실행
+4. flutterfire configure 실행
+  - create 혹은 해당 프로젝트 선택
+  - macos 스페이스바로 선택 해체 후 엔터
+5. flutter pub add firebase_core 플러그인 설치 
+* 모든 플러그인 설치 후 flutterfire configure 재실행
+6. main.dart 에 다음 소스 추가
+await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
