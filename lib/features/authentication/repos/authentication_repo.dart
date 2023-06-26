@@ -9,6 +9,12 @@ class AuthenticationRepository {
   // user가 로그인됐는지 확인할게 아래 두개가 끝
   bool get isLoggedin => user != null;
   User? get user => _firebaseAuth.currentUser;
+
+// firebase 호출
+  Future<void> signUp(String email, String password) async {
+    await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+  }
 }
 
 final authRepo = Provider(
