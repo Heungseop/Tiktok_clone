@@ -6,6 +6,8 @@ import 'package:tiktok_clone/features/videos/models/video_model.dart';
 class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
   List<VideoModel> _list = [];
 
+  // 비디오 업로드 메서드.
+  // 자동/강제로 로딩상태를 유발시킴
   void uploadVideo() async {
     state = const AsyncValue
         .loading(); // => TimelineViewModel 이 다시 loading state가 되도록 만듬.
@@ -15,10 +17,11 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     state = AsyncValue.data(_list);
   }
 
+  // build메서드는 async를 붙여 api로부터 데이터를 받아온다.
   @override
   FutureOr<List<VideoModel>> build() async {
     await Future.delayed(const Duration(seconds: 3));
-    // throw Exception("omg cat fetch");
+    // throw Exception("omg cant fetch");
     return _list;
   }
 }

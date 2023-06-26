@@ -50,6 +50,7 @@ class VideoTimeLineScreenState extends ConsumerState<VideoTimeLineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TimelineViewModel의 build에서 api를 fetch해온뒤 화면을 그린다.
     return ref.watch(timelineProvider).when(
           loading: () => const Center(
             child: CircularProgressIndicator(),
