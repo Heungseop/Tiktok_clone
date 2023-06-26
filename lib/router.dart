@@ -14,6 +14,10 @@ import 'package:flutter/widgets.dart';
 
 final routerProvider = Provider((ref) {
   // ref.read(authRepo);
+
+  // ref.watch(authState);
+  //authState에 변화가 있을 때 프로바이더 리빌드 되고 리다이렉트
+
   return GoRouter(
     initialLocation: "/home",
     redirect: (context, state) {
