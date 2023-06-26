@@ -51,16 +51,16 @@ void main() async {
   ));
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // S.load(const Locale("en"));
     const primaryColor = Color(0xffe9435a);
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       themeMode: ThemeMode.system,
       // context.watch<DarkModeConfig>().isDark
       //     ? ThemeMode.dark
