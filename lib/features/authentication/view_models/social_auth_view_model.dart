@@ -20,7 +20,6 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
       () async => await _repository.githubSignIn(),
     );
 
-    print("########### state.hasError");
     if (state.hasError) {
       showFirebaseError(context, state.error);
     } else {
