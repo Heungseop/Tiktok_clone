@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/features/users/view_models/users_vieew_model.dart';
 import 'package:tiktok_clone/utils.dart';
 
 //계정 생성 시 로딩화면을 보여주고 계정생성을 트리거 할 뿐이라 expose할 데이터가 없음.
@@ -20,13 +21,17 @@ class SignupViewModel extends AsyncNotifier<void> {
     state = const AsyncValue.loading();
 
     final form = ref.read(signUpForm);
+    final users = ref.read(usersProvider.notifier);
+
     state = await AsyncValue.guard(
-      // error state 처리해줌
-      () async => await _authRepo.signUp(
+        // error state 처리해줌
+        () async {
+      final userCredentioal = await _authRepo.emailSignUp(
         form["email"],
         form["password"],
-      ),
-    );
+      );
+      await users.craeteAccount(userCredentioal);
+    });
 
     if (state.hasError) {
       showFirebaseError(context, state.error);
