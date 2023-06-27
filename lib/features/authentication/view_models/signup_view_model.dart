@@ -30,7 +30,7 @@ class SignupViewModel extends AsyncNotifier<void> {
         form["email"],
         form["password"],
       );
-      await users.craeteAccount(userCredentioal);
+      await users.craeteProfile(userCredentioal);
     });
 
     if (state.hasError) {
