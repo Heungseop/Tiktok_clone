@@ -9,6 +9,7 @@ bool isDarkMode(BuildContext context) =>
 void showFirebaseError(BuildContext context, Object? error) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     showCloseIcon: true,
+    // duration: const Duration(seconds: 10),
     content:
         Text((error as FirebaseException).message ?? "Something wen't wrong."),
   ));

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
+import 'package:tiktok_clone/features/authentication/view_models/social_auth_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/utils.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends ConsumerWidget {
   static const routeName = "signUp";
   static const routeURL = "/";
   const SignUpScreen({super.key});
@@ -32,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // print("locale : ${Localizations.localeOf(context)}");
     return OrientationBuilder(
       builder: (context, orientation) {
@@ -82,10 +84,12 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     Gaps.v16,
                     AuthButton(
-                      // onTap: () => {},
-                      icon: const FaIcon(FontAwesomeIcons.apple),
-                      text: S.of(context).appleButton,
-                    )
+                      icon: const FaIcon(FontAwesomeIcons.github),
+                      text: "Continue with Github",
+                      onTap: (context) => ref
+                          .read(socialAuthProvider.notifier)
+                          .githubSignIn(context),
+                    ),
                   ],
                   // 가로모드를 고려해 로우로 감쌀 경우 아래 authButton이 FractionallySizedBox이기때문에 width가 지정되지 않아
                   // 에러난다 (FractionallySizedBox = 가능한 최대한의 크기 이지만 부모인 로우는 크기를 지정해주지않고 infinity이다 )
