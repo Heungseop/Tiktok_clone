@@ -67,7 +67,10 @@ class EmailScreenState extends ConsumerState<EmailScreen> {
       return;
     }
 
-    ref.read(signUpForm.notifier).state = {"email": _email};
+    ref.read(signUpForm.notifier).state = {
+      "email": _email,
+      "username": widget.username
+    };
 
     Navigator.push(
         context,

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/view_models/users_vieew_model.dart';
 import 'package:tiktok_clone/utils.dart';
 
@@ -30,7 +31,21 @@ class SignupViewModel extends AsyncNotifier<void> {
         form["email"],
         form["password"],
       );
-      await users.craeteProfile(userCredentioal);
+
+      if (userCredentioal.user == null) {
+        throw Exception("Account not created");
+      }
+
+      final profile = UserProfileModel(
+        bio: "undefined",
+        link: "undefined",
+        birthday: form["birthday"],
+        email: userCredentioal.user!.email ?? "anon@anon.com",
+        uid: userCredentioal.user!.uid,
+        name: form["username"],
+      );
+
+      await users.craeteProfile(profile);
     });
 
     if (state.hasError) {
