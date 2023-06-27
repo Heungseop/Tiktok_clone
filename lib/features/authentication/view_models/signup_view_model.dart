@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/utils.dart';
 
 //계정 생성 시 로딩화면을 보여주고 계정생성을 트리거 할 뿐이라 expose할 데이터가 없음.
 class SignupViewModel extends AsyncNotifier<void> {
@@ -12,7 +16,7 @@ class SignupViewModel extends AsyncNotifier<void> {
     _authRepo = ref.read(authRepo);
   }
 
-  Future<void> signUp() async {
+  Future<void> signUp(BuildContext context) async {
     state = const AsyncValue.loading();
 
     final form = ref.read(signUpForm);
@@ -23,6 +27,12 @@ class SignupViewModel extends AsyncNotifier<void> {
         form["password"],
       ),
     );
+
+    if (state.hasError) {
+      showFirebaseError(context, state.error);
+    } else {
+      context.goNamed(InterestsScreen.routeName);
+    }
   }
 }
 
