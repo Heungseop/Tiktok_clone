@@ -69,6 +69,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '451104750719',
     projectId: 'tiktok-clone-heungg',
     storageBucket: 'tiktok-clone-heungg.appspot.com',
+    androidClientId: '451104750719-skev21340i7k8v9uo6aaohga0l35aqs9.apps.googleusercontent.com',
     iosClientId: '451104750719-6b5ker6khdrtorbsrjls06931eqt3j1e.apps.googleusercontent.com',
     iosBundleId: 'com.huengg.tiktokClone',
   );
