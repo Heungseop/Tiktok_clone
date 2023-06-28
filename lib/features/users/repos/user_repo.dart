@@ -26,6 +26,10 @@ class UserRepository {
         .child("avatars/$fileName"); // 아직 업로드된 것은 아니고 단지 공간을 만드는 것
     await fileRef.putFile(file);
   }
+
+  Future<void> updateUser(String uid, Map<String, dynamic> data) async {
+    await _db.collection("users").doc(uid).update(data);
+  }
 }
 
 final userRepo = Provider(

@@ -37,6 +37,7 @@ class SignupViewModel extends AsyncNotifier<void> {
       }
 
       final profile = UserProfileModel(
+        hasAvatar: false,
         bio: "undefined",
         link: "undefined",
         birthday: form["birthday"],
