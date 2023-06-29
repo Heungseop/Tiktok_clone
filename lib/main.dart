@@ -121,6 +121,12 @@ class TikTokApp extends ConsumerWidget {
             ),
           ),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor:
+                MaterialStateColor.resolveWith((states) => Colors.black),
+          ),
+        ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -157,6 +163,12 @@ class TikTokApp extends ConsumerWidget {
               width: 2,
               color: Colors.white,
             ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor:
+                MaterialStateColor.resolveWith((states) => Colors.white),
           ),
         ),
       ),
