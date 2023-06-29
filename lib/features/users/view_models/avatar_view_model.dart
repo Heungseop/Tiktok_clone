@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/users/repos/user_repo.dart';
-import 'package:tiktok_clone/features/users/view_models/users_vieew_model.dart';
+import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 
 class AvatarViewModel extends AsyncNotifier<void> {
   late final UserRepository _repository;

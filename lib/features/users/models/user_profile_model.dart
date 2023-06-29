@@ -65,4 +65,9 @@ class UserProfileModel {
       hasAvatar: hasAvatar ?? this.hasAvatar,
     );
   }
+
+  @override
+  String toString() {
+    return "uid : $uid,email : $email,name : $name,bio : $bio,link : $link,birthday : $birthday,hasAvatar : $hasAvatar,";
+  }
 }

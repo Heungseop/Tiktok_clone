@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
-import 'package:tiktok_clone/features/users/view_models/users_vieew_model.dart';
+import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 import 'package:tiktok_clone/utils.dart';
 
 //계정 생성 시 로딩화면을 보여주고 계정생성을 트리거 할 뿐이라 expose할 데이터가 없음.
