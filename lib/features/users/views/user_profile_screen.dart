@@ -5,18 +5,19 @@ import 'package:tiktok_clone/constants/breakepoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
-import 'package:tiktok_clone/features/users/view_models/users_vieew_model.dart';
+import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
+import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
+import 'package:tiktok_clone/features/users/views/edit_profile_menu_screen.dart';
+import 'package:tiktok_clone/features/users/views/edit_text_screen.dart';
 import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
 import 'package:tiktok_clone/features/users/views/widgets/persistent_tab_bar.dart';
 import 'package:tiktok_clone/features/users/views/widgets/user_info_button.dart';
 import 'package:tiktok_clone/features/users/views/widgets/user_info_card.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
-  final String username;
   final String tab;
   const UserProfileScreen({
     super.key,
-    required this.username,
     required this.tab,
   });
 
@@ -31,6 +32,14 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
+
+  void _editProfile() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditProfileMenuScreen(),
       ),
     );
   }
@@ -63,6 +72,13 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           title: Text(data.name),
                           centerTitle: true,
                           actions: [
+                            IconButton(
+                              onPressed: _editProfile,
+                              icon: const FaIcon(
+                                FontAwesomeIcons.penToSquare,
+                                size: Sizes.size20,
+                              ),
+                            ),
                             IconButton(
                               onPressed: _onGearPressed,
                               icon: const FaIcon(
@@ -119,7 +135,9 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                                     .size
                                                     .width *
                                                 0.9),
-                                        child: const UserDetailBox(),
+                                        child: UserDetailBox(
+                                          user: data,
+                                        ),
                                       ),
                                       Gaps.v10,
                                     ],
@@ -139,12 +157,15 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                       ),
                                       Gaps.v14,
                                       ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                              maxWidth: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.7),
-                                          child: const UserDetailBox())
+                                        constraints: BoxConstraints(
+                                            maxWidth: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7),
+                                        child: UserDetailBox(
+                                          user: data,
+                                        ),
+                                      )
                                     ],
                                   )
                               ],
@@ -254,38 +275,59 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
 }
 
 class UserDetailBox extends StatelessWidget {
+  final UserProfileModel user;
   const UserDetailBox({
     super.key,
+    required this.user,
   });
+
+  void _onEditProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EditProfileScreen(
+          item: UserProfileTextItem.bio,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Sizes.size32,
-          ),
-          child: Text(
-            "All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look. All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look. All highilghts and where to wahtch libe matches on FIFA+ I wonder how it would look.",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              height: 1.1,
+        if (user.bio.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.size32,
             ),
+            child: Text(
+              user.bio,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                height: 1.1,
+              ),
+            ),
+          )
+        else
+          TextButton(
+            onPressed: () => _onEditProfile(context),
+            child: const Text("Edit Profile!"),
           ),
-        ),
         Gaps.v14,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            FaIcon(
-              FontAwesomeIcons.link,
-              size: Sizes.size12,
-            ),
-            Gaps.h4,
+          children: [
+            if (user.link.isNotEmpty)
+              const FaIcon(
+                FontAwesomeIcons.link,
+                size: Sizes.size12,
+              ),
+            if (user.link.isNotEmpty) Gaps.h4,
             Text(
-              "https://github.com/Heungseop",
-              style: TextStyle(
+              // "https://github.com/Heungseop",
+              user.link,
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 height: 1.1,
               ),

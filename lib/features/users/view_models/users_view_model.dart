@@ -18,6 +18,7 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     if (_authenticationRepository.isLoggedin) {
       final profile = await _usersRepository
           .findProfile(_authenticationRepository.user!.uid);
+
       if (profile != null) {
         return UserProfileModel.fromJson(profile);
       }
@@ -27,7 +28,13 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
 
   Future<void> craeteProfile(UserProfileModel profile) async {
     state = const AsyncValue.loading();
-    _usersRepository.createProfile(profile);
+    _usersRepository.createProfile(profile); // profile 생성
+    changeProfile(profile); // 로그인 유저정보 갱신
+    state = AsyncValue.data(profile);
+  }
+
+  Future<void> changeProfile(UserProfileModel profile) async {
+    state = const AsyncValue.loading();
     state = AsyncValue.data(profile);
   }
 
@@ -38,6 +45,35 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       state.value!.uid,
       {"hasAvatar": true},
     );
+  }
+
+  Future<void> updateUserProfileRepository(Map<String, dynamic> map) async {
+    await _usersRepository.updateUser(
+      state.value!.uid,
+      map,
+    );
+  }
+
+// 로그인 후 로그인 유저 정보 저장
+  void initLoginUser() async {
+    if (_authenticationRepository.user == null) {
+      return;
+    }
+    final user = _authenticationRepository.user!;
+    // changeProfile(UserProfileModel.empty());
+
+    Map<String, dynamic>? map = await _usersRepository.findProfile(user.uid);
+
+    map ??= {
+      "hasAvatar": false,
+      "bio": "",
+      "link": "",
+      "birthday": "",
+      "email": user.email ?? "",
+      "uid": user.uid,
+      "name": user.displayName ?? ""
+    };
+    changeProfile(UserProfileModel.fromJson(map));
   }
 }
 

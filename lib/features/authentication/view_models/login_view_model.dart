@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
+import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class LoginViewModel extends AsyncNotifier<void> {
@@ -23,6 +24,8 @@ class LoginViewModel extends AsyncNotifier<void> {
     if (state.hasError) {
       showFirebaseError(context, state.error);
     } else {
+      ref.read(usersProvider.notifier).initLoginUser();
+
       context.go("/home");
     }
   }
