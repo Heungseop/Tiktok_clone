@@ -1,0 +1,23 @@
+1. flutter pub add cloud_functions
+     - 이후 flutterfire configure실행
+* node.js 필요
+2. firebase init cloud_functions
+     - use an existing project
+     - project choose
+     - select typescript
+     - Eslint => no
+     - install dependencid with npm now? => yes
+3. functions/src/index.ts 작성
+    import * as functions from "firebase-functions";
+    import * as admin from "firebase-admin";
+
+    admin.initializeApp();
+
+    export const onVideoCreated = functions.firestore
+    .document("videos/{videoId}")
+    .onCreate(async (snapshot, context) => {
+        await snapshot.ref.update({ hello: "from functions" });
+    });
+
+4. firebase deploy --only functions
+
