@@ -6,5 +6,22 @@ admin.initializeApp();
 export const onVideoCreated = functions.firestore
   .document("videos/{videoId}")
   .onCreate(async (snapshot, context) => {
-    await snapshot.ref.update({ hello: "from functions" });
+    // snapshot => 생성한 document
+    const spwan = require("child-process-promise").spwan;
+    const video = snapshot.data();
+    await spwan("ffmpeg", [
+      "-i",
+      video.fileUrl,
+      "-ss",
+      "00:00:01.000",
+      "-vframs",
+      "1",
+      "-vf",
+      "scale=150:-1",
+      `/tmp/${snapshot.id}.jpg`,
+    ]);
+    const storage = admin.storage();
+    await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
+      destination: `/thumnails/${snapshot.id}.jpg`,
+    });
   });
