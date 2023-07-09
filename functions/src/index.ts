@@ -7,14 +7,14 @@ export const onVideoCreated = functions.firestore
   .document("videos/{videoId}")
   .onCreate(async (snapshot, context) => {
     // snapshot => 생성한 document
-    const spwan = require("child-process-promise").spwan;
+    const spawn = require("child-process-promise").spawn;
     const video = snapshot.data();
-    await spwan("ffmpeg", [
+    await spawn("ffmpeg", [
       "-i",
       video.fileUrl,
       "-ss",
       "00:00:01.000",
-      "-vframs",
+      "-vframes",
       "1",
       "-vf",
       "scale=150:-1",
@@ -22,6 +22,6 @@ export const onVideoCreated = functions.firestore
     ]);
     const storage = admin.storage();
     await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
-      destination: `/thumnails/${snapshot.id}.jpg`,
+      destination: `thumnails/${snapshot.id}.jpg`,
     });
   });
