@@ -71,10 +71,20 @@ class VideoTimeLineScreenState extends ConsumerState<VideoTimeLineScreen> {
                 scrollDirection: Axis.vertical,
                 itemCount: videos.length,
                 onPageChanged: _onPageChaged,
-                itemBuilder: (context, index) => VideoPost(
-                      onVideoFinished: _onVideoFinished,
-                      index: index,
-                    )),
+                itemBuilder: (context, index) {
+                  final videoData = videos[index];
+                  return VideoPost(
+                    onVideoFinished: _onVideoFinished,
+                    index: index,
+                    videoData: videoData,
+                  );
+                }
+
+                //  => VideoPost(
+                //       onVideoFinished: _onVideoFinished,
+                //       index: index,
+                //     )
+                ),
           ),
         );
   }
