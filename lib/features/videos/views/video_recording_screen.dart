@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,7 +31,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   late double minZoomLevel;
   late double currentZoomLevel;
 
-  late final bool _noCamera = false; //kDebugMode; //&& Platform.isIOS;
+  late final bool _noCamera = kDebugMode; //kDebugMode; //&& Platform.isIOS;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(

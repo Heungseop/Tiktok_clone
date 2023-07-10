@@ -160,6 +160,9 @@ class VideoPostState extends ConsumerState<VideoPost>
       if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
+      setState(() {
+        _isPaused = !ref.read(playbackConfigProvider).autoplay;
+      });
     }
 
     // 재생중이고 화면이 가려졌을 때 동영상 정지
@@ -225,13 +228,13 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
+                // : Container(
+                //     color: Colors.black,
+                //   ),
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
                   ),
-            // : Image.network(
-            //     widget.videoData.thumnailUrl,
-            //     fit: BoxFit.cover,
-            //   )),
           ),
           Positioned.fill(
             child: GestureDetector(
