@@ -41,7 +41,7 @@ export const onVideoCreated = functions.firestore
   });
 
 export const onLikedCreated = functions.firestore
-  .document("like/{likeId}")
+  .document("likes/{likeId}")
   .onCreate(async (snapshot, context) => {
     const db = admin.firestore();
     const [videoId, _] = snapshot.id.split("000");
@@ -52,7 +52,7 @@ export const onLikedCreated = functions.firestore
   });
 
 export const onLikeRemoved = functions.firestore
-  .document("like/{likeId}")
+  .document("likes/{likeId}")
   .onDelete(async (snapshot, context) => {
     const db = admin.firestore();
     const [videoId, _] = snapshot.id.split("000");
