@@ -41,25 +41,23 @@ export const onVideoCreated = functions.firestore
   });
 
 export const onLikedCreated = functions.firestore
-.document("like/{likeId}")
-.onCreate(async (snapshot, context) => {
-  const db = admin.firestore();
-  const [videoId, userId] = snapshot.id.split("000");
-  await db
-  .collection("videos")
-  .doc(videoId)
-  .update({likes : admin.firestore.FieldValue.increment(1),
-          });
-});
+  .document("like/{likeId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const [videoId, _] = snapshot.id.split("000");
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({ likes: admin.firestore.FieldValue.increment(1) });
+  });
 
 export const onLikeRemoved = functions.firestore
-.document("like/{likeId}")
-.onDelete(async (snapshot, context) => {
-  const db = admin.firestore();
-  const [videoId, userId] = snapshot.id.split("000");
-  await db
-  .collection("videos")
-  .doc(videoId)
-  .update({likes : admin.firestore.FieldValue.increment(-1),
-          });
-});
+  .document("like/{likeId}")
+  .onDelete(async (snapshot, context) => {
+    const db = admin.firestore();
+    const [videoId, _] = snapshot.id.split("000");
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({ likes: admin.firestore.FieldValue.increment(-1) });
+  });
