@@ -4,10 +4,16 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoButton extends StatelessWidget {
-  const VideoButton({super.key, required this.icon, required this.text});
+  const VideoButton({
+    super.key,
+    required this.icon,
+    required this.text,
+    this.iconColor = Colors.white,
+  });
 
   final IconData icon;
   final String text;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,7 @@ class VideoButton extends StatelessWidget {
       children: [
         FaIcon(
           icon,
-          color: Colors.white,
+          color: iconColor,
           size: Sizes.size40,
         ),
         Gaps.v5,

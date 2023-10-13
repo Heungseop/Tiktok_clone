@@ -54,6 +54,14 @@ class VideosRepository {
       await query.delete();
     }
   }
+
+  //좋아요한 video인지 확인한다.
+  Future<bool> isLikeVideo(String videoId, String userId) async {
+    // 특정아이디로 도큐먼트를 만들어 저장하고 찾는다 Id를 찾는건 빠른가봄
+    final query = _db.collection("likes").doc("${videoId}000$userId");
+    final like = await query.get();
+    return like.exists;
+  }
 }
 
 final videosRepo = Provider((ref) {

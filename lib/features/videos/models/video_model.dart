@@ -6,7 +6,7 @@ class VideoModel {
   final String thumbnailUrl;
   final String creatorUid;
   final String creator;
-  final int likes;
+  int likes;
   final int comments;
   final int createdAt;
 
