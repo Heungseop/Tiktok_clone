@@ -33,14 +33,14 @@ final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
   () => MessagesViewModel(),
 );
 
-final chatProvider = StreamProvider<List<MessageModel>>((ref) {
+final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
   final db = FirebaseFirestore.instance;
 
   return db
       .collection("chat_rooms")
       .doc("d8giyYWbKCpM9KrscF8z")
       .collection("texts")
-      .orderBy("collection")
+      .orderBy("createdAt")
       .snapshots() //stream을 리턴
       .map(
         (event) => event.docs
@@ -49,6 +49,8 @@ final chatProvider = StreamProvider<List<MessageModel>>((ref) {
                 doc.data(),
               ),
             )
+            .toList()
+            .reversed
             .toList(),
       );
 });
