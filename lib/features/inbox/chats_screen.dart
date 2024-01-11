@@ -19,7 +19,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
   final List<int> _items = [];
   final Duration _duration = const Duration(milliseconds: 200);
 
-  void _addItem() {
+  void _addItem() async {
+    await showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent, // transparent 를 줌으로써 스캐폴드가 배경이 됨
+      context: context,
+      builder: (context) => const VideoComments(),
+    );
+
     if (_key.currentState != null) {
       _key.currentState!.insertItem(_items.length, duration: _duration);
       _items.add(_items.length);
