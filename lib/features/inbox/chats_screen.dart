@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
+import 'package:tiktok_clone/features/inbox/widgets/create_a_new_chat_screen.dart';
 
 class ChatsScreen extends StatefulWidget {
   static const routeName = "chats";
@@ -20,17 +21,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
   final Duration _duration = const Duration(milliseconds: 200);
 
   void _addItem() async {
+    print("additem");
     await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent, // transparent 를 줌으로써 스캐폴드가 배경이 됨
       context: context,
-      builder: (context) => const VideoComments(),
+      builder: (context) => const CreateANewChatScreen(),
     );
 
-    if (_key.currentState != null) {
-      _key.currentState!.insertItem(_items.length, duration: _duration);
-      _items.add(_items.length);
-    }
+    // if (_key.currentState != null) {
+    //   _key.currentState!.insertItem(_items.length, duration: _duration);
+    //   _items.add(_items.length);
+    // }
   }
 
   void _deleteItem(int index) {
