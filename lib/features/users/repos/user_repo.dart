@@ -18,8 +18,9 @@ class UserRepository {
   Future<Map<String, dynamic>?> findProfile(String uid) async {
     final doc = await _db.collection("users").doc(uid).get();
     return doc.data();
-  } // update
+  }
 
+  // update
   Future<void> uploadAvatar(File file, String fileName) async {
     final fileRef = _storage
         .ref()
@@ -29,6 +30,11 @@ class UserRepository {
 
   Future<void> updateUser(String uid, Map<String, dynamic> data) async {
     await _db.collection("users").doc(uid).update(data);
+  }
+
+  // get
+  Future<QuerySnapshot<Map<String, dynamic>>?> listAllUsers() async {
+    return _db.collection("users").orderBy("email").get();
   }
 }
 

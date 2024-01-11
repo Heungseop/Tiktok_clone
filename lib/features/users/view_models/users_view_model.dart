@@ -75,6 +75,19 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     };
     changeProfile(UserProfileModel.fromJson(map));
   }
+
+  Future<List<UserProfileModel>> fetchAllUsers() async {
+    print("users view model fetchAllUsers");
+    final result = await _usersRepository.listAllUsers();
+    print("users view model fetchAllUsers result : $result");
+    final users = result!.docs.map(
+      (doc) => UserProfileModel.fromJson(doc.data()),
+    );
+    print(
+        "users view model fetchAllUsers() users.toList() : ${users.toList().toString()}");
+
+    return users.toList();
+  }
 }
 
 final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(
