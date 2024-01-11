@@ -142,7 +142,7 @@ class S {
     final String valueString = valueNumberFormat.format(value);
 
     return Intl.message(
-      '$valueString',
+      valueString,
       name: 'likeCount',
       desc: 'Number value.',
       args: [valueString],
@@ -157,7 +157,7 @@ class S {
     final String valueString = valueNumberFormat.format(value);
 
     return Intl.message(
-      '$valueString',
+      valueString,
       name: 'commentCount',
       desc: 'Number value.',
       args: [valueString],

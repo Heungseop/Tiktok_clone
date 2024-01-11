@@ -5,16 +5,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/inbox/models/message.dart';
 import 'package:tiktok_clone/features/inbox/repos/messages_repo.dart';
+// import 'package:tiktok_clone/features/users/repos/user_repo.dart';
 
 class MessagesViewModel extends AsyncNotifier<void> {
+  // late final UserRepository _usersRepository;
   late final MessagesRepo _repo;
 
   @override
   FutureOr<void> build() {
+    // _usersRepository = ref.read(userRepo);
     _repo = ref.read(messagesRepo);
   }
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, String roomId) async {
     final user = ref.read(authRepo).user;
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -22,9 +25,17 @@ class MessagesViewModel extends AsyncNotifier<void> {
         text: text,
         userId: user!.uid,
         createdAt: DateTime.now().millisecondsSinceEpoch,
+        roomId: roomId,
       );
 
       _repo.sendMessage(message);
+    });
+  }
+
+  Future<void> deleteMessage(MessageModel message) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      _repo.deleteMessage(message);
     });
   }
 }
@@ -33,12 +44,15 @@ final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
   () => MessagesViewModel(),
 );
 
-final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
+final chatProvider = StreamProvider.autoDispose
+    .family<List<MessageModel>, String>((ref, roomId) {
   final db = FirebaseFirestore.instance;
+
+  print("chatProvider roomId : $roomId");
 
   return db
       .collection("chat_rooms")
-      .doc("d8giyYWbKCpM9KrscF8z")
+      .doc(roomId)
       .collection("texts")
       .orderBy("createdAt")
       .snapshots() //stream을 리턴
