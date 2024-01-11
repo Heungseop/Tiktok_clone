@@ -45,6 +45,7 @@ class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
             children: [
               TextFormField(
                 decoration: const InputDecoration(hintText: "Email"),
+                initialValue: "test@a.com",
                 validator: (value) {
                   return null;
 
@@ -57,6 +58,7 @@ class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
               Gaps.v16,
               TextFormField(
                 decoration: const InputDecoration(hintText: "Password"),
+                initialValue: "1q2w3e4r5t!",
                 validator: (value) {
                   return null;
 
