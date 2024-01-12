@@ -174,54 +174,35 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
                             left: Sizes.size16,
                             right: Sizes.size16,
                           ),
-                          separatorBuilder: (context, index) => Gaps.v20,
+                          separatorBuilder: (context, index) => Gaps.v1,
                           itemCount:
                               snapshot.data == null ? 0 : snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            return GestureDetector(
+                            return ListTile(
                               onTap: () => _userTap(index),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 18,
-                                    backgroundColor:
-                                        isDark ? Colors.grey.shade800 : null,
-                                    child: Text("H$index"),
-                                  ),
-                                  Gaps.h10,
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () => _userTap(index),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            snapshot.data![index].name,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: Sizes.size14,
-                                              color: Colors.grey.shade500,
-                                            ),
-                                          ),
-                                          Gaps.v3,
-                                          Text(snapshot.data![index].email)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Gaps.h10,
-                                  FaIcon(
-                                    selected.contains(index)
-                                        ? FontAwesomeIcons.solidCircleCheck
-                                        : FontAwesomeIcons.circleCheck,
-                                    size: Sizes.size20,
-                                    color: selected.contains(index)
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.grey.shade500,
-                                  ),
-                                ],
+                              leading: CircleAvatar(
+                                radius: 18,
+                                backgroundColor:
+                                    isDark ? Colors.grey.shade800 : null,
+                                child: Text("H$index"),
+                              ),
+                              title: Text(
+                                snapshot.data![index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Sizes.size14,
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
+                              subtitle: Text(snapshot.data![index].email),
+                              trailing: FaIcon(
+                                selected.contains(index)
+                                    ? FontAwesomeIcons.solidCircleCheck
+                                    : FontAwesomeIcons.circleCheck,
+                                size: Sizes.size20,
+                                color: selected.contains(index)
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.grey.shade500,
                               ),
                             );
                           },
