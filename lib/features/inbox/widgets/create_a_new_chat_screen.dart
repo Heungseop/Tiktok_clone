@@ -190,30 +190,37 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
                         itemCount:
                             snapshot.data == null ? 0 : snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          UserProfileModel seletedUser = snapshot.data![index];
+                          UserProfileModel user = snapshot.data![index];
                           return ListTile(
-                            onTap: () => _userTap(seletedUser),
-                            leading: CircleAvatar(
-                              radius: 18,
-                              backgroundColor:
-                                  isDark ? Colors.grey.shade800 : null,
-                              child: Text("H$index"),
+                            onTap: () => _userTap(user),
+                            leading: Avatar(
+                              uid: user.uid,
+                              name: user.name,
+                              hasAvatar: user.hasAvatar,
+                              isEditable: false,
+                              size: Sizes.size24,
                             ),
+                            // CircleAvatar(
+                            //   radius: 18,
+                            //   backgroundColor:
+                            //       isDark ? Colors.grey.shade800 : null,
+                            //   child: Text(user.name),
+                            // ),
                             title: Text(
-                              seletedUser.name,
+                              user.name,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Sizes.size14,
                                 color: Colors.grey.shade500,
                               ),
                             ),
-                            subtitle: Text(seletedUser.email),
+                            subtitle: Text(user.email),
                             trailing: FaIcon(
-                              selected.contains(seletedUser)
+                              selected.contains(user)
                                   ? FontAwesomeIcons.solidCircleCheck
                                   : FontAwesomeIcons.circleCheck,
                               size: Sizes.size20,
-                              color: selected.contains(seletedUser)
+                              color: selected.contains(user)
                                   ? Theme.of(context).primaryColor
                                   : Colors.grey.shade500,
                             ),
@@ -248,25 +255,50 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: Sizes.size10),
-                              child: Avatar(
-                                uid: user.uid,
-                                name: user.name,
-                                hasAvatar: user.hasAvatar,
-                                isEditable: false,
-                                size: Sizes.size32,
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned(
+                                    child: Avatar(
+                                      uid: user.uid,
+                                      name: user.name,
+                                      hasAvatar: user.hasAvatar,
+                                      isEditable: false,
+                                      size: Sizes.size32,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: -5,
+                                    top: 0,
+                                    child: Container(
+                                      padding:
+                                          const EdgeInsets.all(Sizes.size12),
+                                      // height: Sizes.size60,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(Sizes.size20),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: -3,
+                                    top: 1.5,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        selected.remove(user);
+                                        setState(() {});
+                                      },
+                                      child: FaIcon(
+                                        FontAwesomeIcons.solidCircleXmark,
+                                        color: Colors.grey.shade600,
+                                        size: Sizes.size20,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-
-                              // CircleAvatar(
-                              //   radius: Sizes.size20,
-                              //   // foregroundImage:
-                              //   //     user.hasAvatar ? user.bio : null,
-                              //   backgroundColor:
-                              //       isDark ? Colors.grey.shade800 : null,
-                              //   child: Text(
-                              //     user.name,
-                              //     textScaleFactor: 0.7,
-                              //   ),
-                              // ),
                             ),
                         ],
                       ),
