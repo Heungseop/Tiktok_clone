@@ -14,6 +14,16 @@ class MessagesRepo {
           message.toJson(),
         );
   }
+
+  Future<String> createChatRoom(List uidlist) async {
+    String roomId = "";
+    await _db.collection("chat_rooms").add({"uidlist": uidlist}).then((docRef) {
+      // print("Document written with ID: ${docRef.id}");
+      roomId = docRef.id;
+    }).catchError((error) => print("Error adding document: $error"));
+
+    return roomId;
+  }
 }
 
 final messagesRepo = Provider(

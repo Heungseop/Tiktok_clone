@@ -27,6 +27,19 @@ class MessagesViewModel extends AsyncNotifier<void> {
       _repo.sendMessage(message);
     });
   }
+
+  Future<String> createChatRoom(List<String> uidlist) async {
+    final user = ref.read(authRepo).user;
+    String roomId = "";
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      uidlist.add(user!.uid);
+      _repo.createChatRoom(uidlist);
+    });
+
+    return roomId;
+  }
 }
 
 final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(

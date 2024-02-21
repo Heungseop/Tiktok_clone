@@ -5,6 +5,7 @@ import 'package:tiktok_clone/constants/breakepoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/main_button.dart';
+import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart';
 import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
@@ -71,7 +72,17 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
       selected.remove(user);
     }
     setState(() {});
-    print("2_userTap selected : $selected");
+  }
+
+  void createNewChat() async {
+    dynamic d = await ref
+        .read(messagesProvider.notifier)
+        .createChatRoom(selected.map((e) => e.uid).toList());
+
+    // context.pushNamed(
+    //   ChatDetailScreen.routeName,
+    //   params: {"chatId": "$index"},
+    // );
   }
 
   @override
@@ -303,10 +314,11 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
                         ],
                       ),
                     ),
-                    const Padding(
-                        padding: EdgeInsets.all(Sizes.size18),
+                    Padding(
+                        padding: const EdgeInsets.all(Sizes.size18),
                         child: MainButton(
                           text: "Chat",
+                          onTap: (p0) => createNewChat(),
                         )),
                   ],
                 ),
