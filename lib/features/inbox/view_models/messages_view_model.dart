@@ -14,7 +14,7 @@ class MessagesViewModel extends AsyncNotifier<void> {
     _repo = ref.read(messagesRepo);
   }
 
-  Future<void> sendMessage(String text) async {
+  Future<void> sendMessage(String text, String roomId) async {
     final user = ref.read(authRepo).user;
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -22,6 +22,7 @@ class MessagesViewModel extends AsyncNotifier<void> {
         text: text,
         userId: user!.uid,
         createdAt: DateTime.now().millisecondsSinceEpoch,
+        roomId: roomId,
       );
 
       _repo.sendMessage(message);
@@ -35,7 +36,8 @@ class MessagesViewModel extends AsyncNotifier<void> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       uidlist.add(user!.uid);
-      _repo.createChatRoom(uidlist);
+      roomId = await _repo.createChatRoom(uidlist);
+      print("msg vm createChatRoom rommid : $roomId");
     });
 
     return roomId;
@@ -46,12 +48,15 @@ final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
   () => MessagesViewModel(),
 );
 
-final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
+final chatProvider = StreamProvider.autoDispose
+    .family<List<MessageModel>, String>((ref, roomId) {
   final db = FirebaseFirestore.instance;
+
+  print("chatProvider roomId : $roomId");
 
   return db
       .collection("chat_rooms")
-      .doc("d8giyYWbKCpM9KrscF8z")
+      .doc(roomId)
       .collection("texts")
       .orderBy("createdAt")
       .snapshots() //stream을 리턴

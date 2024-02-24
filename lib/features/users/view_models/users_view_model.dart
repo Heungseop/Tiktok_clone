@@ -88,6 +88,17 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
 
     return users.toList();
   }
+
+  Future<UserProfileModel> findProfile(String uid) async {
+    print("users view model findProfile");
+
+    final profile = await _usersRepository.findProfile(uid);
+
+    if (profile != null) {
+      return UserProfileModel.fromJson(profile);
+    }
+    return UserProfileModel.empty();
+  }
 }
 
 final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(

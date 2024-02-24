@@ -36,6 +36,18 @@ class UserRepository {
   Future<QuerySnapshot<Map<String, dynamic>>?> listAllUsers() async {
     return _db.collection("users").orderBy("email").get();
   }
+
+  // Future<void> addUserChatRoomList(String uid, String roomId) async {
+  //   final user = await _db.collection("users").doc(uid).get();
+
+  //   Map<String, dynamic>? map = user.data();
+  //   if (map != null) {
+  //     UserProfileModel profile = UserProfileModel.fromJson(map);
+  //     profile
+  //   }
+
+  //   // q.set({"chatRoomList" : });
+  // }
 }
 
 final userRepo = Provider(

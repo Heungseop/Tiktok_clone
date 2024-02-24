@@ -8,7 +8,7 @@ class MessagesRepo {
   Future<void> sendMessage(MessageModel message) async {
     await _db
         .collection("chat_rooms")
-        .doc("d8giyYWbKCpM9KrscF8z")
+        .doc(message.roomId)
         .collection("texts")
         .add(
           message.toJson(),
@@ -20,6 +20,7 @@ class MessagesRepo {
     await _db.collection("chat_rooms").add({"uidlist": uidlist}).then((docRef) {
       // print("Document written with ID: ${docRef.id}");
       roomId = docRef.id;
+      print("msg repo createChatRoom rommid : $roomId");
     }).catchError((error) => print("Error adding document: $error"));
 
     return roomId;

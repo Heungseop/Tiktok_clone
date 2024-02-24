@@ -21,7 +21,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
   final Duration _duration = const Duration(milliseconds: 200);
 
   void _addItem() async {
-    print("additem");
     await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent, // transparent 를 줌으로써 스캐폴드가 배경이 됨

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/breakepoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/main_button.dart';
+import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
 import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart';
 import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
@@ -19,53 +21,21 @@ class CreateANewChatScreen extends ConsumerStatefulWidget {
 }
 
 class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
-  bool _isWriting = false;
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
   late final Future<List<UserProfileModel>> _users =
       ref.watch(usersProvider.notifier).fetchAllUsers();
   List<UserProfileModel> selected = List.empty(growable: true);
 
-  // void _fetchUsers() {
-  //   _users = ref.watch(usersProvider.notifier).fetchAllUsers();
-  //   print("_fetchUsers users : $_users");
-  // }
-
   void _onClossePressed() {
     Navigator.of(context).pop();
   }
-
-  void _stopWriting() {
-    print("_stopWriting");
-    FocusScope.of(context).unfocus();
-    setState(() {
-      _isWriting = false;
-    });
-  }
-
-  // void _onStartWriting() {
-  //   setState(() {
-  //     _isWriting = true;
-  //   });
-  // }
 
   void _onSearchFieldReset() {
     _textEditingController.clear();
   }
 
   void _userTap(UserProfileModel user) {
-    print("_userTap user : $user");
-    print("_userTap selected : $selected");
-    if (selected.isEmpty) {
-      // showBottomSheet(
-
-      //   // isScrollControlled: true,
-      //   // backgroundColor: Colors.transparent, // transparent 를 줌으로써 스캐폴드가 배경이 됨
-      //   context: context,
-      //   builder: (context) => const selectedChatUsersScreen(),
-      // );
-    }
-
     if (!selected.contains(user)) {
       selected.add(user);
     } else {
@@ -75,14 +45,16 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
   }
 
   void createNewChat() async {
-    dynamic d = await ref
+    String roomId = await ref
         .read(messagesProvider.notifier)
         .createChatRoom(selected.map((e) => e.uid).toList());
 
-    // context.pushNamed(
-    //   ChatDetailScreen.routeName,
-    //   params: {"chatId": "$index"},
-    // );
+    Navigator.of(context).pop();
+
+    context.pushNamed(
+      ChatDetailScreen.routeName,
+      params: {"roomId": roomId},
+    );
   }
 
   @override

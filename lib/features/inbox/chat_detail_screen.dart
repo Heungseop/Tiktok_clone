@@ -8,11 +8,11 @@ import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart
 
 class ChatDetailScreen extends ConsumerStatefulWidget {
   static const String routeName = "chatDetail";
-  static const String routeURL = ":chatId";
-  final String chatId;
+  static const String routeURL = ":roomId";
+  final String roomId;
   // /chats/:id
 
-  const ChatDetailScreen({super.key, required this.chatId});
+  const ChatDetailScreen({super.key, required this.roomId});
 
   @override
   ConsumerState<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -26,7 +26,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     if (text == "") {
       return;
     }
-    ref.read(messagesProvider.notifier).sendMessage(text);
+    ref.read(messagesProvider.notifier).sendMessage(text, widget.roomId);
 
     _editingController.text = "";
   }
@@ -71,7 +71,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ],
           ),
           title: Text(
-            "Heung ${widget.chatId}",
+            "Heung ${widget.roomId}",
             style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
@@ -97,7 +97,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ),
       body: Stack(
         children: [
-          ref.watch(chatProvider).when(
+          ref.watch(chatProvider(widget.roomId)).when(
                 data: (data) {
                   return ListView.separated(
                     reverse: true,
