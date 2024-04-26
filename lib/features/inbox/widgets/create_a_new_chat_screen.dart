@@ -50,6 +50,8 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
         .createChatRoom(selected.map((e) => e.uid).toList());
 
     Navigator.of(context).pop();
+print("createNewChat roomId : $roomId");
+    ref.watch(usersProvider.notifier).addChatRoomList(roomId);
 
     context.pushNamed(
       ChatDetailScreen.routeName,

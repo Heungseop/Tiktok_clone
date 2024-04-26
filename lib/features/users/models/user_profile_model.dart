@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserProfileModel {
   final String uid;
   final String email;
@@ -6,6 +8,7 @@ class UserProfileModel {
   final String link;
   final String birthday;
   final bool hasAvatar;
+  // List chatRoomList = [];
 
   UserProfileModel({
     required this.uid,
@@ -14,7 +17,8 @@ class UserProfileModel {
     required this.bio,
     required this.link,
     required this.birthday,
-    required this.hasAvatar,
+    required this.hasAvatar
+    // chatRoomList
   });
 
   UserProfileModel.empty()
@@ -33,7 +37,9 @@ class UserProfileModel {
         bio = json["bio"],
         link = json["link"],
         birthday = json["birthday"],
-        hasAvatar = json["hasAvatar"] ?? false;
+        hasAvatar = json["hasAvatar"] ?? false
+        //chatRoomList = List.from(json["chatRoomList"] ?? [])
+        ;
 
   Map<String, String> toJson() {
     return {
@@ -43,6 +49,7 @@ class UserProfileModel {
       "bio": bio,
       "link": link,
       "birthday": birthday,
+      // "chatRoomList": chatRoomList.toString(),
     };
   }
 
@@ -54,6 +61,7 @@ class UserProfileModel {
     String? link,
     String? birthday,
     bool? hasAvatar,
+    // List? chatRoomList,
   }) {
     return UserProfileModel(
       uid: uid ?? this.uid,
@@ -63,11 +71,12 @@ class UserProfileModel {
       link: link ?? this.link,
       birthday: birthday ?? this.birthday,
       hasAvatar: hasAvatar ?? this.hasAvatar,
+      // chatRoomList: chatRoomList ?? this.chatRoomList,
     );
   }
 
   @override
   String toString() {
-    return "uid : $uid,email : $email,name : $name,bio : $bio,link : $link,birthday : $birthday,hasAvatar : $hasAvatar,";
+    return "uid : $uid,email : $email,name : $name,bio : $bio,link : $link,birthday : $birthday,hasAvatar : $hasAvatar";
   }
 }

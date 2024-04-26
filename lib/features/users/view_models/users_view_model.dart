@@ -54,6 +54,14 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     );
   }
 
+  Future<void> addChatRoomList(String roomId) async {
+    print("@@@@@ addChatRoomList in users_view_model");
+    await _usersRepository.addChatRoomList(
+      state.value!.uid,
+      roomId,
+    );
+  }
+
 // 로그인 후 로그인 유저 정보 저장
   void initLoginUser() async {
     if (_authenticationRepository.user == null) {
@@ -80,8 +88,13 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     print("users view model fetchAllUsers");
     final result = await _usersRepository.listAllUsers();
     print("users view model fetchAllUsers result : $result");
+    print("users view model fetchAllUsers result!.docs : ${result!.docs}");
     final users = result!.docs.map(
-      (doc) => UserProfileModel.fromJson(doc.data()),
+      (doc) {
+        print("######## doc : $doc");
+        return UserProfileModel.fromJson(doc.data());
+      }
+      
     );
     print(
         "users view model fetchAllUsers() users.toList() : ${users.toList().toString()}");
