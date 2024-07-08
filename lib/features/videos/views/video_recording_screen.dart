@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   late double minZoomLevel;
   late double currentZoomLevel;
 
-  late final bool _noCamera = kDebugMode; //kDebugMode; //&& Platform.isIOS;
+  late final bool _noCamera = Platform.isIOS; //kDebugMode; //kDebugMode; //&& Platform.isIOS;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -89,6 +91,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     // print("maxZoomLevel  : $maxZoomLevel");
     // print("minZoomLevel  : $minZoomLevel");
+    print("### initCamera _cameraController.value.isInitialized : $_cameraController.value.isInitialized");
 
     setState(() {});
   }
@@ -240,6 +243,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   Widget build(BuildContext context) {
     // _hasPermission = false;
     print("### build _hasPermission : $_hasPermission");
+    print("### build _noCamera : $_noCamera");
+    
     return Scaffold(
         // backgroundColor: Colors.black,
         body: SafeArea(

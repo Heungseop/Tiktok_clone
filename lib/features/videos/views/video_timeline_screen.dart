@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/view_models/timeline_view_model.dart';
 import 'package:tiktok_clone/features/videos/widgets/viedo_post.dart';
 
@@ -46,12 +47,14 @@ class VideoTimeLineScreenState extends ConsumerState<VideoTimeLineScreen> {
 
 // refreshIndicator -> future리턴해야 함
   Future<void> _onRefresh() {
+    print("@@@@ video time line Screen _onRefresh");
     return ref.watch(timelineProvider.notifier).refresh();
   }
 
   @override
   Widget build(BuildContext context) {
     // TimelineViewModel의 build에서 api를 fetch해온뒤 화면을 그린다.
+    print("@@@@ video time line Screen build!");
     return ref.watch(timelineProvider).when(
           loading: () => const Center(
             child: CircularProgressIndicator(),
@@ -69,7 +72,7 @@ class VideoTimeLineScreenState extends ConsumerState<VideoTimeLineScreen> {
               displacement: 50,
               // edgeOffset: 21,
               color: Theme.of(context).primaryColor,
-              child: PageView.builder(
+              child: 0 < _itemCount ? PageView.builder(
                   controller: _pageController,
                   scrollDirection: Axis.vertical,
                   itemCount: videos.length,
@@ -87,7 +90,7 @@ class VideoTimeLineScreenState extends ConsumerState<VideoTimeLineScreen> {
                   //       onVideoFinished: _onVideoFinished,
                   //       index: index,
                   //     )
-                  ),
+                  ) : Center(child: Text("No Video Posted", style: TextStyle(color: Colors.white, fontSize: Sizes.size18,),),),
             );
           },
         );
