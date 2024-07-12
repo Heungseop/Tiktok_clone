@@ -36,10 +36,10 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   // final VideoPlayerController _videoPlayerController =
   //     VideoPlayerController.asset("assets/videos/jiwoo.mov");
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/jiyul.mov");
   // final VideoPlayerController _videoPlayerController =
-  //     VideoPlayerController.network("dataSource")
+  //     VideoPlayerController.asset("assets/videos/jiyul.mov");
+  late final VideoPlayerController _videoPlayerController =
+      VideoPlayerController.network(widget.videoData.fileUrl);
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   final _cutContentDetailCnt = 25;
