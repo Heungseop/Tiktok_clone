@@ -5,12 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/inbox/models/message.dart';
 import 'package:tiktok_clone/features/inbox/repos/messages_repo.dart';
+import 'package:tiktok_clone/features/users/repos/user_repo.dart';
 
 class MessagesViewModel extends AsyncNotifier<void> {
+  late final UserRepository _usersRepository;
   late final MessagesRepo _repo;
 
   @override
   FutureOr<void> build() {
+    _usersRepository = ref.read(userRepo);
     _repo = ref.read(messagesRepo);
   }
 
@@ -37,8 +40,8 @@ class MessagesViewModel extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       uidlist.add(user!.uid);
       roomId = await _repo.createChatRoom(uidlist);
-      print("msg vm createChatRoom rommid : $roomId");
     });
+    await _usersRepository.addUserChatRoomList(user!.uid, roomId);
 
     return roomId;
   }

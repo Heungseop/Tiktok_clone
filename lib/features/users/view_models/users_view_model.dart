@@ -99,6 +99,12 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     }
     return UserProfileModel.empty();
   }
+
+  // void addChatRoomListForUser(String roomId) async {
+  //   print("@@@@ [uservm]addChatRoomListForUser")
+  //   await _usersRepository.addUserChatRoomList(
+  //       _authenticationRepository.user!.uid, roomId);
+  // }
 }
 
 final usersProvider = AsyncNotifierProvider<UsersViewModel, UserProfileModel>(

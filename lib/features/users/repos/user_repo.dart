@@ -37,17 +37,16 @@ class UserRepository {
     return _db.collection("users").orderBy("email").get();
   }
 
-  // Future<void> addUserChatRoomList(String uid, String roomId) async {
-  //   final user = await _db.collection("users").doc(uid).get();
-
-  //   Map<String, dynamic>? map = user.data();
-  //   if (map != null) {
-  //     UserProfileModel profile = UserProfileModel.fromJson(map);
-  //     profile
-  //   }
-
-  //   // q.set({"chatRoomList" : });
-  // }
+  Future<void> addUserChatRoomList(String uid, String roomId) async {
+    print(
+        "@@@@ [user repo]addUserChatRoomList uid : [$uid], roomId : [$roomId]");
+    await _db
+        .collection("users")
+        .doc(uid)
+        .collection("chat_room_list")
+        .doc(roomId)
+        .set({roomId: roomId});
+  }
 }
 
 final userRepo = Provider(
