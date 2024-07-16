@@ -41,7 +41,7 @@ class MessagesViewModel extends AsyncNotifier<void> {
       uidlist.add(user!.uid);
       roomId = await _repo.createChatRoom(uidlist);
     });
-    await _usersRepository.addUserChatRoomList(user!.uid, roomId);
+    await _usersRepository.addUserChatRoomList(roomId, uidlist);
 
     return roomId;
   }

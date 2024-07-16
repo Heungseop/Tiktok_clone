@@ -37,15 +37,15 @@ class UserRepository {
     return _db.collection("users").orderBy("email").get();
   }
 
-  Future<void> addUserChatRoomList(String uid, String roomId) async {
-    print(
-        "@@@@ [user repo]addUserChatRoomList uid : [$uid], roomId : [$roomId]");
-    await _db
-        .collection("users")
-        .doc(uid)
-        .collection("chat_room_list")
-        .doc(roomId)
-        .set({roomId: roomId});
+  Future<void> addUserChatRoomList(String roomId, List<String> uidlist) async {
+    for (String uid in uidlist) {
+      await _db
+          .collection("users")
+          .doc(uid)
+          .collection("chat_room_list")
+          .doc(roomId)
+          .set({"roomId": roomId, "uidlist": uidlist});
+    }
   }
 }
 
