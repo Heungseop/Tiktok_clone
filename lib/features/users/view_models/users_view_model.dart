@@ -77,16 +77,19 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
   }
 
   Future<List<UserProfileModel>> fetchAllUsers() async {
-    print("users view model fetchAllUsers");
     final result = await _usersRepository.listAllUsers();
-    print("users view model fetchAllUsers result : $result");
     final users = result!.docs.map(
       (doc) => UserProfileModel.fromJson(doc.data()),
     );
-    print(
-        "users view model fetchAllUsers() users.toList() : ${users.toList().toString()}");
 
     return users.toList();
+  }
+
+  Future<List<UserProfileModel>> fetchAllUsersNotMe() async {
+    List<UserProfileModel> list = await fetchAllUsers();
+
+    list.removeWhere(((element) => element.uid == state.value!.uid));
+    return list;
   }
 
   Future<UserProfileModel> findProfile(String uid) async {

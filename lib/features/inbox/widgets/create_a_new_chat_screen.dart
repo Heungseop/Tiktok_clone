@@ -24,7 +24,8 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
   late final Future<List<UserProfileModel>> _users =
-      ref.watch(usersProvider.notifier).fetchAllUsers();
+      ref.watch(usersProvider.notifier).fetchAllUsersNotMe();
+
   List<UserProfileModel> selected = List.empty(growable: true);
 
   void _onClossePressed() {
