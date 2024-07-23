@@ -146,8 +146,8 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 if (deviceWidth >= Breakpoints.md)
                                   Column(
                                     children: [
-                                      Row(
-                                        children: const [
+                                      const Row(
+                                        children: [
                                           Gaps.h14,
                                           // Column(children: [],),
                                           FolllowerCountBox(),
@@ -198,16 +198,17 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                             itemBuilder: (context, index) {
                               return Stack(
                                 children: [
-                                  AspectRatio(
-                                    aspectRatio: 9 / 14,
-                                    child: FadeInImage.assetNetwork(
-                                        fit: BoxFit.cover,
-                                        placeholder:
-                                            "assets/images/IMG_4793.jpg",
-                                        image:
-                                          // "https://source.unsplash.com/random/?${index + 1}"),
-                                            "https://scontent.cdninstagram.com/v/t51.29350-15/448166430_1531609421079811_8124474133834986911_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyLmYyOTM1MCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=107&_nc_ohc=ju91ujnjHsgQ7kNvgFW1vzB&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzM4NzcyODM1NjYyNzIwMDAwNg%3D%3D.2-ccb7-5&oh=00_AYBmNbIo0asRXOQtUJbkNvMmdbW5jBswB_qgutuaVZy30g&oe=66914D1A&_nc_sid=10d13b"),
-                                  ),
+                                  const AspectRatio(
+                                      aspectRatio: 9 / 14, child: null
+                                      // FadeInImage.assetNetwork(
+                                      //   fit: BoxFit.cover,
+                                      //   placeholder: "assets/images/IMG_4793.jpg",
+                                      //   image:
+                                      //       // "https://source.unsplash.com/random/?${index + 1}"),
+                                      //       // "https://scontent.cdninstagram.com/v/t51.29350-15/448166430_1531609421079811_8124474133834986911_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyLmYyOTM1MCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=107&_nc_ohc=ju91ujnjHsgQ7kNvgFW1vzB&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzM4NzcyODM1NjYyNzIwMDAwNg%3D%3D.2-ccb7-5&oh=00_AYBmNbIo0asRXOQtUJbkNvMmdbW5jBswB_qgutuaVZy30g&oe=66914D1A&_nc_sid=10d13b"
+                                      //       "assets/images/IMG_4793.jpg",
+                                      // ),
+                                      ),
                                   if (index < 2)
                                     Positioned(
                                       // top left
@@ -388,11 +389,11 @@ class FolllowerCountBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       height: Sizes.size48,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           UserInfoCard(
             number: "97",
             infoName: "Following",
