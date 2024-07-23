@@ -3,13 +3,15 @@ import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 
 class ChatRoomModel {
+  final String roomId;
   List<String>? text;
   String? createUserId;
-  List<String>? uidlist;
+  List<dynamic>? uidlist;
   List<UserProfileModel>? users;
   WidgetRef? ref;
 
   ChatRoomModel({
+    required this.roomId,
     this.text,
     this.createUserId,
     this.uidlist,
@@ -18,12 +20,14 @@ class ChatRoomModel {
   });
 
   ChatRoomModel.fromJson(Map<String, dynamic> json)
-      : text = json['text'],
+      : roomId = json['roomId'],
+        text = json['text'],
         createUserId = json['createUserId'],
         uidlist = json['uidlist'];
 
   Map<String, dynamic> toJson() {
     return ({
+      "roomId": roomId,
       "text": text,
       "createUserId": createUserId,
       "uidlist": uidlist,

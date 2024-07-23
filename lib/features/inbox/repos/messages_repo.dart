@@ -13,14 +13,15 @@ class MessagesRepo {
         .add(
           message.toJson(),
         );
+
+    await _db.collection("chat_rooms").doc(message.roomId).update({"": ""});
   }
 
   Future<String> createChatRoom(List uidlist) async {
     String roomId = "";
     await _db.collection("chat_rooms").add({"uidlist": uidlist}).then((docRef) {
-      // print("Document written with ID: ${docRef.id}");
       roomId = docRef.id;
-      print("msg repo createChatRoom rommid : $roomId");
+      docRef.update({"roomId": roomId});
     }).catchError((error) => print("Error adding document: $error"));
 
     return roomId;

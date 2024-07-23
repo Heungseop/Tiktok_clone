@@ -47,6 +47,13 @@ class UserRepository {
           .set({"roomId": roomId, "uidlist": uidlist});
     }
   }
+
+  // get
+  Future<QuerySnapshot<Map<String, dynamic>>?> fetchMyChatRoomList(
+      String uid) async {
+    final doc = _db.collection("users").doc(uid).collection("chat_room_list");
+    return doc.get();
+  }
 }
 
 final userRepo = Provider(

@@ -33,6 +33,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("@@@ ChatDetailScreen build roomId : ${widget.roomId}");
     final isLoading = ref.watch(messagesProvider).isLoading;
 
     return Scaffold(
@@ -77,9 +78,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ),
           ),
           subtitle: const Text("Active now"),
-          trailing: Row(
+          trailing: const Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               FaIcon(
                 FontAwesomeIcons.flag,
                 color: Colors.black,
@@ -172,12 +173,12 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                       child: TextField(
                         controller: _editingController,
                         cursorColor: Theme.of(context).primaryColor,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(Sizes.size10),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(Sizes.size10),
                           hintText: "Send a message...",
                           filled: true,
                           fillColor: Colors.white,
-                          border: const OutlineInputBorder(
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(Sizes.size20),
                               topRight: Radius.circular(Sizes.size20),
@@ -187,11 +188,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                             borderSide: BorderSide.none,
                           ),
                           suffixIcon: Padding(
-                            padding: const EdgeInsets.all(0),
+                            padding: EdgeInsets.all(0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
+                              children: [
                                 FaIcon(
                                   FontAwesomeIcons.faceLaugh,
                                   color: Colors.black,
