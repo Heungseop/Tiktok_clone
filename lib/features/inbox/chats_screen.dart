@@ -23,7 +23,7 @@ class ChatsScreen extends ConsumerStatefulWidget {
 class _ChatsScreenState extends ConsumerState<ChatsScreen> {
   // late final Future<List<ChatRoomModel>> chatRoomList =
   //     ref.watch(usersProvider.notifier).fetchMyChatRoomList();
-  late final Future<List<ChatRoomModel>> roomList =
+  late Future<List<ChatRoomModel>> roomList =
       ref.watch(usersProvider.notifier).fetchMyChatRoomList();
 
   late UserProfileModel profile =
@@ -68,7 +68,17 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
       params: {"roomId": roomId},
     );
 
+    GoRouter.of(context).addListener(watchRouteChange);
+
     // context.push("${ChatDetailScreen.routeURL}/123");
+  }
+
+  void watchRouteChange() {
+    if (GoRouter.of(context).location.contains(ChatsScreen.routeURL)) {
+      roomList = ref.watch(usersProvider.notifier).fetchMyChatRoomList();
+    } else {
+      GoRouter.of(context).removeListener(watchRouteChange);
+    }
   }
 
   @override
