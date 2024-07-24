@@ -22,8 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(value) => "${value}";
 
-  static String m1(value, cmt_txt) =>
-      "${value} ${Intl.plural(cmt_txt, one: 'comment', other: 'comments')}";
+  static String m1(value, cmtTxt) =>
+      "${value} ${Intl.plural(cmtTxt, one: 'comment', other: 'comments')}";
 
   static String m2(value) => "${value}";
 

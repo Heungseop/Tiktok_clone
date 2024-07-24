@@ -90,7 +90,7 @@ class VideoTimeLineScreenState extends ConsumerState<VideoTimeLineScreen> {
                   //       onVideoFinished: _onVideoFinished,
                   //       index: index,
                   //     )
-                  ) : Center(child: Text("No Video Posted", style: TextStyle(color: Colors.white, fontSize: Sizes.size18,),),),
+                  ) : const Center(child: Text("No Video Posted", style: TextStyle(color: Colors.white, fontSize: Sizes.size18,),),),
             );
           },
         );

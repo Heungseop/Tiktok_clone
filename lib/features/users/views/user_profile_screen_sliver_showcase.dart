@@ -36,9 +36,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             centerTitle: true,
           ),
         ),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: Column(
-            children: const [
+            children: [
               CircleAvatar(
                 backgroundColor: Colors.red,
                 radius: 20,
