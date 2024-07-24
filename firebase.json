@@ -1,17 +1,1 @@
-{
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
-    }
-  ]
-}
+{"functions":[{"source":"functions","codebase":"default","ignore":["node_modules",".git","firebase-debug.log","firebase-debug.*.log"],"predeploy":["npm --prefix \"$RESOURCE_DIR\" run build"]}],"flutter":{"platforms":{"android":{"default":{"projectId":"tiktok-clone-heungg","appId":"1:451104750719:android:3685c3ed8f66ae2894934a","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"tiktok-clone-heungg","configurations":{"android":"1:451104750719:android:3685c3ed8f66ae2894934a","ios":"1:451104750719:ios:5421dfa29e86a9fe94934a","macos":"1:451104750719:ios:590c8d16f2be840694934a","web":"1:451104750719:web:24e7eec11ae0bc9194934a","windows":"1:451104750719:web:fa070edc16aead3c94934a"}}}}}}
