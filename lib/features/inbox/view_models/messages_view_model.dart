@@ -31,6 +31,13 @@ class MessagesViewModel extends AsyncNotifier<void> {
       _repo.sendMessage(message);
     });
   }
+
+  Future<void> deleteMessage(MessageModel message) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      _repo.deleteMessage(message);
+    });
+  }
 }
 
 final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
