@@ -14,9 +14,7 @@ class MessagesRepo {
           message.toJson(),
         );
 
-    final doc = _db.collection("chat_rooms").doc(message.roomId);
-
-    await doc.update({
+    await _db.collection("chat_rooms").doc(message.roomId).update({
       "lastMsgDate": message.createdAt,
       "lastMsg": message.text,
     });
