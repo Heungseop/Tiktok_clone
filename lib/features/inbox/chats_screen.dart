@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
@@ -24,29 +25,14 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
   //     ref.watch(usersProvider.notifier).fetchMyChatRoomList();
   late final Future<List<ChatRoomModel>> roomList =
       ref.watch(usersProvider.notifier).fetchMyChatRoomList();
+
   late UserProfileModel profile =
       ref.read(usersProvider.notifier).state.value as UserProfileModel;
 
   final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
-
-  // final List<int> _items = [];
-  // late List<ChatRoomModel> _items = [];
   final Duration _duration = const Duration(milliseconds: 200);
-  // @override
-  // void initState() {
-  // List<ChatRoomModel> rommList = await roomList;
-  // for (int i = 0; i < rommList.length; i++) {
-  //   _items.add(i);
-  // }
-  // setState(() {});
-
-  //   profile = ref.read(usersProvider.notifier).state.value as UserProfileModel;
-
-  //   super.initState();
-  // }
 
   void _addItem() async {
-    print("_addItem");
     await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent, // transparent 를 줌으로써 스캐폴드가 배경이 됨
@@ -137,45 +123,6 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
         );
   }
 
-  // ListTile _makeTile(int index, ChatRoomModel room) {
-  //   print("_makeTile index : $index, room : $room");
-  //   return ListTile(
-  //     onLongPress: () => _deleteItem(index),
-  //     onTap: () => _onChatTap(index),
-  //     leading: CircleAvatar(
-  //       radius: 30,
-  //       foregroundImage: null,
-  //       // Avatar(
-  //       //     uid: data.uid,
-  //       //     name: data.name,
-  //       //     hasAvatar: data.hasAvatar),
-  //       //  NetworkImage(
-  //       //     "https://avatars.githubusercontent.com/u/13977411?v=4"
-  //       //     // "https://avatars.githubusercontent.com/u/3612017?v=4"
-  //       //     ),
-  //       child: Text("jinjoo ${room.uidlist?.length}"),
-  //     ),
-  //     title: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       crossAxisAlignment: CrossAxisAlignment.end,
-  //       children: [
-  //         Text(
-  //           "Jin $index",
-  //           style: const TextStyle(
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         ),
-  //         Text(
-  //           "2:16 PM",
-  //           style:
-  //               TextStyle(color: Colors.grey.shade500, fontSize: Sizes.size12),
-  //         ),
-  //       ],
-  //     ),
-  //     subtitle: const Text("Don't forget to make video"),
-  //   );
-  // }
-
   ListTile _makeTile(ChatRoomModel room) {
     // profile
     final userList = room.users!;
@@ -204,45 +151,15 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
             ),
           ),
           Text(
-            "2:16 PM",
+            DateFormat("MM/dd hh:mm").format(
+                DateTime.fromMillisecondsSinceEpoch(room.lastMsgDate,
+                    isUtc: true)),
             style:
                 TextStyle(color: Colors.grey.shade500, fontSize: Sizes.size12),
           ),
         ],
       ),
-      subtitle: const Text("Don't forget to make video"),
+      subtitle: Text(room.lastMsg),
     );
   }
-  // ListTile _makeTile(int index) {
-  //   return ListTile(
-  //     onLongPress: () => _deleteItem(index),
-  //     onTap: () => _onChatTap(index),
-  //     leading: const CircleAvatar(
-  //       radius: 30,
-  //       foregroundImage:
-  //           NetworkImage("https://avatars.githubusercontent.com/u/13977411?v=4"
-  //               // "https://avatars.githubusercontent.com/u/3612017?v=4"
-  //               ),
-  //       child: Text("jinjoo"),
-  //     ),
-  //     title: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       crossAxisAlignment: CrossAxisAlignment.end,
-  //       children: [
-  //         Text(
-  //           "Jin $index",
-  //           style: const TextStyle(
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         ),
-  //         Text(
-  //           "2:16 PM",
-  //           style:
-  //               TextStyle(color: Colors.grey.shade500, fontSize: Sizes.size12),
-  //         ),
-  //       ],
-  //     ),
-  //     subtitle: const Text("Don't forget to make video"),
-  //   );
-  // }
 }

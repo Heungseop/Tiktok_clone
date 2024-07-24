@@ -44,7 +44,12 @@ class UserRepository {
           .doc(uid)
           .collection("chat_room_list")
           .doc(roomId)
-          .set({"roomId": roomId, "uidlist": uidlist});
+          .set({
+        "roomId": roomId,
+        "uidlist": uidlist,
+        "lastMsgDate": DateTime.now().millisecondsSinceEpoch,
+        "lastMsg": "",
+      });
     }
   }
 

@@ -10,6 +10,9 @@ class ChatRoomModel {
   List<UserProfileModel>? users;
   WidgetRef? ref;
 
+  int lastMsgDate;
+  String lastMsg;
+
   ChatRoomModel({
     required this.roomId,
     this.text,
@@ -17,13 +20,27 @@ class ChatRoomModel {
     this.uidlist,
     this.users,
     this.ref,
+    required this.lastMsgDate,
+    required this.lastMsg,
   });
+
+  // ChatRoomModel.empty()
+  //     : roomId = "",
+  //       text = [],
+  //       createUserId = "",
+  //       uidlist = [],
+  //       users = [],
+  //       ref = null,
+  //       lastMsgDate = ,
+  //       lastMsg = "";
 
   ChatRoomModel.fromJson(Map<String, dynamic> json)
       : roomId = json['roomId'],
         text = json['text'],
         createUserId = json['createUserId'],
-        uidlist = json['uidlist'];
+        uidlist = json['uidlist'],
+        lastMsgDate = json['lastMsgDate'],
+        lastMsg = json['lastMsg'];
 
   Map<String, dynamic> toJson() {
     return ({
@@ -31,14 +48,32 @@ class ChatRoomModel {
       "text": text,
       "createUserId": createUserId,
       "uidlist": uidlist,
+      "lastMsgDate": lastMsgDate,
+      "lastMsg": lastMsg,
     });
   }
 
-  void syncUserProfileModel() {
-    if (uidlist != null && ref != null) {
+  void syncUserProfileModel({WidgetRef? ref}) async {
+    print("######### syncUserProfileModel uidlist : $uidlist, ref : $ref");
+    if (uidlist != null) {
       for (String uid in uidlist!) {
-        ref!.read(usersProvider.notifier).findProfile(uid);
+        print("######### syncUserProfileModel uid : $uid");
+        UserProfileModel temp =
+            await ref!.read(usersProvider.notifier).findProfile(uid);
+        print("######### temp(UserProfileModel): ${temp.toString()}");
+        users?.add(temp);
       }
     }
+  }
+
+  List<UserProfileModel> getUserListExMe(String excludeUid) {
+    final userListExMe = [...?users];
+    userListExMe.removeWhere((element) => element.uid == excludeUid);
+    return userListExMe;
+  }
+
+  @override
+  String toString() {
+    return "roomId : [$roomId], text : [$text], createUserId : [$createUserId], uidlist : [$uidlist], users : [$users], lastMsgDate : [$lastMsgDate], lastMsg : [$lastMsg]";
   }
 }

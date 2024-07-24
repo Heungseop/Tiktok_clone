@@ -7,7 +7,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/main_button.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
-import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart';
+import 'package:tiktok_clone/features/inbox/view_models/chatroom_view_model.dart';
 import 'package:tiktok_clone/features/users/models/user_profile_model.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
@@ -47,7 +47,7 @@ class CreateANewChatScreenState extends ConsumerState<CreateANewChatScreen> {
 
   void createNewChat() async {
     String roomId = await ref
-        .read(messagesProvider.notifier)
+        .read(chatRoomProvider.notifier)
         .createChatRoom(selected.map((e) => e.uid).toList());
 
     Navigator.of(context).pop();
