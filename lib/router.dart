@@ -73,8 +73,8 @@ final routerProvider = Provider((ref) {
             path: ChatDetailScreen.routeURL,
             name: ChatDetailScreen.routeName,
             builder: (context, state) {
-              final chatId = state.params["chatId"]!;
-              return ChatDetailScreen(chatId: chatId);
+              final roomId = state.params["roomId"]!;
+              return ChatDetailScreen(roomId: roomId);
             },
           )
         ],

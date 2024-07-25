@@ -9,12 +9,16 @@ class Avatar extends ConsumerWidget {
   final String name;
   final String uid;
   final bool hasAvatar;
+  final bool isEditable;
+  final double size;
 
   const Avatar({
     super.key,
     required this.name,
     required this.hasAvatar,
     required this.uid,
+    this.isEditable = true,
+    this.size = 50,
   });
 
   Future<void> _onAvatarTap(WidgetRef ref) async {
@@ -35,23 +39,23 @@ class Avatar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(avatarProvider).isLoading;
     return GestureDetector(
-      onTap: isLoading ? null : () => _onAvatarTap(ref),
+      onTap: !isEditable || isLoading ? null : () => _onAvatarTap(ref),
       child: isLoading
           ? Container(
-              width: 50,
-              height: 50,
+              width: size,
+              height: size,
               alignment: Alignment.center,
               decoration: const BoxDecoration(shape: BoxShape.circle),
               child: const CircularProgressIndicator.adaptive(),
             )
           : CircleAvatar(
               backgroundColor: Colors.teal,
-              radius: 50,
+              radius: size,
               foregroundImage: hasAvatar
                   ? NetworkImage(
                       "https://firebasestorage.googleapis.com/v0/b/tiktok-clone-heungg.appspot.com/o/avatars%2F$uid?alt=media&token=3529fe43-be6a-4e9c-836a-b753bf6dad4f&version=${DateTime.now().toString()}")
                   : null,
-              child: Text(name),
+              child: hasAvatar ? null : Text(name),
             ),
     );
   }

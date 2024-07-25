@@ -36,10 +36,10 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   // final VideoPlayerController _videoPlayerController =
   //     VideoPlayerController.asset("assets/videos/jiwoo.mov");
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/jiyul.mov");
   // final VideoPlayerController _videoPlayerController =
-  //     VideoPlayerController.network("dataSource")
+  //     VideoPlayerController.asset("assets/videos/jiyul.mov");
+  late final VideoPlayerController _videoPlayerController =
+      VideoPlayerController.network(widget.videoData.fileUrl);
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   final _cutContentDetailCnt = 25;
@@ -229,6 +229,8 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    print("@@@@ video post!!");
+
     ref.listen(playbackConfigProvider, (previous, next) {
       _onPlaybackConfigChanged();
     });
@@ -367,8 +369,9 @@ class VideoPostState extends ConsumerState<VideoPost>
                   radius: 27,
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(
-                      "https://firebasestorage.googleapis.com/v0/b/tiktok-clone-heungg.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media&token=3529fe43-be6a-4e9c-836a-b753bf6dad4f"),
+                  foregroundImage: widget.videoData.creatorHasAvatar ? NetworkImage(
+                      "https://firebasestorage.googleapis.com/v0/b/tiktok-clone-heungg.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media&token=3529fe43-be6a-4e9c-836a-b753bf6dad4f")
+                      : null,
                   child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,

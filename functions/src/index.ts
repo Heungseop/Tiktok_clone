@@ -61,3 +61,21 @@ export const onLikeRemoved = functions.firestore
       .doc(videoId)
       .update({ likes: admin.firestore.FieldValue.increment(-1) });
   });
+
+// 메세지 전송 시 해당룸의 유저별 룸정보에 lastMsg, lastMsgDate 갱신
+// 되긴 하는데 모든 메세지에 functions 호출하면 거덜나지 않을까..?
+export const onSendMsgUpdateChatRoom = functions.firestore
+  .document("chat_rooms/{roomId}")
+  .onUpdate(async (change, context) => {
+    const db = admin.firestore();
+    const room = change.after.data();
+
+    for (var idx in room.uidlist) {
+      await db
+        .collection("users")
+        .doc(room.uidlist[idx])
+        .collection("chat_room_list")
+        .doc(room.roomId)
+        .update({ lastMsg: room.lastMsg, lastMsgDate: room.lastMsgDate });
+    }
+  });

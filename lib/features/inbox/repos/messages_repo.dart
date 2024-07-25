@@ -8,11 +8,32 @@ class MessagesRepo {
   Future<void> sendMessage(MessageModel message) async {
     await _db
         .collection("chat_rooms")
-        .doc("d8giyYWbKCpM9KrscF8z")
+        .doc(message.roomId)
         .collection("texts")
         .add(
           message.toJson(),
-        );
+        )
+        .then((docRef) {
+      docRef.update({"messageId": docRef.id});
+    });
+
+    await _db.collection("chat_rooms").doc(message.roomId).update({
+      "lastMsgDate": message.createdAt,
+      "lastMsg": message.text,
+    });
+  }
+
+  Future<void> deleteMessage(MessageModel message) async {
+    await _db
+        .collection("chat_rooms")
+        .doc(message.roomId)
+        .collection("texts")
+        .doc(message.messageId)
+        .update({"text": "[deleted]"});
+
+    await _db.collection("chat_rooms").doc(message.roomId).update({
+      "lastMsg": "[deleted]",
+    });
   }
 }
 

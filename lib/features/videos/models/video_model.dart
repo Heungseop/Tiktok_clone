@@ -6,6 +6,7 @@ class VideoModel {
   final String thumbnailUrl;
   final String creatorUid;
   final String creator;
+  final bool creatorHasAvatar;
   int likes;
   final int comments;
   final int createdAt;
@@ -21,6 +22,7 @@ class VideoModel {
     required this.comments,
     required this.createdAt,
     required this.creator,
+    required this.creatorHasAvatar,
   });
 
   VideoModel.fromJson({
@@ -35,7 +37,8 @@ class VideoModel {
         likes = json["likes"],
         comments = json["comments"],
         createdAt = json["createdAt"],
-        creator = json["creator"];
+        creator = json["creator"],
+        creatorHasAvatar = json["creatorHasAvatar"] ?? false;
 
   Map<String, dynamic> toJson() {
     return {
@@ -49,6 +52,7 @@ class VideoModel {
       "comments": comments,
       "createdAt": createdAt,
       "creator": creator,
+      "creatorHasAvatar": creatorHasAvatar,
     };
   }
 }
