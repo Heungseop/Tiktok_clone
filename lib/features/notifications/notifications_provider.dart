@@ -24,6 +24,18 @@ class NotificationsProvider extends AsyncNotifier {
     FirebaseMessaging.onMessage.listen((event) {
       print(event.notification?.title);
     });
+
+    // background
+    FirebaseMessaging.onMessageOpenedApp.listen((notification) {
+      print(notification.data["screen"]);
+    });
+
+    // Terminated
+    final notification =
+        await _messaging.getInitialMessage(); // 앱이 종료된 상태에서 알림으로 다시 실행 될 때 호출됨?
+    if (notification != null) {
+      print(notification.data["screen"]);
+    }
   }
 
   @override
