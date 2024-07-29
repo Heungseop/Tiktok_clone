@@ -58,7 +58,6 @@ class TikTokApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(norificationsProvider);
     // S.load(const Locale("en"));
     const primaryColor = Color(0xffe9435a);
     return MaterialApp.router(
