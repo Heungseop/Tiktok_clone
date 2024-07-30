@@ -67,7 +67,7 @@ class UserProfileModel {
   }
 
   String getAvatarImgUrl() {
-    return "https://firebasestorage.googleapis.com/v0/b/tiktok-clone-heungg.appspot.com/o/avatars%2F$uid?alt=media&token=187ec626-4857-44f0-b4b6-710948f0d3c8&version=${DateTime.now().toString()}";
+    return "https://firebasestorage.googleapis.com/v0/b/tiktok-clone-heungg.appspot.com/o/avatars%2F$uid?alt=media&token=aefac226-27ec-4331-a326-caf9e7d216ee&version=${DateTime.now().toString()}";
   }
 
   @override
