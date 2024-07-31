@@ -46,11 +46,12 @@ class SignUpScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   orientation == Orientation.portrait ? Gaps.v80 : Gaps.v40,
-                  Text(
+                  const Text(
                     // Date format!!!!!!!
                     // https://api.flutter.dev/flutter/intl/DateFormat-class.html
-                    S.of(context).signUpTitle("TikTok", DateTime.now()),
-                    style: const TextStyle(
+                    // S.of(context).signUpTitle("TikTok", DateTime.now()),
+                    "Sign up for TikTok",
+                    style: TextStyle(
                       fontSize: Sizes.size24,
                       fontWeight: FontWeight.w600,
                     ),
@@ -80,7 +81,8 @@ class SignUpScreen extends ConsumerWidget {
                     AuthButton(
                       onTap: _onEmailTap,
                       icon: const FaIcon(FontAwesomeIcons.user),
-                      text: S.of(context).emailPasswordButton,
+                      // text: S.of(context).emailPasswordButton,
+                      text: 'Use Email & Password',
                     ),
                     Gaps.v16,
                     AuthButton(
@@ -136,7 +138,8 @@ class SignUpScreen extends ConsumerWidget {
                   GestureDetector(
                     onTap: () => _onLoginTap(context),
                     child: Text(
-                      S.of(context).logIn,
+                      // S.of(context).logIn,
+                      "Log in",
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w600),
